@@ -39,7 +39,8 @@ let package = Package(
         .target(
             name: "BasePresentation",
             dependencies: [
-                "RxSwift"
+                "RxSwift",
+                .product(name: "RxCocoa", package: "RxSwift")
             ]
         ),
         .target(
