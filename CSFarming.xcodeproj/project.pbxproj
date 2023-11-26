@@ -13,6 +13,13 @@
 		F14CCC962B1335BA00E8BDA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F14CCC942B1335BA00E8BDA0 /* Main.storyboard */; };
 		F14CCC982B1335BC00E8BDA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F14CCC972B1335BC00E8BDA0 /* Assets.xcassets */; };
 		F14CCC9B2B1335BC00E8BDA0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F14CCC992B1335BC00E8BDA0 /* LaunchScreen.storyboard */; };
+		F14CCCB92B13377D00E8BDA0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F14CCCB82B13377D00E8BDA0 /* SnapKit */; };
+		F14CCCBC2B1337B100E8BDA0 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = F14CCCBB2B1337B100E8BDA0 /* RxCocoa */; };
+		F14CCCBE2B1337B100E8BDA0 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = F14CCCBD2B1337B100E8BDA0 /* RxRelay */; };
+		F14CCCC02B1337B100E8BDA0 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F14CCCBF2B1337B100E8BDA0 /* RxSwift */; };
+		F14CCCC22B1337B100E8BDA0 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = F14CCCC12B1337B100E8BDA0 /* RxTest */; };
+		F14CCCC52B1337C000E8BDA0 /* RIBs in Frameworks */ = {isa = PBXBuildFile; productRef = F14CCCC42B1337C000E8BDA0 /* RIBs */; };
+		F14CCCC82B13382D00E8BDA0 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = F14CCCC72B13382D00E8BDA0 /* Markdown */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +38,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F14CCCC22B1337B100E8BDA0 /* RxTest in Frameworks */,
+				F14CCCBE2B1337B100E8BDA0 /* RxRelay in Frameworks */,
+				F14CCCC52B1337C000E8BDA0 /* RIBs in Frameworks */,
+				F14CCCC82B13382D00E8BDA0 /* Markdown in Frameworks */,
+				F14CCCBC2B1337B100E8BDA0 /* RxCocoa in Frameworks */,
+				F14CCCC02B1337B100E8BDA0 /* RxSwift in Frameworks */,
+				F14CCCB92B13377D00E8BDA0 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +97,15 @@
 			dependencies = (
 			);
 			name = CSFarming;
+			packageProductDependencies = (
+				F14CCCB82B13377D00E8BDA0 /* SnapKit */,
+				F14CCCBB2B1337B100E8BDA0 /* RxCocoa */,
+				F14CCCBD2B1337B100E8BDA0 /* RxRelay */,
+				F14CCCBF2B1337B100E8BDA0 /* RxSwift */,
+				F14CCCC12B1337B100E8BDA0 /* RxTest */,
+				F14CCCC42B1337C000E8BDA0 /* RIBs */,
+				F14CCCC72B13382D00E8BDA0 /* Markdown */,
+			);
 			productName = CSFarming;
 			productReference = F14CCC8B2B1335BA00E8BDA0 /* CSFarming.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +134,12 @@
 				Base,
 			);
 			mainGroup = F14CCC822B1335BA00E8BDA0;
+			packageReferences = (
+				F14CCCB72B13377D00E8BDA0 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				F14CCCBA2B1337B100E8BDA0 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				F14CCCC32B1337C000E8BDA0 /* XCRemoteSwiftPackageReference "RIBs" */,
+				F14CCCC62B13382D00E8BDA0 /* XCRemoteSwiftPackageReference "swift-markdown" */,
+			);
 			productRefGroup = F14CCC8C2B1335BA00E8BDA0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -363,6 +392,79 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F14CCCB72B13377D00E8BDA0 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.0;
+			};
+		};
+		F14CCCBA2B1337B100E8BDA0 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.6.0;
+			};
+		};
+		F14CCCC32B1337C000E8BDA0 /* XCRemoteSwiftPackageReference "RIBs" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/uber/RIBs";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.2;
+			};
+		};
+		F14CCCC62B13382D00E8BDA0 /* XCRemoteSwiftPackageReference "swift-markdown" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-markdown.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F14CCCB82B13377D00E8BDA0 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F14CCCB72B13377D00E8BDA0 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		F14CCCBB2B1337B100E8BDA0 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F14CCCBA2B1337B100E8BDA0 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		F14CCCBD2B1337B100E8BDA0 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F14CCCBA2B1337B100E8BDA0 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		F14CCCBF2B1337B100E8BDA0 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F14CCCBA2B1337B100E8BDA0 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		F14CCCC12B1337B100E8BDA0 /* RxTest */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F14CCCBA2B1337B100E8BDA0 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxTest;
+		};
+		F14CCCC42B1337C000E8BDA0 /* RIBs */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F14CCCC32B1337C000E8BDA0 /* XCRemoteSwiftPackageReference "RIBs" */;
+			productName = RIBs;
+		};
+		F14CCCC72B13382D00E8BDA0 /* Markdown */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F14CCCC62B13382D00E8BDA0 /* XCRemoteSwiftPackageReference "swift-markdown" */;
+			productName = Markdown;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F14CCC832B1335BA00E8BDA0 /* Project object */;
 }
