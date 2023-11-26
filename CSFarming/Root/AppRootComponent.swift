@@ -7,7 +7,8 @@
 
 import RIBs
 import Home
+import Problem
 
-final class AppRootComponent: Component<AppRootDependency>, HomeDependency {
+final class AppRootComponent: Component<AppRootDependency>, HomeDependency, ProblemDependency {
     
 }

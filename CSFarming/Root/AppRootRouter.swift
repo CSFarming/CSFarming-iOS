@@ -7,9 +7,10 @@
 
 import RIBs
 import HomeInterface
+import ProblemInterface
 import RIBsUtil
 
-protocol AppRootInteractable: Interactable, HomeListener {
+protocol AppRootInteractable: Interactable, HomeListener, ProblemListener {
     var router: AppRootRouting? { get set }
 }
 
@@ -22,23 +23,34 @@ final class AppRootRouter: LaunchRouter<AppRootInteractable, AppRootViewControll
     private let homeBuilder: HomeBuildable
     private var homeRouting: Routing?
     
+    private let problemBuilder: ProblemBuildable
+    private var problemRouting: Routing?
+    
     init(
         interactor: AppRootInteractable,
         viewController: AppRootViewControllable,
-        homeBuilder: HomeBuildable
+        homeBuilder: HomeBuildable,
+        problemBuilder: ProblemBuildable
     ) {
         self.homeBuilder = homeBuilder
+        self.problemBuilder = problemBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
     
     func attachTabs() {
-        guard homeRouting == nil else { return }
+        guard homeRouting == nil, problemRouting == nil else { return }
         let homeRouter = homeBuilder.build(withListener: interactor)
         self.homeRouting = homeRouter
         attachChild(homeRouter)
+        
+        let problemRouter = problemBuilder.build(withListener: interactor)
+        self.problemRouting = problemRouter
+        attachChild(problemRouter)
+        
         viewController.setViewControllers([
-            NavigationControllable(viewControllable: homeRouter.viewControllable)
+            NavigationControllable(viewControllable: homeRouter.viewControllable),
+            NavigationControllable(viewControllable: problemRouter.viewControllable)
         ])
     }
     
