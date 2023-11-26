@@ -20,4 +20,8 @@ final class AppRootViewController: UITabBarController, AppRootPresentable, AppRo
         view.backgroundColor = .systemPink
     }
     
+    func setViewControllers(_ viewControllables: [ViewControllable]) {
+        super.setViewControllers(viewControllables.map(\.uiviewController), animated: false)
+    }
+    
 }
