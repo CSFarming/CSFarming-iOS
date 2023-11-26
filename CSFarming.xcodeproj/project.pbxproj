@@ -24,6 +24,7 @@
 		F17BAC3B2B133D5800FECB54 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC3A2B133D5800FECB54 /* SnapKit */; };
 		F17BAC422B13431100FECB54 /* RIBsUtil in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC412B13431100FECB54 /* RIBsUtil */; };
 		F17BAC442B13431100FECB54 /* RxUtil in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC432B13431100FECB54 /* RxUtil */; };
+		F17BAC472B13480A00FECB54 /* DesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC462B13480A00FECB54 /* DesignKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 				F17BAC302B133D4C00FECB54 /* RxBlocking in Frameworks */,
 				F17BAC382B133D4C00FECB54 /* RxRelay in Frameworks */,
 				F17BAC342B133D4C00FECB54 /* RxCocoa in Frameworks */,
+				F17BAC472B13480A00FECB54 /* DesignKit in Frameworks */,
 				F17BAC422B13431100FECB54 /* RIBsUtil in Frameworks */,
 				F17BAC442B13431100FECB54 /* RxUtil in Frameworks */,
 				F17BAC2A2B133D3400FECB54 /* Markdown in Frameworks */,
@@ -145,6 +147,7 @@
 				F17BAC3A2B133D5800FECB54 /* SnapKit */,
 				F17BAC412B13431100FECB54 /* RIBsUtil */,
 				F17BAC432B13431100FECB54 /* RxUtil */,
+				F17BAC462B13480A00FECB54 /* DesignKit */,
 			);
 			productName = CSFarming;
 			productReference = F14CCC8B2B1335BA00E8BDA0 /* CSFarming.app */;
@@ -499,6 +502,10 @@
 		F17BAC432B13431100FECB54 /* RxUtil */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RxUtil;
+		};
+		F17BAC462B13480A00FECB54 /* DesignKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DesignKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
