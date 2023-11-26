@@ -24,6 +24,7 @@
 		F17BAC3B2B133D5800FECB54 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC3A2B133D5800FECB54 /* SnapKit */; };
 		F17BAC422B13431100FECB54 /* RIBsUtil in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC412B13431100FECB54 /* RIBsUtil */; };
 		F17BAC442B13431100FECB54 /* RxUtil in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC432B13431100FECB54 /* RxUtil */; };
+		F17BAC472B13480A00FECB54 /* DesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC462B13480A00FECB54 /* DesignKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		F14CCCCE2B1339F100E8BDA0 /* AppRootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootInteractor.swift; sourceTree = "<group>"; };
 		F14CCCD32B133A7000E8BDA0 /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
 		F17BAC3F2B133E7600FECB54 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
+		F17BAC452B13475600FECB54 /* DesignKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignKit; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +53,7 @@
 				F17BAC302B133D4C00FECB54 /* RxBlocking in Frameworks */,
 				F17BAC382B133D4C00FECB54 /* RxRelay in Frameworks */,
 				F17BAC342B133D4C00FECB54 /* RxCocoa in Frameworks */,
+				F17BAC472B13480A00FECB54 /* DesignKit in Frameworks */,
 				F17BAC422B13431100FECB54 /* RIBsUtil in Frameworks */,
 				F17BAC442B13431100FECB54 /* RxUtil in Frameworks */,
 				F17BAC2A2B133D3400FECB54 /* Markdown in Frameworks */,
@@ -63,6 +66,7 @@
 		F14CCC822B1335BA00E8BDA0 = {
 			isa = PBXGroup;
 			children = (
+				F17BAC452B13475600FECB54 /* DesignKit */,
 				F17BAC3F2B133E7600FECB54 /* Core */,
 				F14CCC8D2B1335BA00E8BDA0 /* CSFarming */,
 				F14CCC8C2B1335BA00E8BDA0 /* Products */,
@@ -143,6 +147,7 @@
 				F17BAC3A2B133D5800FECB54 /* SnapKit */,
 				F17BAC412B13431100FECB54 /* RIBsUtil */,
 				F17BAC432B13431100FECB54 /* RxUtil */,
+				F17BAC462B13480A00FECB54 /* DesignKit */,
 			);
 			productName = CSFarming;
 			productReference = F14CCC8B2B1335BA00E8BDA0 /* CSFarming.app */;
@@ -497,6 +502,10 @@
 		F17BAC432B13431100FECB54 /* RxUtil */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RxUtil;
+		};
+		F17BAC462B13480A00FECB54 /* DesignKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DesignKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
