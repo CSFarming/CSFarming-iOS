@@ -25,6 +25,9 @@
 		F17BAC422B13431100FECB54 /* RIBsUtil in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC412B13431100FECB54 /* RIBsUtil */; };
 		F17BAC442B13431100FECB54 /* RxUtil in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC432B13431100FECB54 /* RxUtil */; };
 		F17BAC472B13480A00FECB54 /* DesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC462B13480A00FECB54 /* DesignKit */; };
+		F17BAC522B135D1A00FECB54 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC512B135D1A00FECB54 /* Home */; };
+		F17BAC542B135D1A00FECB54 /* HomeInterface in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC532B135D1A00FECB54 /* HomeInterface */; };
+		F17BAC562B1360CF00FECB54 /* AppRootComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17BAC552B1360CF00FECB54 /* AppRootComponent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +44,8 @@
 		F14CCCD32B133A7000E8BDA0 /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
 		F17BAC3F2B133E7600FECB54 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
 		F17BAC452B13475600FECB54 /* DesignKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DesignKit; sourceTree = "<group>"; };
+		F17BAC482B13517100FECB54 /* Presentation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Presentation; sourceTree = "<group>"; };
+		F17BAC552B1360CF00FECB54 /* AppRootComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootComponent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,12 +56,14 @@
 				F17BAC2D2B133D4000FECB54 /* RIBs in Frameworks */,
 				F17BAC3B2B133D5800FECB54 /* SnapKit in Frameworks */,
 				F17BAC302B133D4C00FECB54 /* RxBlocking in Frameworks */,
+				F17BAC522B135D1A00FECB54 /* Home in Frameworks */,
 				F17BAC382B133D4C00FECB54 /* RxRelay in Frameworks */,
 				F17BAC342B133D4C00FECB54 /* RxCocoa in Frameworks */,
 				F17BAC472B13480A00FECB54 /* DesignKit in Frameworks */,
 				F17BAC422B13431100FECB54 /* RIBsUtil in Frameworks */,
 				F17BAC442B13431100FECB54 /* RxUtil in Frameworks */,
 				F17BAC2A2B133D3400FECB54 /* Markdown in Frameworks */,
+				F17BAC542B135D1A00FECB54 /* HomeInterface in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +73,7 @@
 		F14CCC822B1335BA00E8BDA0 = {
 			isa = PBXGroup;
 			children = (
+				F17BAC482B13517100FECB54 /* Presentation */,
 				F17BAC452B13475600FECB54 /* DesignKit */,
 				F17BAC3F2B133E7600FECB54 /* Core */,
 				F14CCC8D2B1335BA00E8BDA0 /* CSFarming */,
@@ -111,6 +119,7 @@
 				F14CCCCC2B1339F100E8BDA0 /* AppRootViewController.swift */,
 				F14CCCCD2B1339F100E8BDA0 /* AppRootBuilder.swift */,
 				F14CCCCE2B1339F100E8BDA0 /* AppRootInteractor.swift */,
+				F17BAC552B1360CF00FECB54 /* AppRootComponent.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -148,6 +157,8 @@
 				F17BAC412B13431100FECB54 /* RIBsUtil */,
 				F17BAC432B13431100FECB54 /* RxUtil */,
 				F17BAC462B13480A00FECB54 /* DesignKit */,
+				F17BAC512B135D1A00FECB54 /* Home */,
+				F17BAC532B135D1A00FECB54 /* HomeInterface */,
 			);
 			productName = CSFarming;
 			productReference = F14CCC8B2B1335BA00E8BDA0 /* CSFarming.app */;
@@ -210,6 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F17BAC212B133CD200FECB54 /* AppRootRouter.swift in Sources */,
+				F17BAC562B1360CF00FECB54 /* AppRootComponent.swift in Sources */,
 				F17BAC222B133CD200FECB54 /* AppRootViewController.swift in Sources */,
 				F17BAC232B133CD200FECB54 /* AppRootBuilder.swift in Sources */,
 				F17BAC242B133CD200FECB54 /* AppRootInteractor.swift in Sources */,
@@ -506,6 +518,14 @@
 		F17BAC462B13480A00FECB54 /* DesignKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DesignKit;
+		};
+		F17BAC512B135D1A00FECB54 /* Home */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Home;
+		};
+		F17BAC532B135D1A00FECB54 /* HomeInterface */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HomeInterface;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

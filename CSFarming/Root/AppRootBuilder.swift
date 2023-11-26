@@ -6,10 +6,10 @@
 //
 
 import RIBs
+import Home
+import HomeInterface
 
 protocol AppRootDependency: Dependency {}
-
-final class AppRootComponent: Component<AppRootDependency> {}
 
 protocol AppRootBuildable: Buildable {
     func build() -> AppRootRouting
@@ -25,7 +25,11 @@ final class AppRootBuilder: Builder<AppRootDependency>, AppRootBuildable {
         let component = AppRootComponent(dependency: dependency)
         let viewController = AppRootViewController()
         let interactor = AppRootInteractor(presenter: viewController)
-        return AppRootRouter(interactor: interactor, viewController: viewController)
+        return AppRootRouter(
+            interactor: interactor,
+            viewController: viewController,
+            homeBuilder: HomeBuilder(dependency: component)
+        )
     }
     
 }
