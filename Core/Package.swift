@@ -7,6 +7,10 @@ let package = Package(
     name: "Core",
     products: [
         .library(
+            name: "CoreUtil",
+            targets: ["CoreUtil"]
+        ),
+        .library(
             name: "RIBsUtil",
             targets: ["RIBsUtil"]
         ),
@@ -21,6 +25,9 @@ let package = Package(
         
     ],
     targets: [
+        .target(
+            name: "CoreUtil"
+        ),
         .target(
             name: "RIBsUtil",
             dependencies: [
