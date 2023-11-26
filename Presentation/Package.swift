@@ -39,6 +39,7 @@ let package = Package(
             dependencies: [
                 "BasePresentation",
                 "HomeInterface",
+                .product(name: "CoreUtil", package: "Core"),
                 .product(name: "RIBsUtil", package: "Core"),
                 .product(name: "RxUtil", package: "Core"),
                 "DesignKit",
