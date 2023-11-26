@@ -19,6 +19,14 @@ let package = Package(
             name: "HomeInterface",
             targets: ["HomeInterface"]
         ),
+        .library(
+            name: "Problem",
+            targets: ["Problem"]
+        ),
+        .library(
+            name: "ProblemInterface",
+            targets: ["ProblemInterface"]
+        ),
     ],
     dependencies: [
         .package(path: "../Core"),
@@ -31,7 +39,8 @@ let package = Package(
         .target(
             name: "BasePresentation",
             dependencies: [
-                "RxSwift"
+                "RxSwift",
+                .product(name: "RxCocoa", package: "RxSwift")
             ]
         ),
         .target(
@@ -54,6 +63,27 @@ let package = Package(
             dependencies: [
                 "RIBs"
             ]
-        )
+        ),
+        .target(
+            name: "Problem",
+            dependencies: [
+                "BasePresentation",
+                "ProblemInterface",
+                .product(name: "CoreUtil", package: "Core"),
+                .product(name: "RIBsUtil", package: "Core"),
+                .product(name: "RxUtil", package: "Core"),
+                "DesignKit",
+                "RIBs",
+                "RxSwift",
+                .product(name: "RxCocoa", package: "RxSwift"),
+                "SnapKit",
+            ]
+        ),
+        .target(
+            name: "ProblemInterface",
+            dependencies: [
+                "RIBs"
+            ]
+        ),
     ]
 )

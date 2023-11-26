@@ -28,6 +28,8 @@
 		F17BAC522B135D1A00FECB54 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC512B135D1A00FECB54 /* Home */; };
 		F17BAC542B135D1A00FECB54 /* HomeInterface in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC532B135D1A00FECB54 /* HomeInterface */; };
 		F17BAC562B1360CF00FECB54 /* AppRootComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17BAC552B1360CF00FECB54 /* AppRootComponent.swift */; };
+		F17BAC602B138FFA00FECB54 /* Problem in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC5F2B138FFA00FECB54 /* Problem */; };
+		F17BAC622B138FFA00FECB54 /* ProblemInterface in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC612B138FFA00FECB54 /* ProblemInterface */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,11 +55,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F17BAC602B138FFA00FECB54 /* Problem in Frameworks */,
 				F17BAC2D2B133D4000FECB54 /* RIBs in Frameworks */,
 				F17BAC3B2B133D5800FECB54 /* SnapKit in Frameworks */,
 				F17BAC302B133D4C00FECB54 /* RxBlocking in Frameworks */,
 				F17BAC522B135D1A00FECB54 /* Home in Frameworks */,
 				F17BAC382B133D4C00FECB54 /* RxRelay in Frameworks */,
+				F17BAC622B138FFA00FECB54 /* ProblemInterface in Frameworks */,
 				F17BAC342B133D4C00FECB54 /* RxCocoa in Frameworks */,
 				F17BAC472B13480A00FECB54 /* DesignKit in Frameworks */,
 				F17BAC422B13431100FECB54 /* RIBsUtil in Frameworks */,
@@ -159,6 +163,8 @@
 				F17BAC462B13480A00FECB54 /* DesignKit */,
 				F17BAC512B135D1A00FECB54 /* Home */,
 				F17BAC532B135D1A00FECB54 /* HomeInterface */,
+				F17BAC5F2B138FFA00FECB54 /* Problem */,
+				F17BAC612B138FFA00FECB54 /* ProblemInterface */,
 			);
 			productName = CSFarming;
 			productReference = F14CCC8B2B1335BA00E8BDA0 /* CSFarming.app */;
@@ -526,6 +532,14 @@
 		F17BAC532B135D1A00FECB54 /* HomeInterface */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = HomeInterface;
+		};
+		F17BAC5F2B138FFA00FECB54 /* Problem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Problem;
+		};
+		F17BAC612B138FFA00FECB54 /* ProblemInterface */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProblemInterface;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -7,7 +7,7 @@
 
 import RIBs
 import Home
-import HomeInterface
+import Problem
 
 protocol AppRootDependency: Dependency {}
 
@@ -28,7 +28,8 @@ final class AppRootBuilder: Builder<AppRootDependency>, AppRootBuildable {
         return AppRootRouter(
             interactor: interactor,
             viewController: viewController,
-            homeBuilder: HomeBuilder(dependency: component)
+            homeBuilder: HomeBuilder(dependency: component),
+            problemBuilder: ProblemBuilder(dependency: component)
         )
     }
     
