@@ -39,6 +39,7 @@
 		F14CCCCD2B1339F100E8BDA0 /* AppRootBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootBuilder.swift; sourceTree = "<group>"; };
 		F14CCCCE2B1339F100E8BDA0 /* AppRootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootInteractor.swift; sourceTree = "<group>"; };
 		F14CCCD32B133A7000E8BDA0 /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
+		F17BAC3F2B133E7600FECB54 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +65,7 @@
 		F14CCC822B1335BA00E8BDA0 = {
 			isa = PBXGroup;
 			children = (
+				F17BAC3F2B133E7600FECB54 /* Core */,
 				F14CCC8D2B1335BA00E8BDA0 /* CSFarming */,
 				F14CCC8C2B1335BA00E8BDA0 /* Products */,
 			);
