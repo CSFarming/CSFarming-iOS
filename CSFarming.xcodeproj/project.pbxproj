@@ -19,12 +19,11 @@
 		F17BAC2A2B133D3400FECB54 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC292B133D3400FECB54 /* Markdown */; };
 		F17BAC2D2B133D4000FECB54 /* RIBs in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC2C2B133D4000FECB54 /* RIBs */; };
 		F17BAC302B133D4C00FECB54 /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC2F2B133D4C00FECB54 /* RxBlocking */; };
-		F17BAC322B133D4C00FECB54 /* RxBlocking-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC312B133D4C00FECB54 /* RxBlocking-Dynamic */; };
 		F17BAC342B133D4C00FECB54 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC332B133D4C00FECB54 /* RxCocoa */; };
-		F17BAC362B133D4C00FECB54 /* RxCocoa-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC352B133D4C00FECB54 /* RxCocoa-Dynamic */; };
 		F17BAC382B133D4C00FECB54 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC372B133D4C00FECB54 /* RxRelay */; };
 		F17BAC3B2B133D5800FECB54 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC3A2B133D5800FECB54 /* SnapKit */; };
-		F17BAC3D2B133D5800FECB54 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC3C2B133D5800FECB54 /* SnapKit-Dynamic */; };
+		F17BAC422B13431100FECB54 /* RIBsUtil in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC412B13431100FECB54 /* RIBsUtil */; };
+		F17BAC442B13431100FECB54 /* RxUtil in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC432B13431100FECB54 /* RxUtil */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +38,7 @@
 		F14CCCCD2B1339F100E8BDA0 /* AppRootBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootBuilder.swift; sourceTree = "<group>"; };
 		F14CCCCE2B1339F100E8BDA0 /* AppRootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootInteractor.swift; sourceTree = "<group>"; };
 		F14CCCD32B133A7000E8BDA0 /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
+		F17BAC3F2B133E7600FECB54 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,10 +51,9 @@
 				F17BAC302B133D4C00FECB54 /* RxBlocking in Frameworks */,
 				F17BAC382B133D4C00FECB54 /* RxRelay in Frameworks */,
 				F17BAC342B133D4C00FECB54 /* RxCocoa in Frameworks */,
-				F17BAC3D2B133D5800FECB54 /* SnapKit-Dynamic in Frameworks */,
+				F17BAC422B13431100FECB54 /* RIBsUtil in Frameworks */,
+				F17BAC442B13431100FECB54 /* RxUtil in Frameworks */,
 				F17BAC2A2B133D3400FECB54 /* Markdown in Frameworks */,
-				F17BAC362B133D4C00FECB54 /* RxCocoa-Dynamic in Frameworks */,
-				F17BAC322B133D4C00FECB54 /* RxBlocking-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,8 +63,10 @@
 		F14CCC822B1335BA00E8BDA0 = {
 			isa = PBXGroup;
 			children = (
+				F17BAC3F2B133E7600FECB54 /* Core */,
 				F14CCC8D2B1335BA00E8BDA0 /* CSFarming */,
 				F14CCC8C2B1335BA00E8BDA0 /* Products */,
+				F17BAC402B13431100FECB54 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -110,6 +111,13 @@
 			path = Root;
 			sourceTree = "<group>";
 		};
+		F17BAC402B13431100FECB54 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -130,12 +138,11 @@
 				F17BAC292B133D3400FECB54 /* Markdown */,
 				F17BAC2C2B133D4000FECB54 /* RIBs */,
 				F17BAC2F2B133D4C00FECB54 /* RxBlocking */,
-				F17BAC312B133D4C00FECB54 /* RxBlocking-Dynamic */,
 				F17BAC332B133D4C00FECB54 /* RxCocoa */,
-				F17BAC352B133D4C00FECB54 /* RxCocoa-Dynamic */,
 				F17BAC372B133D4C00FECB54 /* RxRelay */,
 				F17BAC3A2B133D5800FECB54 /* SnapKit */,
-				F17BAC3C2B133D5800FECB54 /* SnapKit-Dynamic */,
+				F17BAC412B13431100FECB54 /* RIBsUtil */,
+				F17BAC432B13431100FECB54 /* RxUtil */,
 			);
 			productName = CSFarming;
 			productReference = F14CCC8B2B1335BA00E8BDA0 /* CSFarming.app */;
@@ -468,20 +475,10 @@
 			package = F17BAC2E2B133D4C00FECB54 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxBlocking;
 		};
-		F17BAC312B133D4C00FECB54 /* RxBlocking-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F17BAC2E2B133D4C00FECB54 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = "RxBlocking-Dynamic";
-		};
 		F17BAC332B133D4C00FECB54 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F17BAC2E2B133D4C00FECB54 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxCocoa;
-		};
-		F17BAC352B133D4C00FECB54 /* RxCocoa-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F17BAC2E2B133D4C00FECB54 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = "RxCocoa-Dynamic";
 		};
 		F17BAC372B133D4C00FECB54 /* RxRelay */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -493,10 +490,13 @@
 			package = F17BAC392B133D5800FECB54 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
-		F17BAC3C2B133D5800FECB54 /* SnapKit-Dynamic */ = {
+		F17BAC412B13431100FECB54 /* RIBsUtil */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F17BAC392B133D5800FECB54 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
+			productName = RIBsUtil;
+		};
+		F17BAC432B13431100FECB54 /* RxUtil */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RxUtil;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
