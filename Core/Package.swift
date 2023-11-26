@@ -7,18 +7,31 @@ let package = Package(
     name: "Core",
     products: [
         .library(
-            name: "Util", 
-            targets: ["Util"]
+            name: "RIBsUtil",
+            targets: ["RIBsUtil"]
+        ),
+        .library(
+            name: "RxUtil",
+            targets: ["RxUtil"]
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/uber/RIBs", from: "0.9.7")
+        .package(url: "https://github.com/uber/RIBs", from: "0.9.7"),
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.6.0"),
+        
     ],
     targets: [
         .target(
-            name: "Util",
+            name: "RIBsUtil",
             dependencies: [
                 "RIBs"
+            ]
+        ),
+        .target(
+            name: "RxUtil",
+            dependencies: [
+                "RxSwift",
+                .product(name: "RxCocoa", package: "RxSwift")
             ]
         ),
     ]
