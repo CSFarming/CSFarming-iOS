@@ -35,6 +35,11 @@ final class ProblemContentView: BaseView {
         subtitleLabel.text = model.subtitle
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        selectAnimate()
+    }
+    
     override func setupLayout() {
         addSubview(folderImageView)
         addSubview(labelStackView)
