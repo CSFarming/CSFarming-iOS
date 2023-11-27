@@ -36,6 +36,11 @@ final class HomeProblemCell: BaseTableViewCell {
         
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        selectAnimate()
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         titleLabel.text = nil
