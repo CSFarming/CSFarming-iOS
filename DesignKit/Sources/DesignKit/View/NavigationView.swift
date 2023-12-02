@@ -34,8 +34,8 @@ public final class NavigationView: UIView {
         return label
     }()
     
-    fileprivate lazy var leftButton = makeNavigationViewButton()
-    fileprivate lazy var rightButton = makeNavigationViewButton()
+    public lazy var leftButton = makeNavigationViewButton()
+    public lazy var rightButton = makeNavigationViewButton()
     
     private let separator: UIView = {
         let view = UIView()

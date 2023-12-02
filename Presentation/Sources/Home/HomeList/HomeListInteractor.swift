@@ -15,7 +15,9 @@ protocol HomeListPresentable: Presentable {
     var listener: HomeListPresentableListener? { get set }
 }
 
-protocol HomeListListener: AnyObject {}
+protocol HomeListListener: AnyObject {
+    func homeListDidTapClose()
+}
 
 protocol HomeListInteractorDependency: AnyObject {
     var homeService: HomeServiceInterface { get }
@@ -44,6 +46,10 @@ final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, Home
 
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    func didTapClose() {
+        listener?.homeListDidTapClose()
     }
     
 }
