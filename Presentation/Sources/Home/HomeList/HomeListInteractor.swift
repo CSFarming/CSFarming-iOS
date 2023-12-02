@@ -7,6 +7,7 @@
 
 import RIBs
 import RxSwift
+import HomeService
 
 protocol HomeListRouting: ViewableRouting {}
 
@@ -16,12 +17,23 @@ protocol HomeListPresentable: Presentable {
 
 protocol HomeListListener: AnyObject {}
 
+protocol HomeListInteractorDependency: AnyObject {
+    var homeService: HomeServiceInterface { get }
+    var path: String { get }
+}
+
 final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, HomeListInteractable, HomeListPresentableListener {
     
     weak var router: HomeListRouting?
     weak var listener: HomeListListener?
     
-    override init(presenter: HomeListPresentable) {
+    private let dependency: HomeListInteractorDependency
+    
+    init(
+        presenter: HomeListPresentable,
+        dependency: HomeListInteractorDependency
+    ) {
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }
