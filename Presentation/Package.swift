@@ -27,6 +27,14 @@ let package = Package(
             name: "ProblemInterface",
             targets: ["ProblemInterface"]
         ),
+        .library(
+            name: "MarkdownContent",
+            targets: ["MarkdownContent"]
+        ),
+        .library(
+            name: "MarkdownContentInterface",
+            targets: ["MarkdownContentInterface"]
+        ),
     ],
     dependencies: [
         .package(path: "../Core"),
@@ -50,6 +58,7 @@ let package = Package(
             dependencies: [
                 "BasePresentation",
                 "HomeInterface",
+                "MarkdownContentInterface",
                 .product(name: "CoreUtil", package: "Core"),
                 .product(name: "RIBsUtil", package: "Core"),
                 .product(name: "RxUtil", package: "Core"),
@@ -84,6 +93,28 @@ let package = Package(
         ),
         .target(
             name: "ProblemInterface",
+            dependencies: [
+                "RIBs"
+            ]
+        ),
+        .target(
+            name: "MarkdownContent",
+            dependencies: [
+                "BasePresentation",
+                "MarkdownContentInterface",
+                .product(name: "CoreUtil", package: "Core"),
+                .product(name: "RIBsUtil", package: "Core"),
+                .product(name: "RxUtil", package: "Core"),
+                .product(name: "MarkdownService", package: "Service"),
+                "DesignKit",
+                "RIBs",
+                "RxSwift",
+                .product(name: "RxCocoa", package: "RxSwift"),
+                "SnapKit",
+            ]
+        ),
+        .target(
+            name: "MarkdownContentInterface",
             dependencies: [
                 "RIBs"
             ]

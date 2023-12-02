@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		F103A1202B1B2CCF002B21E3 /* HomeService in Frameworks */ = {isa = PBXBuildFile; productRef = F103A11F2B1B2CCF002B21E3 /* HomeService */; };
+		F103A1422B1B53AB002B21E3 /* MarkdownService in Frameworks */ = {isa = PBXBuildFile; productRef = F103A1412B1B53AB002B21E3 /* MarkdownService */; };
 		F14CCC982B1335BC00E8BDA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F14CCC972B1335BC00E8BDA0 /* Assets.xcassets */; };
 		F14CCC9B2B1335BC00E8BDA0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F14CCC992B1335BC00E8BDA0 /* LaunchScreen.storyboard */; };
+		F15B07882B1B56A3009AE02D /* MarkdownContent in Frameworks */ = {isa = PBXBuildFile; productRef = F15B07872B1B56A3009AE02D /* MarkdownContent */; };
+		F15B078A2B1B56A3009AE02D /* MarkdownContentInterface in Frameworks */ = {isa = PBXBuildFile; productRef = F15B07892B1B56A3009AE02D /* MarkdownContentInterface */; };
 		F17BAC212B133CD200FECB54 /* AppRootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14CCCCB2B1339F100E8BDA0 /* AppRootRouter.swift */; };
 		F17BAC222B133CD200FECB54 /* AppRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14CCCCC2B1339F100E8BDA0 /* AppRootViewController.swift */; };
 		F17BAC232B133CD200FECB54 /* AppRootBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14CCCCD2B1339F100E8BDA0 /* AppRootBuilder.swift */; };
@@ -62,13 +65,16 @@
 				F17BAC2D2B133D4000FECB54 /* RIBs in Frameworks */,
 				F17BAC3B2B133D5800FECB54 /* SnapKit in Frameworks */,
 				F17BAC302B133D4C00FECB54 /* RxBlocking in Frameworks */,
+				F103A1422B1B53AB002B21E3 /* MarkdownService in Frameworks */,
 				F17BAC522B135D1A00FECB54 /* Home in Frameworks */,
 				F17BAC382B133D4C00FECB54 /* RxRelay in Frameworks */,
 				F17BAC622B138FFA00FECB54 /* ProblemInterface in Frameworks */,
 				F17BAC342B133D4C00FECB54 /* RxCocoa in Frameworks */,
 				F17BAC472B13480A00FECB54 /* DesignKit in Frameworks */,
+				F15B078A2B1B56A3009AE02D /* MarkdownContentInterface in Frameworks */,
 				F17BAC422B13431100FECB54 /* RIBsUtil in Frameworks */,
 				F17BAC442B13431100FECB54 /* RxUtil in Frameworks */,
+				F15B07882B1B56A3009AE02D /* MarkdownContent in Frameworks */,
 				F17BAC2A2B133D3400FECB54 /* Markdown in Frameworks */,
 				F17BAC542B135D1A00FECB54 /* HomeInterface in Frameworks */,
 			);
@@ -170,6 +176,9 @@
 				F17BAC5F2B138FFA00FECB54 /* Problem */,
 				F17BAC612B138FFA00FECB54 /* ProblemInterface */,
 				F103A11F2B1B2CCF002B21E3 /* HomeService */,
+				F103A1412B1B53AB002B21E3 /* MarkdownService */,
+				F15B07872B1B56A3009AE02D /* MarkdownContent */,
+				F15B07892B1B56A3009AE02D /* MarkdownContentInterface */,
 			);
 			productName = CSFarming;
 			productReference = F14CCC8B2B1335BA00E8BDA0 /* CSFarming.app */;
@@ -491,6 +500,18 @@
 		F103A11F2B1B2CCF002B21E3 /* HomeService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = HomeService;
+		};
+		F103A1412B1B53AB002B21E3 /* MarkdownService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MarkdownService;
+		};
+		F15B07872B1B56A3009AE02D /* MarkdownContent */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MarkdownContent;
+		};
+		F15B07892B1B56A3009AE02D /* MarkdownContentInterface */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MarkdownContentInterface;
 		};
 		F17BAC292B133D3400FECB54 /* Markdown */ = {
 			isa = XCSwiftPackageProductDependency;

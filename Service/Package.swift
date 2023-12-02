@@ -14,11 +14,16 @@ let package = Package(
         .library(
             name: "HomeService",
             targets: ["HomeService"]
+        ),
+        .library(
+            name: "MarkdownService",
+            targets: ["MarkdownService"]
         )
     ],
     dependencies: [
         .package(url: "https://github.com/Moya/Moya.git", .upToNextMajor(from: "15.0.0")),
         .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.6.0"),
+        .package(url: "https://github.com/apple/swift-markdown.git", from: "0.3.0")
     ],
     targets: [
         .target(
@@ -33,6 +38,14 @@ let package = Package(
                 "BaseService",
                 "Moya",
                 "SwiftSoup"
+            ]
+        ),
+        .target(
+            name: "MarkdownService",
+            dependencies: [
+                "BaseService",
+                "Moya",
+                .product(name: "Markdown", package: "swift-markdown")
             ]
         )
     ]

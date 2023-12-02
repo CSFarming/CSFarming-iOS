@@ -8,15 +8,18 @@
 import RIBs
 import HomeInterface
 import HomeService
+import MarkdownContentInterface
 
 public protocol HomeDependency: Dependency {
     var homeService: HomeServiceInterface { get }
+    var markdownContentBuilder: MarkdownContentBuildable { get }
 }
 
 final class HomeComponent: Component<HomeDependency>,
                            HomeInteractorDependency,
                            HomeListDependency {
     var homeService: HomeServiceInterface { dependency.homeService }
+    var markdownContentBuilder: MarkdownContentBuildable { dependency.markdownContentBuilder }
 }
 
 public final class HomeBuilder: Builder<HomeDependency>, HomeBuildable {
@@ -36,7 +39,8 @@ public final class HomeBuilder: Builder<HomeDependency>, HomeBuildable {
         return HomeRouter(
             interactor: interactor,
             viewController: viewController,
-            homeListBuilder: HomeListBuilder(dependency: component)
+            homeListBuilder: HomeListBuilder(dependency: component),
+            markdownContentBuilder: component.markdownContentBuilder
         )
     }
     
