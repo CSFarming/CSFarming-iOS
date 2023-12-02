@@ -1,8 +1,8 @@
 //
-//  HomePostCell.swift
+//  HomeListCell.swift
 //
 //
-//  Created by 홍성준 on 11/26/23.
+//  Created by 홍성준 on 12/2/23.
 //
 
 import UIKit
@@ -10,14 +10,14 @@ import SnapKit
 import DesignKit
 import BasePresentation
 
-struct HomePostCellModel {
+struct HomeListCellModel {
     
     let title: String
-    let type: HomePostCellType
+    let type: HomeListCellType
     
 }
 
-enum HomePostCellType {
+enum HomeListCellType {
     case folder
     case file
     
@@ -29,13 +29,13 @@ enum HomePostCellType {
     }
 }
 
-final class HomePostCell: AnimateTableViewCell {
+final class HomeListCell: AnimateTableViewCell {
     
     private let containerView = UIView()
     private let titleLabel = UILabel()
     private let iconImageView = UIImageView()
     
-    func setup(model: HomePostCellModel) {
+    func setup(model: HomeListCellModel) {
         titleLabel.text = model.title
         iconImageView.image = UIImage(systemName: model.type.imageName)?.withRenderingMode(.alwaysTemplate)
     }

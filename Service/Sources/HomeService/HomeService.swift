@@ -34,8 +34,8 @@ public final class HomeService: HomeServiceInterface {
     }
     
     public func requestElements(path: String) -> Single<[HomeElement]> {
-        return provider.request(.detail(path: path))
-            .map(parser.parse)
+        let request: Single<HomeListResponse> = provider.request(.detail(path: path))
+        return request.map { $0.toElements() }
     }
     
 }

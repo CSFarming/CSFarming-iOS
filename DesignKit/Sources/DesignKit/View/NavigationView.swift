@@ -11,12 +11,10 @@ import RxCocoa
 
 public struct NavigationViewModel {
     
-    let title: String
     let leftButtonType: NavigationViewButtonType
     let rightButtonType: NavigationViewButtonType
     
-    public init(title: String, leftButtonType: NavigationViewButtonType, rightButtonType: NavigationViewButtonType) {
-        self.title = title
+    public init(leftButtonType: NavigationViewButtonType, rightButtonType: NavigationViewButtonType) {
         self.leftButtonType = leftButtonType
         self.rightButtonType = rightButtonType
     }
@@ -55,7 +53,6 @@ public final class NavigationView: UIView {
     }
     
     public func setup(model: NavigationViewModel) {
-        titleLabel.text = model.title
         leftButton.type = model.leftButtonType
         rightButton.type = model.rightButtonType
     }
