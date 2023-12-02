@@ -41,6 +41,7 @@ let package = Package(
             name: "BasePresentation",
             dependencies: [
                 "RxSwift",
+                "DesignKit",
                 .product(name: "RxCocoa", package: "RxSwift")
             ]
         ),

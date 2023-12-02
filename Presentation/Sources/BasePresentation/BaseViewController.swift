@@ -7,8 +7,12 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
+import DesignKit
 
 open class BaseViewController: UIViewController {
+    
+    public let navigationView = NavigationView()
     
     public var disposeBag = DisposeBag()
     
@@ -24,5 +28,12 @@ open class BaseViewController: UIViewController {
     open func setupAttributes() {}
     
     open func bind() {}
+    
+    open override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if isMovingFromParent {
+            navigationView.leftButton.sendActions(for: .touchUpInside)
+        }
+    }
     
 }
