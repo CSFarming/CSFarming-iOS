@@ -58,6 +58,10 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
         router?.attachHomeList(path: element.path)
     }
     
+    func homeListDidTapClose() {
+        router?.detachHomeList()
+    }
+    
     private func fetchHomeList() {
         dependency.homeService
             .requestElements()
