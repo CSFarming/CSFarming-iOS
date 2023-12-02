@@ -80,6 +80,10 @@ final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, Home
         router?.detachHomeList()
     }
     
+    func markdownContentDidTapClose() {
+        router?.detachMarkdownContent()
+    }
+    
     private func fetchHomeList() {
         let request: Single<[HomeElement]> = {
             if dependency.isFromRoot {

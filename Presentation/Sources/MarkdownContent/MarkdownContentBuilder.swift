@@ -40,7 +40,7 @@ public final class MarkdownContentBuilder: Builder<MarkdownContentDependency>, M
             path: path,
             isFromRoot: isFromRoot
         )
-        let viewController = MarkdownContentViewController()
+        let viewController = MarkdownContentViewController(rootView: MarkdownContentView())
         let interactor = MarkdownContentInteractor(
             presenter: viewController,
             dependency: component

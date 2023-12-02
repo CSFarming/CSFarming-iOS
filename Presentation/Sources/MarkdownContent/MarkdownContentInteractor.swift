@@ -14,6 +14,7 @@ protocol MarkdownContentRouting: ViewableRouting {}
 
 protocol MarkdownContentPresentable: Presentable {
     var listener: MarkdownContentPresentableListener? { get set }
+    func updateMarkdown(_ source: String)
 }
 
 protocol MarkdownContentInteractorDependency: AnyObject {
@@ -49,6 +50,10 @@ final class MarkdownContentInteractor: PresentableInteractor<MarkdownContentPres
         super.willResignActive()
     }
     
+    func didTapClose() {
+        listener?.markdownContentDidTapClose()
+    }
+    
     private func fetchMarkdown() {
         let request: Single<String> = {
             if dependency.isFromRoot {
@@ -62,7 +67,7 @@ final class MarkdownContentInteractor: PresentableInteractor<MarkdownContentPres
             .subscribe(
                 with: self,
                 onSuccess: { this, source in
-                    print(source)
+                    this.presenter.updateMarkdown(source)
                 },
                 onFailure: { this, error in
                     print(error.localizedDescription)
