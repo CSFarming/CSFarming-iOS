@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F103A1202B1B2CCF002B21E3 /* HomeService in Frameworks */ = {isa = PBXBuildFile; productRef = F103A11F2B1B2CCF002B21E3 /* HomeService */; };
 		F14CCC982B1335BC00E8BDA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F14CCC972B1335BC00E8BDA0 /* Assets.xcassets */; };
 		F14CCC9B2B1335BC00E8BDA0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F14CCC992B1335BC00E8BDA0 /* LaunchScreen.storyboard */; };
 		F17BAC212B133CD200FECB54 /* AppRootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14CCCCB2B1339F100E8BDA0 /* AppRootRouter.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F103A11E2B1B0E05002B21E3 /* Service */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Service; sourceTree = "<group>"; };
 		F14CCC8B2B1335BA00E8BDA0 /* CSFarming.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CSFarming.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F14CCC8E2B1335BA00E8BDA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F14CCC902B1335BA00E8BDA0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F17BAC602B138FFA00FECB54 /* Problem in Frameworks */,
+				F103A1202B1B2CCF002B21E3 /* HomeService in Frameworks */,
 				F17BAC2D2B133D4000FECB54 /* RIBs in Frameworks */,
 				F17BAC3B2B133D5800FECB54 /* SnapKit in Frameworks */,
 				F17BAC302B133D4C00FECB54 /* RxBlocking in Frameworks */,
@@ -77,6 +80,7 @@
 		F14CCC822B1335BA00E8BDA0 = {
 			isa = PBXGroup;
 			children = (
+				F103A11E2B1B0E05002B21E3 /* Service */,
 				F17BAC482B13517100FECB54 /* Presentation */,
 				F17BAC452B13475600FECB54 /* DesignKit */,
 				F17BAC3F2B133E7600FECB54 /* Core */,
@@ -165,6 +169,7 @@
 				F17BAC532B135D1A00FECB54 /* HomeInterface */,
 				F17BAC5F2B138FFA00FECB54 /* Problem */,
 				F17BAC612B138FFA00FECB54 /* ProblemInterface */,
+				F103A11F2B1B2CCF002B21E3 /* HomeService */,
 			);
 			productName = CSFarming;
 			productReference = F14CCC8B2B1335BA00E8BDA0 /* CSFarming.app */;
@@ -483,6 +488,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F103A11F2B1B2CCF002B21E3 /* HomeService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HomeService;
+		};
 		F17BAC292B133D3400FECB54 /* Markdown */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F17BAC282B133D3400FECB54 /* XCRemoteSwiftPackageReference "swift-markdown" */;

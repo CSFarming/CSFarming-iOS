@@ -31,9 +31,10 @@ let package = Package(
     dependencies: [
         .package(path: "../Core"),
         .package(path: "../DesignKit"),
+        .package(path: "../Service"),
         .package(url: "https://github.com/uber/RIBs", from: "0.9.7"),
         .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.6.0"),
-        .package(url: "https://github.com/SnapKit/SnapKit", from: "5.6.0")
+        .package(url: "https://github.com/SnapKit/SnapKit", from: "5.6.0"),
     ],
     targets: [
         .target(
@@ -51,6 +52,7 @@ let package = Package(
                 .product(name: "CoreUtil", package: "Core"),
                 .product(name: "RIBsUtil", package: "Core"),
                 .product(name: "RxUtil", package: "Core"),
+                .product(name: "HomeService", package: "Service"),
                 "DesignKit",
                 "RIBs",
                 "RxSwift",
