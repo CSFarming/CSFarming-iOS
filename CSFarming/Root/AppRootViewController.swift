@@ -17,7 +17,7 @@ final class AppRootViewController: UITabBarController, AppRootPresentable, AppRo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemPink
+        view.backgroundColor = .csBlue1
     }
     
     func setViewControllers(_ viewControllables: [ViewControllable]) {

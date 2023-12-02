@@ -11,7 +11,10 @@ import RxSwift
 import HomeInterface
 import HomeService
 
-protocol HomeRouting: ViewableRouting {}
+protocol HomeRouting: ViewableRouting {
+    func attachHomeList(path: String)
+    func detachHomeList()
+}
 
 protocol HomePresentable: Presentable {
     var listener: HomePresentableListener? { get set }
@@ -26,6 +29,8 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     
     weak var router: HomeRouting?
     weak var listener: HomeListener?
+    
+    private var homeElements: [HomeElement] = []
     
     private let dependency: HomeInteractorDependency
     private let disposeBag = DisposeBag()
@@ -49,7 +54,8 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     }
     
     func didSelect(at indexPath: IndexPath) {
-        print("# Did Select At: \(indexPath)")
+        guard let element = homeElements[safe: indexPath.row] else { return }
+        router?.attachHomeList(path: element.path)
     }
     
     private func fetchHomeList() {
@@ -69,6 +75,7 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     }
     
     private func performAfterHomeList(_ elements: [HomeElement]) {
+        self.homeElements = elements
         let models = elements.map { element -> HomeItem in
             return .recentPost(.init(
                 title: element.title,
