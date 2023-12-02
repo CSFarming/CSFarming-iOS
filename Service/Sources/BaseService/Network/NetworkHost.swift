@@ -10,5 +10,6 @@ import Foundation
 public enum NetworkHost {
     
     public static let github = "https://github.com"
+    public static let githubRaw = "https://raw.githubusercontent.com"
     
 }
