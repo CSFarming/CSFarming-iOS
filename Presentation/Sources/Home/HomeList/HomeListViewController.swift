@@ -14,6 +14,7 @@ import BasePresentation
 
 protocol HomeListPresentableListener: AnyObject {
     func didTapClose()
+    func didTap(at indexPath: IndexPath)
 }
 
 final class HomeListViewController: BaseViewController, HomeListPresentable, HomeListViewControllable {
@@ -57,6 +58,7 @@ final class HomeListViewController: BaseViewController, HomeListPresentable, Hom
         navigationView.rx.leftButtonDidTap
             .bind(to: closeBinder)
             .disposed(by: disposeBag)
+        
     }
     
     private var closeBinder: Binder<Void> {
@@ -79,7 +81,7 @@ final class HomeListViewController: BaseViewController, HomeListPresentable, Hom
 extension HomeListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        listener?.didTap(at: indexPath)
     }
     
 }

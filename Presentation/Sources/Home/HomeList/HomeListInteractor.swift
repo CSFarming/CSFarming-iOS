@@ -5,11 +5,15 @@
 //  Created by 홍성준 on 12/2/23.
 //
 
+import Foundation
 import RIBs
 import RxSwift
 import HomeService
 
-protocol HomeListRouting: ViewableRouting {}
+protocol HomeListRouting: ViewableRouting {
+    func attachHomeList(title: String, path: String)
+    func detachHomeList()
+}
 
 protocol HomeListPresentable: Presentable {
     var listener: HomeListPresentableListener? { get set }
@@ -25,9 +29,10 @@ protocol HomeListInteractorDependency: AnyObject {
     var homeService: HomeServiceInterface { get }
     var title: String { get }
     var path: String { get }
+    var isFromRoot: Bool { get }
 }
 
-final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, HomeListInteractable, HomeListPresentableListener {
+final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, HomeListInteractable, HomeListPresentableListener, HomeListListener {
     
     weak var router: HomeListRouting?
     weak var listener: HomeListListener?
@@ -60,9 +65,25 @@ final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, Home
         listener?.homeListDidTapClose()
     }
     
+    func didTap(at indexPath: IndexPath) {
+        guard let element = homeElements[safe: indexPath.row] else { return }
+        router?.attachHomeList(title: element.title, path: element.path)
+    }
+    
+    func homeListDidTapClose() {
+        router?.detachHomeList()
+    }
+    
     private func fetchHomeList() {
-        dependency.homeService
-            .requestElements(path: dependency.path)
+        let request: Single<[HomeElement]> = {
+            if dependency.isFromRoot {
+                return dependency.homeService.requestElements(path: dependency.path)
+            } else {
+                return dependency.homeService.requestElementsWithPrefix(path: dependency.path)
+            }
+        }()
+        
+        request
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(
                 with: self,
