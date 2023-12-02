@@ -7,14 +7,17 @@
 
 import RIBs
 import HomeService
+import MarkdownContentInterface
 
 protocol HomeListDependency: Dependency {
     var homeService: HomeServiceInterface { get }
+    var markdownContentBuilder: MarkdownContentBuildable { get }
 }
 
 final class HomeListComponent: Component<HomeListDependency>, HomeListInteractorDependency {
     
     var homeService: HomeServiceInterface { dependency.homeService }
+    var markdownContentBuilder: MarkdownContentBuildable { dependency.markdownContentBuilder }
     let title: String
     let path: String
     let isFromRoot: Bool
@@ -54,7 +57,8 @@ final class HomeListBuilder: Builder<HomeListDependency>, HomeListBuildable {
         return HomeListRouter(
             interactor: interactor,
             viewController: viewController,
-            homeListBuilder: self
+            homeListBuilder: self,
+            markdownContentBuilder: component.markdownContentBuilder
         )
     }
     

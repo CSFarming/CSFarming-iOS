@@ -8,8 +8,9 @@
 import RIBs
 import RIBsUtil
 import HomeInterface
+import MarkdownContentInterface
 
-protocol HomeInteractable: Interactable, HomeListListener {
+protocol HomeInteractable: Interactable, HomeListListener, MarkdownContentListener {
     var router: HomeRouting? { get set }
     var listener: HomeListener? { get set }
 }
@@ -21,12 +22,17 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable>, 
     private let homeListBuilder: HomeListBuildable
     private var homeListRouting: ViewableRouting?
     
+    private let markdownContentBuilder: MarkdownContentBuildable
+    private var markdownContentRouting: ViewableRouting?
+    
     init(
         interactor: HomeInteractable,
         viewController: HomeViewControllable,
-        homeListBuilder: HomeListBuildable
+        homeListBuilder: HomeListBuildable,
+        markdownContentBuilder: MarkdownContentBuildable
     ) {
         self.homeListBuilder = homeListBuilder
+        self.markdownContentBuilder = markdownContentBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -42,6 +48,19 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable>, 
         guard let router = homeListRouting else { return }
         popRouter(router, animated: true)
         homeListRouting = nil
+    }
+    
+    func attachMarkdownContent(title: String, path: String) {
+        guard markdownContentRouting == nil else { return }
+        let router = markdownContentBuilder.build(withListener: interactor, title: title, path: path, isFromRoot: true)
+        pushRouter(router, animated: true)
+        markdownContentRouting = router
+    }
+    
+    func detachMarkdownContent() {
+        guard let router = markdownContentRouting else { return }
+        popRouter(router, animated: true)
+        markdownContentRouting = nil
     }
     
 }
