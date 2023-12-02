@@ -34,15 +34,13 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable>, 
     func attachHomeList(path: String) {
         guard homeListRouting == nil else { return }
         let router = homeListBuilder.build(withListener: interactor, path: path)
-        viewController.pushViewController(router.viewControllable, animated: true)
-        attachChild(router)
+        pushRouter(router, animated: true)
         homeListRouting = router
     }
     
     func detachHomeList() {
         guard let router = homeListRouting else { return }
-        viewController.popViewController(animated: true)
-        detachChild(router)
+        popRouter(router, animated: true)
         homeListRouting = nil
     }
     
