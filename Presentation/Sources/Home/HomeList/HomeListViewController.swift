@@ -30,6 +30,12 @@ final class HomeListViewController: BaseViewController, HomeListPresentable, Hom
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(50)
         }
+        
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(navigationView.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
     override func setupAttributes() {

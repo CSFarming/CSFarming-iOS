@@ -68,7 +68,6 @@ final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, Home
                 with: self,
                 onSuccess: { this, elements in
                     this.performAfterHomeList(elements)
-                    print(elements)
                 },
                 onFailure: { this, error in
                     print(error.localizedDescription)
