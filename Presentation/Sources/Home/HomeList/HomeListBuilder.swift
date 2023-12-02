@@ -17,17 +17,19 @@ final class HomeListComponent: Component<HomeListDependency>, HomeListInteractor
     var homeService: HomeServiceInterface { dependency.homeService }
     let title: String
     let path: String
+    let isFromRoot: Bool
     
-    init(dependency: HomeListDependency, title: String, path: String) {
+    init(dependency: HomeListDependency, title: String, path: String, isFromRoot: Bool) {
         self.title = title
         self.path = path
+        self.isFromRoot = isFromRoot
         super.init(dependency: dependency)
     }
     
 }
 
 protocol HomeListBuildable: Buildable {
-    func build(withListener listener: HomeListListener, title: String, path: String) -> ViewableRouting
+    func build(withListener listener: HomeListListener, title: String, path: String, isFromRoot: Bool) -> ViewableRouting
 }
 
 final class HomeListBuilder: Builder<HomeListDependency>, HomeListBuildable {
@@ -36,11 +38,12 @@ final class HomeListBuilder: Builder<HomeListDependency>, HomeListBuildable {
         super.init(dependency: dependency)
     }
     
-    func build(withListener listener: HomeListListener, title: String, path: String) -> ViewableRouting {
+    func build(withListener listener: HomeListListener, title: String, path: String, isFromRoot: Bool) -> ViewableRouting {
         let component = HomeListComponent(
             dependency: dependency,
             title: title,
-            path: path
+            path: path,
+            isFromRoot: isFromRoot
         )
         let viewController = HomeListViewController()
         let interactor = HomeListInteractor(
@@ -48,7 +51,11 @@ final class HomeListBuilder: Builder<HomeListDependency>, HomeListBuildable {
             dependency: component
         )
         interactor.listener = listener
-        return HomeListRouter(interactor: interactor, viewController: viewController)
+        return HomeListRouter(
+            interactor: interactor,
+            viewController: viewController,
+            homeListBuilder: self
+        )
     }
     
 }

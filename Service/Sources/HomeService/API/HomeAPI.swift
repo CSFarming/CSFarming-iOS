@@ -13,6 +13,7 @@ public enum HomeAPI {
     
     case list
     case detail(path: String)
+    case detailWithPrefix(path: String)
     
 }
 
@@ -24,8 +25,14 @@ extension HomeAPI: TargetType {
     
     public var path: String {
         switch self {
-        case .list: return "/CSFarming/CSFarming-Archive/tree/master"
-        case .detail(let path): return "\(path)"
+        case .list: 
+            return "/CSFarming/CSFarming-Archive/tree/master"
+            
+        case .detail(let path):
+            return "\(path)"
+            
+        case .detailWithPrefix(let path): 
+            return "/CSFarming/CSFarming-Archive/tree/master/\(path)"
         }
     }
     
@@ -38,7 +45,13 @@ extension HomeAPI: TargetType {
     }
     
     public var headers: [String : String]? {
-        return nil
+        switch self {
+        case .list: 
+            return nil
+            
+        default:
+            return NetworkHeader.withJSON
+        }
     }
     
     public var validationType: ValidationType {

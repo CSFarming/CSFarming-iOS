@@ -13,6 +13,7 @@ import BaseService
 public protocol HomeServiceInterface: AnyObject {
     func requestElements() -> Single<[HomeElement]>
     func requestElements(path: String) -> Single<[HomeElement]>
+    func requestElementsWithPrefix(path: String) -> Single<[HomeElement]>
 }
 
 public final class HomeService: HomeServiceInterface {
@@ -35,6 +36,11 @@ public final class HomeService: HomeServiceInterface {
     
     public func requestElements(path: String) -> Single<[HomeElement]> {
         let request: Single<HomeListResponse> = provider.request(.detail(path: path))
+        return request.map { $0.toElements() }
+    }
+    
+    public func requestElementsWithPrefix(path: String) -> Single<[HomeElement]> {
+        let request: Single<HomeListResponse> = provider.request(.detailWithPrefix(path: path))
         return request.map { $0.toElements() }
     }
     
