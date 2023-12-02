@@ -9,6 +9,7 @@ import Foundation
 import RIBs
 import RxSwift
 import HomeInterface
+import HomeService
 
 protocol HomeRouting: ViewableRouting {}
 
@@ -17,32 +18,30 @@ protocol HomePresentable: Presentable {
     func updateSections(_ sections: [HomeSection])
 }
 
+protocol HomeInteractorDependency: AnyObject {
+    var homeService: HomeServiceInterface { get }
+}
+
 final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteractable, HomePresentableListener {
     
     weak var router: HomeRouting?
     weak var listener: HomeListener?
     
-    override init(presenter: HomePresentable) {
+    private let dependency: HomeInteractorDependency
+    private let disposeBag = DisposeBag()
+    
+    init(
+        presenter: HomePresentable,
+        dependency: HomeInteractorDependency
+    ) {
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        presenter.updateSections([
-            .recentPost([
-                .recentPost(.init(title: "시스템 콜", iconImageURL: "")),
-                .recentPost(.init(title: "시스템 콜2", iconImageURL: "")),
-                .recentPost(.init(title: "시스템 콜3", iconImageURL: "")),
-            ]),
-            .recentProblem([
-                .recentProblem(.init(title: "문제입니다", subtitle: "11문제", iconImageURL: "", progressContent: "60%")),
-                .recentProblem(.init(title: "문제입니다", subtitle: "11문제", iconImageURL: "", progressContent: "60%")),
-                .recentProblem(.init(title: "문제입니다", subtitle: "11문제", iconImageURL: "", progressContent: "60%")),
-                .recentProblem(.init(title: "문제입니다", subtitle: "11문제", iconImageURL: "", progressContent: "60%")),
-                .recentProblem(.init(title: "문제입니다", subtitle: "11문제", iconImageURL: "", progressContent: "60%")),
-            ])
-        ])
+        fetchHomeList()
     }
     
     override func willResignActive() {
@@ -51,7 +50,32 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     
     func didSelect(at indexPath: IndexPath) {
         print("# Did Select At: \(indexPath)")
-        
+    }
+    
+    private func fetchHomeList() {
+        dependency.homeService
+            .requestElements()
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe(
+                with: self,
+                onSuccess: { this, elements in
+                    this.performAfterHomeList(elements)
+                },
+                onFailure: { this, error in
+                    print(error.localizedDescription)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    private func performAfterHomeList(_ elements: [HomeElement]) {
+        let models = elements.map { element -> HomeItem in
+            return .recentPost(.init(
+                title: element.title,
+                type: element.fileType == .directory ? .folder : .file
+            ))
+        }
+        presenter.updateSections([.recentPost(models)])
     }
     
 }

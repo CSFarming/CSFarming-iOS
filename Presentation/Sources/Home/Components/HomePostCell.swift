@@ -13,8 +13,20 @@ import BasePresentation
 struct HomePostCellModel {
     
     let title: String
-    let iconImageURL: String
+    let type: HomePostCellType
     
+}
+
+enum HomePostCellType {
+    case folder
+    case file
+    
+    var imageName: String {
+        switch self {
+        case .folder: "folder.fill"
+        case .file: "doc"
+        }
+    }
 }
 
 final class HomePostCell: BaseTableViewCell {
@@ -23,10 +35,9 @@ final class HomePostCell: BaseTableViewCell {
     private let titleLabel = UILabel()
     private let iconImageView = UIImageView()
     
-    // TODO: - Image Set up
-    
     func setup(model: HomePostCellModel) {
         titleLabel.text = model.title
+        iconImageView.image = UIImage(systemName: model.type.imageName)?.withRenderingMode(.alwaysTemplate)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -52,7 +63,7 @@ final class HomePostCell: BaseTableViewCell {
         iconImageView.snp.makeConstraints { make in
             make.size.equalTo(CGSize(width: 40, height: 40))
             make.top.equalToSuperview().offset(20)
-            make.leading.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(20)
             make.bottom.equalToSuperview().offset(-20)
         }
         
@@ -72,9 +83,8 @@ final class HomePostCell: BaseTableViewCell {
         containerView.layer.borderWidth = 1
         containerView.layer.borderColor = UIColor.csBlue2.cgColor
         
-        iconImageView.clipsToBounds = true
-        iconImageView.layer.cornerRadius = 20
-        iconImageView.backgroundColor = .csBlue2
+        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.tintColor = .csBlue5
         
         titleLabel.font = .bodySB
         titleLabel.textColor = .csBlack
