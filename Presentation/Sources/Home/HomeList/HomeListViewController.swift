@@ -20,6 +20,9 @@ final class HomeListViewController: BaseViewController, HomeListPresentable, Hom
     
     weak var listener: HomeListPresentableListener?
     
+    private var models: [HomeListCellModel] = []
+    private let tableView = UITableView(frame: .zero, style: .grouped)
+    
     override func setupLayout() {
         view.addSubview(navigationView)
         navigationView.snp.makeConstraints { make in
@@ -36,6 +39,12 @@ final class HomeListViewController: BaseViewController, HomeListPresentable, Hom
             leftButtonType: .back,
             rightButtonType: .none
         ))
+        
+        tableView.backgroundColor = .csBlue1
+        tableView.separatorStyle = .none
+        tableView.register(HomeListCell.self)
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     override func bind() {
@@ -52,6 +61,40 @@ final class HomeListViewController: BaseViewController, HomeListPresentable, Hom
     
     func updateTitle(_ title: String) {
         navigationView.updateTitle(title)
+    }
+    
+    func updateModels(_ models: [HomeListCellModel]) {
+        self.models = models
+        tableView.reloadData()
+    }
+    
+}
+
+extension HomeListViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
+}
+
+extension HomeListViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return models.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let model = models[safe: indexPath.row] else {
+            return UITableViewCell()
+        }
+        let cell = tableView.dequeue(HomeListCell.self, for: indexPath)
+        cell.setup(model: model)
+        return cell
     }
     
 }

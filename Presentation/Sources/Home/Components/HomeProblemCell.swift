@@ -19,7 +19,7 @@ struct HomeProblemCellModel {
     
 }
 
-final class HomeProblemCell: BaseTableViewCell {
+final class HomeProblemCell: AnimateTableViewCell {
     
     private let containerView = UIView()
     private let labelStackView = UIStackView()
@@ -34,11 +34,6 @@ final class HomeProblemCell: BaseTableViewCell {
 //        iconImageView.image = nil
         progreeView.title = model.progressContent
         
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        selectAnimate()
     }
     
     override func prepareForReuse() {
