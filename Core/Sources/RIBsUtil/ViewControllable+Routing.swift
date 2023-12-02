@@ -54,6 +54,14 @@ public extension ViewControllable {
         }
     }
     
+    func popViewController(viewControllable: ViewControllable, animated: Bool) {
+        let navigationController = uiviewController as? UINavigationController ?? uiviewController.navigationController
+        
+        if navigationController?.topViewController == viewControllable.uiviewController {
+            popViewController(animated: animated)
+        }
+    }
+    
 }
 
 

@@ -41,7 +41,7 @@ public extension ViewableRouting {
     }
     
     func popRouter(_ router: ViewableRouting, animated: Bool) {
-        viewControllable.popViewController(animated: animated)
+        viewControllable.popViewController(viewControllable: router.viewControllable, animated: animated)
         detachChild(router)
     }
     
