@@ -12,7 +12,7 @@ import HomeInterface
 import HomeService
 
 protocol HomeRouting: ViewableRouting {
-    func attachHomeList(path: String)
+    func attachHomeList(title: String, path: String)
     func detachHomeList()
 }
 
@@ -55,7 +55,7 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     
     func didSelect(at indexPath: IndexPath) {
         guard let element = homeElements[safe: indexPath.row] else { return }
-        router?.attachHomeList(path: element.path)
+        router?.attachHomeList(title: element.title, path: element.path)
     }
     
     func homeListDidTapClose() {

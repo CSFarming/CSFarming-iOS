@@ -30,7 +30,12 @@ final class HomeListViewController: BaseViewController, HomeListPresentable, Hom
     }
     
     override func setupAttributes() {
-        view.backgroundColor = .csBlue1        
+        view.backgroundColor = .csBlue1
+        
+        navigationView.setup(model: .init(
+            leftButtonType: .back,
+            rightButtonType: .none
+        ))
     }
     
     override func bind() {
@@ -43,6 +48,10 @@ final class HomeListViewController: BaseViewController, HomeListPresentable, Hom
         return Binder(self) { this, _ in
             this.listener?.didTapClose()
         }
+    }
+    
+    func updateTitle(_ title: String) {
+        navigationView.updateTitle(title)
     }
     
 }

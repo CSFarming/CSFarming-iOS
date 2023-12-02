@@ -13,6 +13,7 @@ protocol HomeListRouting: ViewableRouting {}
 
 protocol HomeListPresentable: Presentable {
     var listener: HomeListPresentableListener? { get set }
+    func updateTitle(_ title: String)
 }
 
 protocol HomeListListener: AnyObject {
@@ -21,6 +22,7 @@ protocol HomeListListener: AnyObject {
 
 protocol HomeListInteractorDependency: AnyObject {
     var homeService: HomeServiceInterface { get }
+    var title: String { get }
     var path: String { get }
 }
 
@@ -42,6 +44,7 @@ final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, Home
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        presenter.updateTitle(dependency.title)
     }
 
     override func willResignActive() {

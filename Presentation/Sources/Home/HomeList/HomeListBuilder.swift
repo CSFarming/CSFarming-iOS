@@ -15,9 +15,11 @@ protocol HomeListDependency: Dependency {
 final class HomeListComponent: Component<HomeListDependency>, HomeListInteractorDependency {
     
     var homeService: HomeServiceInterface { dependency.homeService }
+    let title: String
     let path: String
     
-    init(dependency: HomeListDependency, path: String) {
+    init(dependency: HomeListDependency, title: String, path: String) {
+        self.title = title
         self.path = path
         super.init(dependency: dependency)
     }
@@ -25,7 +27,7 @@ final class HomeListComponent: Component<HomeListDependency>, HomeListInteractor
 }
 
 protocol HomeListBuildable: Buildable {
-    func build(withListener listener: HomeListListener, path: String) -> ViewableRouting
+    func build(withListener listener: HomeListListener, title: String, path: String) -> ViewableRouting
 }
 
 final class HomeListBuilder: Builder<HomeListDependency>, HomeListBuildable {
@@ -34,8 +36,12 @@ final class HomeListBuilder: Builder<HomeListDependency>, HomeListBuildable {
         super.init(dependency: dependency)
     }
     
-    func build(withListener listener: HomeListListener, path: String) -> ViewableRouting {
-        let component = HomeListComponent(dependency: dependency, path: path)
+    func build(withListener listener: HomeListListener, title: String, path: String) -> ViewableRouting {
+        let component = HomeListComponent(
+            dependency: dependency,
+            title: title,
+            path: path
+        )
         let viewController = HomeListViewController()
         let interactor = HomeListInteractor(
             presenter: viewController, 

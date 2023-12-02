@@ -31,9 +31,9 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable>, 
         interactor.router = self
     }
     
-    func attachHomeList(path: String) {
+    func attachHomeList(title: String, path: String) {
         guard homeListRouting == nil else { return }
-        let router = homeListBuilder.build(withListener: interactor, path: path)
+        let router = homeListBuilder.build(withListener: interactor, title: title, path: path)
         pushRouter(router, animated: true)
         homeListRouting = router
     }
