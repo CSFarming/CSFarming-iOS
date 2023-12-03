@@ -15,7 +15,7 @@ import MarkdownContentInterface
 
 final class AppRootComponent: Component<AppRootDependency>, HomeDependency, ProblemDependency, MarkdownContentDependency {
     
-    let homeService: HomeServiceInterface = HomeService(parser: HomeParser())
+    let homeService: HomeServiceInterface = HomeService(repository: HomeRepository(), parser: HomeParser())
     let markdownService: MarkdownServiceInterface = MarkdownService()
     
     lazy var markdownContentBuilder: MarkdownContentBuildable = MarkdownContentBuilder(dependency: self)

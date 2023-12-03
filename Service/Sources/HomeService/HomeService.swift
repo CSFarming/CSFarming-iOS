@@ -19,13 +19,16 @@ public protocol HomeServiceInterface: AnyObject {
 public final class HomeService: HomeServiceInterface {
     
     private let provider: MoyaProvider<HomeAPI>
+    private let repository: HomeRepositoryInterface
     private let parser: HomeParserInterface
     
     public init(
         provider: MoyaProvider<HomeAPI> = .init(),
+        repository: HomeRepositoryInterface,
         parser: HomeParserInterface
     ) {
         self.provider = provider
+        self.repository = repository
         self.parser = parser
     }
     
