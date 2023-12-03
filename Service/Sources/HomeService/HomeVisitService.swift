@@ -11,7 +11,7 @@ import BaseService
 
 public protocol HomeVisitServiceInterface: AnyObject {
     
-    var currentHistory: Observable<[ContentElement]> { get }
+    var currentHistory: Observable<[HomeElement]> { get }
     func requestVisitHistory()
     func requestRemoveAll() -> Single<Void>
     

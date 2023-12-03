@@ -15,12 +15,12 @@ public protocol HomeServiceInterface: HomeVisitServiceInterface {}
 
 public final class HomeService: HomeServiceInterface {
     
-    public var currentHistory: Observable<[ContentElement]> {
+    public var currentHistory: Observable<[HomeElement]> {
         return historyRelay.asObservable()
     }
     
     private let repository: HomeRepositoryInterface
-    private let historyRelay = PublishRelay<[ContentElement]>()
+    private let historyRelay = PublishRelay<[HomeElement]>()
     private let historyLimit = 5
     private let refreshSeconds = 60 // 1분
     private let disposeBag = DisposeBag()

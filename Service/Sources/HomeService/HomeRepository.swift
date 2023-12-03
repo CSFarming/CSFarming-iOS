@@ -10,31 +10,31 @@ import RxSwift
 import BaseService
 
 public protocol HomeRepositoryInterface: AnyObject {
-    func read() -> Single<[ContentElement]>
-    func read(limit: Int) -> Single<[ContentElement]>
+    func read() -> Single<[HomeElement]>
+    func read(limit: Int) -> Single<[HomeElement]>
     func removeAll() -> Single<Void>
-    func insert(element: ContentElement) -> Single<Void>
+    func insert(element: HomeElement) -> Single<Void>
 }
 
 public final class HomeRepository: SwiftDataStorage<ContentElementModel>, HomeRepositoryInterface {
     
-    public func read() -> Single<[ContentElement]> {
+    public func read() -> Single<[HomeElement]> {
         let sortBy = SortDescriptor<ContentElementModel>(\.createdAt, order: .reverse)
         return super.read(sortBy: [sortBy])
             .map { models in
-                return models.map { $0.toElement() }
+                return models.map { $0.toHomeElement() }
             }
     }
     
-    public func read(limit: Int) -> Single<[ContentElement]> {
+    public func read(limit: Int) -> Single<[HomeElement]> {
         let sortBy = SortDescriptor<ContentElementModel>(\.createdAt, order: .reverse)
         return super.read(sortBy: [sortBy], limit: limit)
             .map { models in
-                return models.map { $0.toElement() }
+                return models.map { $0.toHomeElement() }
             }
     }
     
-    public func insert(element: ContentElement) -> Single<Void> {
+    public func insert(element: HomeElement) -> Single<Void> {
         let model = ContentElementModel(title: element.title, path: element.path, createdAt: Date())
         return super.insert(model: model)
     }
