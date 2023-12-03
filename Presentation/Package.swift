@@ -137,6 +137,7 @@ let package = Package(
                 .product(name: "CoreUtil", package: "Core"),
                 .product(name: "RIBsUtil", package: "Core"),
                 .product(name: "RxUtil", package: "Core"),
+                .product(name: "ArchiveService", package: "Service"),
                 "DesignKit",
                 "RIBs",
                 "RxSwift",
