@@ -24,6 +24,16 @@ final class HomeViewController: BaseViewController, HomePresentable, HomeViewCon
     private var sections: [HomeSection] = []
     private let tableView = UITableView(frame: .zero, style: .grouped)
     
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        setupTabBar()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupTabBar()
+    }
+    
     override func setupLayout() {
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
@@ -45,6 +55,14 @@ final class HomeViewController: BaseViewController, HomePresentable, HomeViewCon
     func updateSections(_ sections: [HomeSection]) {
         self.sections = sections
         tableView.reloadData()
+    }
+    
+    private func setupTabBar() {
+        tabBarItem = UITabBarItem(
+            title: "홈", 
+            image: UIImage(systemName: "house"),
+            selectedImage: UIImage(systemName: "house.fill")
+        )
     }
     
 }
