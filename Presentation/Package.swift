@@ -35,6 +35,14 @@ let package = Package(
             name: "MarkdownContentInterface",
             targets: ["MarkdownContentInterface"]
         ),
+        .library(
+            name: "Archive",
+            targets: ["Archive"]
+        ),
+        .library(
+            name: "ArchiveInterface",
+            targets: ["ArchiveInterface"]
+        ),
     ],
     dependencies: [
         .package(path: "../Core"),
@@ -117,6 +125,27 @@ let package = Package(
         ),
         .target(
             name: "MarkdownContentInterface",
+            dependencies: [
+                "RIBs"
+            ]
+        ),
+        .target(
+            name: "Archive",
+            dependencies: [
+                "BasePresentation",
+                "ArchiveInterface",
+                .product(name: "CoreUtil", package: "Core"),
+                .product(name: "RIBsUtil", package: "Core"),
+                .product(name: "RxUtil", package: "Core"),
+                "DesignKit",
+                "RIBs",
+                "RxSwift",
+                .product(name: "RxCocoa", package: "RxSwift"),
+                "SnapKit",
+            ]
+        ),
+        .target(
+            name: "ArchiveInterface",
             dependencies: [
                 "RIBs"
             ]
