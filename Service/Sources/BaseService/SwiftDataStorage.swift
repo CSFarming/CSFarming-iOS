@@ -18,6 +18,7 @@ public protocol SwiftDataStorageInterface: AnyObject {
     associatedtype T: PersistentModel
     
     func read(sortBy: [SortDescriptor<T>]) -> Single<[T]>
+    func read(sortBy: [SortDescriptor<T>], limit: Int) -> Single<[T]>
     func removeAll() -> Single<Void>
     func insert(model: T) -> Single<Void>
     
@@ -40,6 +41,12 @@ open class SwiftDataStorage<T: PersistentModel>: SwiftDataStorageInterface {
         return try context.fetch(descriptor)
     }
     
+    open func read(sortBy: [SortDescriptor<T>], limit: Int) async throws -> [T]  {
+        var descriptor = FetchDescriptor(sortBy: sortBy)
+        descriptor.fetchLimit = limit
+        return try context.fetch(descriptor)
+    }
+    
     open func removeAll() async throws {
         try context.delete(model: T.self)
     }
@@ -57,6 +64,27 @@ open class SwiftDataStorage<T: PersistentModel>: SwiftDataStorageInterface {
                 }
                 do {
                     let models = try await read(sortBy: sortBy)
+                    single(.success(models))
+                } catch {
+                    single(.failure(error))
+                }
+            }
+            
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
+    
+    open func read(sortBy: [SortDescriptor<T>], limit: Int) -> Single<[T]> {
+        return Single<[T]>.create { single -> Disposable in
+            let request = Task { [weak self] in
+                guard let self else {
+                    single(.failure(SwiftDataStorageError.canceled))
+                    return
+                }
+                do {
+                    let models = try await read(sortBy: sortBy, limit: limit)
                     single(.success(models))
                 } catch {
                     single(.failure(error))

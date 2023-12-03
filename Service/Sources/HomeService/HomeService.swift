@@ -50,8 +50,7 @@ public final class HomeService: HomeServiceInterface {
     }
     
     public func requestVisitHistory() -> Single<[ContentElement]> {
-        return repository.read()
-            .map { $0.prefix(5).map { $0 } }
+        return repository.read(limit: 5)
     }
     
     public func requestRemoveAll() -> Single<Void> {

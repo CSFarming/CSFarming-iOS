@@ -11,6 +11,7 @@ import BaseService
 
 public protocol HomeRepositoryInterface: AnyObject {
     func read() -> Single<[ContentElement]>
+    func read(limit: Int) -> Single<[ContentElement]>
     func removeAll() -> Single<Void>
     func insert(element: ContentElement) -> Single<Void>
 }
@@ -18,8 +19,16 @@ public protocol HomeRepositoryInterface: AnyObject {
 public final class HomeRepository: SwiftDataStorage<ContentElementModel>, HomeRepositoryInterface {
     
     public func read() -> Single<[ContentElement]> {
-        let sortBy = SortDescriptor<ContentElementModel>(\.createdAt)
+        let sortBy = SortDescriptor<ContentElementModel>(\.createdAt, order: .reverse)
         return super.read(sortBy: [sortBy])
+            .map { models in
+                return models.map { $0.toElement() }
+            }
+    }
+    
+    public func read(limit: Int) -> Single<[ContentElement]> {
+        let sortBy = SortDescriptor<ContentElementModel>(\.createdAt, order: .reverse)
+        return super.read(sortBy: [sortBy], limit: limit)
             .map { models in
                 return models.map { $0.toElement() }
             }
