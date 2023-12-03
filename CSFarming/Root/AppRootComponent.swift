@@ -7,13 +7,15 @@
 
 import RIBs
 import Home
+import Archive
 import Problem
 import HomeService
 import MarkdownService
 import MarkdownContent
 import MarkdownContentInterface
+import ArchiveInterface
 
-final class AppRootComponent: Component<AppRootDependency>, HomeDependency, ProblemDependency, MarkdownContentDependency {
+final class AppRootComponent: Component<AppRootDependency>, HomeDependency, ArchiveDependency, ProblemDependency, MarkdownContentDependency {
     
     let homeService: HomeServiceInterface = HomeService(repository: HomeRepository(), parser: HomeParser())
     let markdownService: MarkdownServiceInterface = MarkdownService(repository: MarkdownRepository())
