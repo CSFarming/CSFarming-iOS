@@ -8,6 +8,7 @@
 import Foundation
 import RIBs
 import RxSwift
+import BaseService
 import HomeService
 
 protocol HomeListRouting: ViewableRouting {
@@ -39,7 +40,7 @@ final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, Home
     weak var router: HomeListRouting?
     weak var listener: HomeListListener?
     
-    private var homeElements: [HomeElement] = []
+    private var elements: [ContentElement] = []
     
     private let dependency: HomeListInteractorDependency
     private let disposeBag = DisposeBag()
@@ -68,7 +69,7 @@ final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, Home
     }
     
     func didTap(at indexPath: IndexPath) {
-        guard let element = homeElements[safe: indexPath.row] else { return }
+        guard let element = elements[safe: indexPath.row] else { return }
         if element.fileType == .directory {
             router?.attachHomeList(title: element.title, path: element.path)
         } else {
@@ -85,7 +86,7 @@ final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, Home
     }
     
     private func fetchHomeList() {
-        let request: Single<[HomeElement]> = {
+        let request: Single<[ContentElement]> = {
             if dependency.isFromRoot {
                 return dependency.homeService.requestElements(path: dependency.path)
             } else {
@@ -106,8 +107,8 @@ final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, Home
             ).disposed(by: disposeBag)
     }
     
-    private func performAfterHomeList(_ elements: [HomeElement]) {
-        self.homeElements = elements
+    private func performAfterHomeList(_ elements: [ContentElement]) {
+        self.elements = elements
         let models = elements.map { element -> HomeListCellModel in
             return .init(
                 title: element.title,

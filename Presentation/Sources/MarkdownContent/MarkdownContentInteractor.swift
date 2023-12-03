@@ -45,6 +45,7 @@ final class MarkdownContentInteractor: PresentableInteractor<MarkdownContentPres
     override func didBecomeActive() {
         super.didBecomeActive()
         fetchMarkdown()
+        requestVisited()
         presenter.updateTitle(dependency.title)
     }
     
@@ -75,6 +76,21 @@ final class MarkdownContentInteractor: PresentableInteractor<MarkdownContentPres
                     print(error.localizedDescription)
                 }
             ).disposed(by: disposeBag)
+    }
+    
+    private func requestVisited() {
+        dependency.markdownService
+            .requestVisit(element: .init(title: dependency.title, path: dependency.path))
+            .subscribe(
+                with: self,
+                onSuccess: { this, _ in
+                    print("# 성공적으로 방문 기록 작성")
+                },
+                onFailure: { this, error in
+                    print("# 방문 기록 작성 실패: \(error.localizedDescription)")
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
 }

@@ -10,6 +10,7 @@ import RIBs
 import RxSwift
 import HomeInterface
 import HomeService
+import BaseService
 
 protocol HomeRouting: ViewableRouting {
     func attachHomeList(title: String, path: String)
@@ -32,7 +33,7 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     weak var router: HomeRouting?
     weak var listener: HomeListener?
     
-    private var homeElements: [HomeElement] = []
+    private var elements: [ContentElement] = []
     
     private let dependency: HomeInteractorDependency
     private let disposeBag = DisposeBag()
@@ -48,7 +49,7 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        fetchHomeList()
+        fetchRecntVisit()
     }
     
     override func willResignActive() {
@@ -56,7 +57,7 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     }
     
     func didSelect(at indexPath: IndexPath) {
-        guard let element = homeElements[safe: indexPath.row] else { return }
+        guard let element = elements[safe: indexPath.row] else { return }
         if element.fileType == .directory {
             router?.attachHomeList(title: element.title, path: element.path)
         } else {
@@ -72,14 +73,14 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
         router?.detachMarkdownContent()
     }
     
-    private func fetchHomeList() {
+    private func fetchRecntVisit() {
         dependency.homeService
-            .requestElements()
+            .requestVisitHistory()
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(
-                with: self,
+                with: self, 
                 onSuccess: { this, elements in
-                    this.performAfterHomeList(elements)
+                    this.performAfterFetchingRecentVisit(elements)
                 },
                 onFailure: { this, error in
                     print(error.localizedDescription)
@@ -88,15 +89,17 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
             .disposed(by: disposeBag)
     }
     
-    private func performAfterHomeList(_ elements: [HomeElement]) {
-        self.homeElements = elements
+    private func performAfterFetchingRecentVisit(_ elements: [ContentElement]) {
+        self.elements = elements
         let models = elements.map { element -> HomeItem in
             return .recentPost(.init(
                 title: element.title,
                 type: element.fileType == .directory ? .folder : .file
             ))
         }
-        presenter.updateSections([.recentPost(models)])
+        presenter.updateSections([
+            .recentPost(models)
+        ])
     }
     
 }

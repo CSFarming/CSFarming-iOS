@@ -52,7 +52,7 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable>, 
     
     func attachMarkdownContent(title: String, path: String) {
         guard markdownContentRouting == nil else { return }
-        let router = markdownContentBuilder.build(withListener: interactor, title: title, path: path, isFromRoot: true)
+        let router = markdownContentBuilder.build(withListener: interactor, title: title, path: path, isFromRoot: false)
         pushRouter(router, animated: true)
         markdownContentRouting = router
     }

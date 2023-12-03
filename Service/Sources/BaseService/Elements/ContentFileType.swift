@@ -1,5 +1,5 @@
 //
-//  HomeFileType.swift
+//  ContentFileType.swift
 //
 //
 //  Created by 홍성준 on 12/2/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum HomeFileType {
+public enum ContentFileType {
     
     case directory
     case markdown
