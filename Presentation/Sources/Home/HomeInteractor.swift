@@ -35,6 +35,7 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     
     private let dependency: HomeInteractorDependency
     private let disposeBag = DisposeBag()
+    private var isFirstAppear = true
     
     init(
         presenter: HomePresentable,
@@ -59,6 +60,14 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
         if element.fileType == .markdown {
             router?.attachMarkdownContent(title: element.title, path: element.path)
         }
+    }
+    
+    func viewWillAppear() {
+        guard isFirstAppear == false else {
+            isFirstAppear = false
+            return
+        }
+        fetchRecntVisit()
     }
     
     func markdownContentDidTapClose() {
