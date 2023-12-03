@@ -13,8 +13,6 @@ import HomeService
 import BaseService
 
 protocol HomeRouting: ViewableRouting {
-    func attachHomeList(title: String, path: String)
-    func detachHomeList()
     func attachMarkdownContent(title: String, path: String)
     func detachMarkdownContent()
 }
@@ -58,15 +56,9 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     
     func didSelect(at indexPath: IndexPath) {
         guard let element = elements[safe: indexPath.row] else { return }
-        if element.fileType == .directory {
-            router?.attachHomeList(title: element.title, path: element.path)
-        } else {
+        if element.fileType == .markdown {
             router?.attachMarkdownContent(title: element.title, path: element.path)
         }
-    }
-    
-    func homeListDidTapClose() {
-        router?.detachHomeList()
     }
     
     func markdownContentDidTapClose() {

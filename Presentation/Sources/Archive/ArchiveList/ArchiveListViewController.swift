@@ -1,5 +1,5 @@
 //
-//  HomeListViewController.swift
+//  ArchiveListViewController.swift
 //  CSFarming
 //
 //  Created by 홍성준 on 12/2/23.
@@ -12,16 +12,16 @@ import RxCocoa
 import SnapKit
 import BasePresentation
 
-protocol HomeListPresentableListener: AnyObject {
+protocol ArchiveListPresentableListener: AnyObject {
     func didTapClose()
     func didTap(at indexPath: IndexPath)
 }
 
-final class HomeListViewController: BaseViewController, HomeListPresentable, HomeListViewControllable {
+final class ArchiveListViewController: BaseViewController, ArchiveListPresentable, ArchiveListViewControllable {
     
-    weak var listener: HomeListPresentableListener?
+    weak var listener: ArchiveListPresentableListener?
     
-    private var models: [HomeListCellModel] = []
+    private var models: [ArchiveListCellModel] = []
     private let tableView = UITableView(frame: .zero, style: .grouped)
     
     override func setupLayout() {
@@ -49,7 +49,7 @@ final class HomeListViewController: BaseViewController, HomeListPresentable, Hom
         
         tableView.backgroundColor = .csBlue1
         tableView.separatorStyle = .none
-        tableView.register(HomeListCell.self)
+        tableView.register(ArchiveListCell.self)
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -71,14 +71,14 @@ final class HomeListViewController: BaseViewController, HomeListPresentable, Hom
         navigationView.updateTitle(title)
     }
     
-    func updateModels(_ models: [HomeListCellModel]) {
+    func updateModels(_ models: [ArchiveListCellModel]) {
         self.models = models
         tableView.reloadData()
     }
     
 }
 
-extension HomeListViewController: UITableViewDelegate {
+extension ArchiveListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         listener?.didTap(at: indexPath)
@@ -86,7 +86,7 @@ extension HomeListViewController: UITableViewDelegate {
     
 }
 
-extension HomeListViewController: UITableViewDataSource {
+extension ArchiveListViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -100,7 +100,7 @@ extension HomeListViewController: UITableViewDataSource {
         guard let model = models[safe: indexPath.row] else {
             return UITableViewCell()
         }
-        let cell = tableView.dequeue(HomeListCell.self, for: indexPath)
+        let cell = tableView.dequeue(ArchiveListCell.self, for: indexPath)
         cell.setup(model: model)
         return cell
     }
