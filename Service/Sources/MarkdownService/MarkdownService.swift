@@ -7,7 +7,6 @@
 
 import Foundation
 import Moya
-import Markdown
 import RxSwift
 import BaseService
 

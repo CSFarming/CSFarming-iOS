@@ -43,6 +43,7 @@ let package = Package(
         .package(url: "https://github.com/uber/RIBs", from: "0.9.7"),
         .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.6.0"),
         .package(url: "https://github.com/SnapKit/SnapKit", from: "5.6.0"),
+        .package(url: "https://github.com/gonzalezreal/swift-markdown-ui", from: "2.2.0")
     ],
     targets: [
         .target(
@@ -110,6 +111,7 @@ let package = Package(
                 "RIBs",
                 "RxSwift",
                 .product(name: "RxCocoa", package: "RxSwift"),
+                .product(name: "MarkdownUI", package: "swift-markdown-ui"),
                 "SnapKit",
             ]
         ),

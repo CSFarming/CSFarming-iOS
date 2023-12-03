@@ -19,8 +19,11 @@ final class MarkdownContentViewController: UIHostingController<MarkdownContentVi
     
     weak var listener: MarkdownContentPresentableListener?
     
-    func updateMarkdown(_ source: String) {
-        rootView.content.update(source)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        rootView.updateCloseAction { [weak self] in
+            self?.didTapClose()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -28,6 +31,18 @@ final class MarkdownContentViewController: UIHostingController<MarkdownContentVi
         if isMovingFromParent {
             listener?.didTapClose()
         }
+    }
+    
+    func updateMarkdown(_ source: String) {
+        rootView.updateSource(source)
+    }
+    
+    func updateTitle(_ title: String) {
+        rootView.updateTitle(title)
+    }
+    
+    func didTapClose() {
+        listener?.didTapClose()
     }
     
 }
