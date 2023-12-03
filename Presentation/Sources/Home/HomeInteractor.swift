@@ -33,7 +33,7 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     weak var router: HomeRouting?
     weak var listener: HomeListener?
     
-    private var elements: [[ContentElement]] = []
+    private var elements: [ContentElement] = []
     
     private let dependency: HomeInteractorDependency
     private let disposeBag = DisposeBag()
@@ -49,7 +49,7 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        fetchContents()
+        fetchRecntVisit()
     }
     
     override func willResignActive() {
@@ -57,7 +57,7 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     }
     
     func didSelect(at indexPath: IndexPath) {
-        guard let element = elements[safe: indexPath.section]?[safe: indexPath.row] else { return }
+        guard let element = elements[safe: indexPath.row] else { return }
         if element.fileType == .directory {
             router?.attachHomeList(title: element.title, path: element.path)
         } else {
@@ -73,43 +73,31 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
         router?.detachMarkdownContent()
     }
     
-    private func fetchContents() {
-        Observable.combineLatest(
-            dependency.homeService.requestElements().asObservable(),
-            dependency.homeService.requestVisitHistory().asObservable()
-        ).observe(on: MainScheduler.asyncInstance)
+    private func fetchRecntVisit() {
+        dependency.homeService
+            .requestVisitHistory()
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(
                 with: self, 
-                onNext: { this, content in
-                    this.performAfterFetchingContents(homeContents: content.0, historyContents: content.1)
+                onSuccess: { this, elements in
+                    this.performAfterFetchingRecentVisit(elements)
                 },
-                onError: { this, error in
+                onFailure: { this, error in
                     print(error.localizedDescription)
                 }
             )
             .disposed(by: disposeBag)
-        
     }
     
-    private func performAfterFetchingContents(homeContents: [ContentElement], historyContents: [ContentElement]) {
-        self.elements = [homeContents, historyContents]
-        
-        let homeModels = homeContents.map { element -> HomeItem in
-            return .recentPost(.init(
-                title: element.title,
-                type: element.fileType == .directory ? .folder : .file
-            ))
-        }
-        
-        let historyModels = historyContents.map { element -> HomeItem in
+    private func performAfterFetchingRecentVisit(_ elements: [ContentElement]) {
+        let models = elements.map { element -> HomeItem in
             return .recentPost(.init(
                 title: element.title,
                 type: element.fileType == .directory ? .folder : .file
             ))
         }
         presenter.updateSections([
-            .recentPost(homeModels),
-            .recentProblem(historyModels)
+            .recentPost(models)
         ])
     }
     
