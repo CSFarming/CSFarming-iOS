@@ -10,6 +10,7 @@ import RIBs
 import RxSwift
 import HomeInterface
 import HomeService
+import BaseService
 
 protocol HomeRouting: ViewableRouting {
     func attachHomeList(title: String, path: String)
@@ -32,7 +33,7 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     weak var router: HomeRouting?
     weak var listener: HomeListener?
     
-    private var homeElements: [HomeElement] = []
+    private var elements: [[ContentElement]] = []
     
     private let dependency: HomeInteractorDependency
     private let disposeBag = DisposeBag()
@@ -48,7 +49,7 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        fetchHomeList()
+        fetchContents()
     }
     
     override func willResignActive() {
@@ -56,7 +57,7 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     }
     
     func didSelect(at indexPath: IndexPath) {
-        guard let element = homeElements[safe: indexPath.row] else { return }
+        guard let element = elements[safe: indexPath.section]?[safe: indexPath.row] else { return }
         if element.fileType == .directory {
             router?.attachHomeList(title: element.title, path: element.path)
         } else {
@@ -72,31 +73,44 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
         router?.detachMarkdownContent()
     }
     
-    private func fetchHomeList() {
-        dependency.homeService
-            .requestElements()
-            .observe(on: MainScheduler.asyncInstance)
+    private func fetchContents() {
+        Observable.combineLatest(
+            dependency.homeService.requestElements().asObservable(),
+            dependency.homeService.requestVisitHistory().asObservable()
+        ).observe(on: MainScheduler.asyncInstance)
             .subscribe(
-                with: self,
-                onSuccess: { this, elements in
-                    this.performAfterHomeList(elements)
+                with: self, 
+                onNext: { this, content in
+                    this.performAfterFetchingContents(homeContents: content.0, historyContents: content.1)
                 },
-                onFailure: { this, error in
+                onError: { this, error in
                     print(error.localizedDescription)
                 }
             )
             .disposed(by: disposeBag)
+        
     }
     
-    private func performAfterHomeList(_ elements: [HomeElement]) {
-        self.homeElements = elements
-        let models = elements.map { element -> HomeItem in
+    private func performAfterFetchingContents(homeContents: [ContentElement], historyContents: [ContentElement]) {
+        self.elements = [homeContents, historyContents]
+        
+        let homeModels = homeContents.map { element -> HomeItem in
             return .recentPost(.init(
                 title: element.title,
                 type: element.fileType == .directory ? .folder : .file
             ))
         }
-        presenter.updateSections([.recentPost(models)])
+        
+        let historyModels = historyContents.map { element -> HomeItem in
+            return .recentPost(.init(
+                title: element.title,
+                type: element.fileType == .directory ? .folder : .file
+            ))
+        }
+        presenter.updateSections([
+            .recentPost(homeModels),
+            .recentProblem(historyModels)
+        ])
     }
     
 }

@@ -7,20 +7,21 @@
 
 import Foundation
 import SwiftSoup
+import BaseService
 
 public protocol HomeParserInterface: AnyObject {
-    func parse(_ html: String) -> [HomeElement]
+    func parse(_ html: String) -> [ContentElement]
 }
 
 public final class HomeParser: HomeParserInterface {
     
     public init() {}
     
-    public func parse(_ html: String) -> [HomeElement] {
+    public func parse(_ html: String) -> [ContentElement] {
         do {
             let document: Document = try SwiftSoup.parse(html)
             let elements = try document.getElementsByClass("js-navigation-open")
-                .compactMap { $0.homeElement() }
+                .compactMap { $0.contentElement() }
             return elements
         } catch {
             return []
@@ -31,13 +32,13 @@ public final class HomeParser: HomeParserInterface {
 
 private extension Element {
     
-    func homeElement() -> HomeElement? {
+    func contentElement() -> ContentElement? {
         guard let title = try? attr("title"),
               let path = try? attr("href")
         else {
             return nil
         }
-        return HomeElement(title: title, path: path)
+        return ContentElement(title: title, path: path)
     }
     
 }

@@ -1,5 +1,5 @@
 //
-//  HomeElementModel.swift
+//  ContentElementModel.swift
 //
 //
 //  Created by 홍성준 on 12/3/23.
@@ -8,11 +8,10 @@
 import Foundation
 import SwiftData
 
-
 @Model
-public final class HomeElementModel {
+public final class ContentElementModel {
     
-    public var title: String
+    @Attribute(.unique) public var title: String
     public var path: String
     public var createdAt: Date
     
@@ -24,10 +23,10 @@ public final class HomeElementModel {
     
 }
 
-extension HomeElementModel {
+public extension ContentElementModel {
     
-    func toElement() -> HomeElement {
-        return HomeElement(title: title, path: path)
+    func toElement() -> ContentElement {
+        return ContentElement(title: title, path: path)
     }
     
 }

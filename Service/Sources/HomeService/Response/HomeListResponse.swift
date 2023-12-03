@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import BaseService
 
 struct HomeListResponse: Decodable {
     let payload: HomeListPayloadResponse
@@ -27,12 +28,12 @@ struct HomeListItemResponse: Decodable {
 
 extension HomeListResponse {
     
-    func toElements() -> [HomeElement] {
+    func toElements() -> [ContentElement] {
         return payload.tree.items.compactMap { item in
             guard let title = item.name, let path = item.path else {
                 return nil
             }
-            return HomeElement(title: title, path: path)
+            return ContentElement(title: title, path: path)
         }
     }
     
