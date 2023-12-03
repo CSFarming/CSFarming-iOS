@@ -12,7 +12,12 @@ import ArchiveInterface
 import ArchiveService
 import BaseService
 
-protocol ArchiveRouting: ViewableRouting {}
+protocol ArchiveRouting: ViewableRouting {
+    func attachArchiveList(title: String, path: String)
+    func detachArchiveList()
+    func attachMarkdownContent(title: String, path: String)
+    func detachMarkdownContent()
+}
 
 protocol ArchivePresentable: Presentable {
     var listener: ArchivePresentableListener? { get set }
@@ -52,7 +57,20 @@ final class ArchiveInteractor: PresentableInteractor<ArchivePresentable>, Archiv
     }
     
     func didSelect(at indexPath: IndexPath) {
-        
+        guard let element = elements[safe: indexPath.row] else { return }
+        if element.fileType == .directory {
+            router?.attachArchiveList(title: element.title, path: element.path)
+        } else if element.fileType == .markdown {
+            router?.attachMarkdownContent(title: element.title, path: element.path)
+        }
+    }
+    
+    func archiveListDidTapClose() {
+        router?.detachArchiveList()
+    }
+    
+    func markdownContentDidTapClose() {
+        router?.detachMarkdownContent()
     }
     
     private func fetchList() {

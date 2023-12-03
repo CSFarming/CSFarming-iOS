@@ -134,6 +134,7 @@ let package = Package(
             dependencies: [
                 "BasePresentation",
                 "ArchiveInterface",
+                "MarkdownContentInterface",
                 .product(name: "CoreUtil", package: "Core"),
                 .product(name: "RIBsUtil", package: "Core"),
                 .product(name: "RxUtil", package: "Core"),

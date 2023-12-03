@@ -8,13 +8,16 @@
 import RIBs
 import ArchiveInterface
 import ArchiveService
+import MarkdownContentInterface
 
 public protocol ArchiveDependency: Dependency {
     var archiveService: ArchiveServiceInterface { get }
+    var markdownContentBuilder: MarkdownContentBuildable { get }
 }
 
-final class ArchiveComponent: Component<ArchiveDependency>, ArchiveInteractorDependency {
+final class ArchiveComponent: Component<ArchiveDependency>, ArchiveInteractorDependency, ArchiveListDependency {
     var archiveService: ArchiveServiceInterface { dependency.archiveService }
+    var markdownContentBuilder: MarkdownContentBuildable { dependency.markdownContentBuilder }
 }
 
 public final class ArchiveBuilder: Builder<ArchiveDependency>, ArchiveBuildable {
@@ -28,7 +31,12 @@ public final class ArchiveBuilder: Builder<ArchiveDependency>, ArchiveBuildable 
         let viewController = ArchiveViewController()
         let interactor = ArchiveInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
-        return ArchiveRouter(interactor: interactor, viewController: viewController)
+        return ArchiveRouter(
+            interactor: interactor, 
+            viewController: viewController,
+            archiveListBuilder: ArchiveListBuilder(dependency: component),
+            markdownContentBuilder: component.markdownContentBuilder
+        )
     }
     
 }
