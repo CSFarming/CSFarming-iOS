@@ -13,59 +13,52 @@ import BasePresentation
 struct HomePostCellModel {
     
     let title: String
-    let type: HomePostCellType
+    let category: String
+    let visitied: String
     
-}
-
-enum HomePostCellType {
-    case folder
-    case file
-    
-    var imageName: String {
-        switch self {
-        case .folder: "folder.fill"
-        case .file: "doc"
-        }
-    }
 }
 
 final class HomePostCell: AnimateTableViewCell {
     
     private let containerView = UIView()
+    private let categoryView = HomeCategoryView()
     private let titleLabel = UILabel()
-    private let iconImageView = UIImageView()
+    private let visitedLabel = UILabel()
     
     func setup(model: HomePostCellModel) {
         titleLabel.text = model.title
-        iconImageView.image = UIImage(systemName: model.type.imageName)?.withRenderingMode(.alwaysTemplate)
+        categoryView.title = model.category
+        visitedLabel.text = model.visitied
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         titleLabel.text = nil
-        iconImageView.image = nil
+        categoryView.title = nil
+        visitedLabel.text = nil
     }
     
     override func setupLayout() {
         contentView.addSubview(containerView)
-        containerView.addSubview(iconImageView)
         containerView.addSubview(titleLabel)
+        containerView.addSubview(categoryView)
+        containerView.addSubview(visitedLabel)
         
         containerView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 10, right: 20))
         }
         
-        iconImageView.snp.makeConstraints { make in
-            make.size.equalTo(CGSize(width: 40, height: 40))
-            make.top.equalToSuperview().offset(20)
-            make.leading.equalToSuperview().offset(20)
-            make.bottom.equalToSuperview().offset(-20)
+        titleLabel.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview().inset(20)
         }
         
-        titleLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalTo(iconImageView.snp.trailing).offset(10)
-            make.trailing.equalToSuperview().offset(-20)
+        categoryView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
+            make.leading.bottom.equalToSuperview().inset(20)
+        }
+        
+        visitedLabel.snp.makeConstraints { make in
+            make.trailing.bottom.equalToSuperview().inset(20)
         }
     }
     
@@ -78,11 +71,14 @@ final class HomePostCell: AnimateTableViewCell {
         containerView.layer.borderWidth = 1
         containerView.layer.borderColor = UIColor.csBlue2.cgColor
         
-        iconImageView.contentMode = .scaleAspectFit
-        iconImageView.tintColor = .csBlue5
+        categoryView.layer.cornerRadius = 8
         
         titleLabel.font = .bodySB
         titleLabel.textColor = .csBlack
+        
+        visitedLabel.font = .smallR
+        visitedLabel.textColor = .csGray4
+        visitedLabel.textAlignment = .right
     }
     
 }

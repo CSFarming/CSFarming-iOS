@@ -8,50 +8,46 @@
 import Foundation
 import Moya
 import RxSwift
+import RxRelay
 import BaseService
 
-public protocol HomeServiceInterface: HomeVisitServiceInterface {
-    
-    func requestElements() -> Single<[ContentElement]>
-    func requestElements(path: String) -> Single<[ContentElement]>
-    func requestElementsWithPrefix(path: String) -> Single<[ContentElement]>
-    
-}
+public protocol HomeServiceInterface: HomeVisitServiceInterface {}
 
 public final class HomeService: HomeServiceInterface {
     
-    private let provider: MoyaProvider<HomeAPI>
+    public var currentHistory: Observable<[HomeElement]> {
+        return historyRelay.asObservable()
+    }
+    
     private let repository: HomeRepositoryInterface
-    private let parser: HomeParserInterface
+    private let historyRelay = PublishRelay<[HomeElement]>()
+    private let historyLimit = 5
+    private let refreshSeconds = 60 // 1분
+    private let disposeBag = DisposeBag()
+    private var lastUpdated: Date?
     
-    public init(
-        provider: MoyaProvider<HomeAPI> = .init(),
-        repository: HomeRepositoryInterface,
-        parser: HomeParserInterface
-    ) {
-        self.provider = provider
+    public init(repository: HomeRepositoryInterface) {
         self.repository = repository
-        self.parser = parser
     }
     
-    public func requestElements() -> Single<[ContentElement]> {
-        return provider.request(.list)
-            .map(parser.parse)
-    }
-    
-    public func requestElements(path: String) -> Single<[ContentElement]> {
-        let request: Single<HomeListResponse> = provider.request(.detail(path: path))
-        return request.map { $0.toElements() }
-    }
-    
-    public func requestElementsWithPrefix(path: String) -> Single<[ContentElement]> {
-        let request: Single<HomeListResponse> = provider.request(.detailWithPrefix(path: path))
-        return request.map { $0.toElements() }
-    }
-    
-    public func requestVisitHistory() -> Single<[ContentElement]> {
-        return repository.read()
-            .map { $0.prefix(5).map { $0 } }
+    public func requestVisitHistory() {
+        if let lastUpdated {
+            let distance = lastUpdated.distance(to: Date.now)
+            let seconds = Int(distance.rounded())
+            
+            if seconds < refreshSeconds {
+                return
+            }
+        }
+        lastUpdated = Date.now
+        repository.read(limit: historyLimit)
+            .subscribe(
+                with: self,
+                onSuccess: { this, elements in
+                    this.historyRelay.accept(elements)
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
     public func requestRemoveAll() -> Single<Void> {

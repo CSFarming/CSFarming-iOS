@@ -15,6 +15,7 @@ import BasePresentation
 
 protocol HomePresentableListener: AnyObject {
     func didSelect(at indexPath: IndexPath)
+    func viewWillAppear()
 }
 
 final class HomeViewController: BaseViewController, HomePresentable, HomeViewControllable {
@@ -39,6 +40,11 @@ final class HomeViewController: BaseViewController, HomePresentable, HomeViewCon
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        listener?.viewWillAppear()
     }
     
     override func setupAttributes() {

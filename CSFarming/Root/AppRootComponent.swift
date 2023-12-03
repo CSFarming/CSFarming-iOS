@@ -18,7 +18,7 @@ import ArchiveInterface
 
 final class AppRootComponent: Component<AppRootDependency>, HomeDependency, ArchiveDependency, ProblemDependency, MarkdownContentDependency {
     
-    let homeService: HomeServiceInterface = HomeService(repository: HomeRepository(), parser: HomeParser())
+    let homeService: HomeServiceInterface = HomeService(repository: HomeRepository())
     let archiveService: ArchiveServiceInterface = ArchiveService(parser: ArchiveParser())
     let markdownService: MarkdownServiceInterface = MarkdownService(repository: MarkdownRepository())
     
