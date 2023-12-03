@@ -48,7 +48,8 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        fetchRecntVisit()
+        dependency.homeService.requestVisitHistory()
+        observeCurrentHistory()
     }
     
     override func willResignActive() {
@@ -67,23 +68,23 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
             isFirstAppear = false
             return
         }
-        fetchRecntVisit()
+        dependency.homeService.requestVisitHistory()
     }
     
     func markdownContentDidTapClose() {
         router?.detachMarkdownContent()
     }
     
-    private func fetchRecntVisit() {
+    private func observeCurrentHistory() {
         dependency.homeService
-            .requestVisitHistory()
+            .currentHistory
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(
-                with: self, 
-                onSuccess: { this, elements in
+                with: self,
+                onNext: { this, elements in
                     this.performAfterFetchingRecentVisit(elements)
                 },
-                onFailure: { this, error in
+                onError: { this, error in
                     print(error.localizedDescription)
                 }
             )
