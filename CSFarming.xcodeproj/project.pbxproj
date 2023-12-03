@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		F103A1202B1B2CCF002B21E3 /* HomeService in Frameworks */ = {isa = PBXBuildFile; productRef = F103A11F2B1B2CCF002B21E3 /* HomeService */; };
 		F103A1422B1B53AB002B21E3 /* MarkdownService in Frameworks */ = {isa = PBXBuildFile; productRef = F103A1412B1B53AB002B21E3 /* MarkdownService */; };
+		F13295E42B1C995D009BDAD5 /* Archive in Frameworks */ = {isa = PBXBuildFile; productRef = F13295E32B1C995D009BDAD5 /* Archive */; };
+		F13295E62B1C995D009BDAD5 /* ArchiveInterface in Frameworks */ = {isa = PBXBuildFile; productRef = F13295E52B1C995D009BDAD5 /* ArchiveInterface */; };
+		F13295E82B1C9FA7009BDAD5 /* ArchiveService in Frameworks */ = {isa = PBXBuildFile; productRef = F13295E72B1C9FA7009BDAD5 /* ArchiveService */; };
 		F14CCC982B1335BC00E8BDA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F14CCC972B1335BC00E8BDA0 /* Assets.xcassets */; };
 		F14CCC9B2B1335BC00E8BDA0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F14CCC992B1335BC00E8BDA0 /* LaunchScreen.storyboard */; };
 		F15B07882B1B56A3009AE02D /* MarkdownContent in Frameworks */ = {isa = PBXBuildFile; productRef = F15B07872B1B56A3009AE02D /* MarkdownContent */; };
@@ -60,6 +63,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F17BAC602B138FFA00FECB54 /* Problem in Frameworks */,
+				F13295E62B1C995D009BDAD5 /* ArchiveInterface in Frameworks */,
 				F103A1202B1B2CCF002B21E3 /* HomeService in Frameworks */,
 				F17BAC2D2B133D4000FECB54 /* RIBs in Frameworks */,
 				F17BAC3B2B133D5800FECB54 /* SnapKit in Frameworks */,
@@ -68,6 +72,7 @@
 				F17BAC522B135D1A00FECB54 /* Home in Frameworks */,
 				F17BAC382B133D4C00FECB54 /* RxRelay in Frameworks */,
 				F17BAC622B138FFA00FECB54 /* ProblemInterface in Frameworks */,
+				F13295E42B1C995D009BDAD5 /* Archive in Frameworks */,
 				F17BAC342B133D4C00FECB54 /* RxCocoa in Frameworks */,
 				F17BAC472B13480A00FECB54 /* DesignKit in Frameworks */,
 				F15B078A2B1B56A3009AE02D /* MarkdownContentInterface in Frameworks */,
@@ -75,6 +80,7 @@
 				F17BAC442B13431100FECB54 /* RxUtil in Frameworks */,
 				F15B07882B1B56A3009AE02D /* MarkdownContent in Frameworks */,
 				F17BAC542B135D1A00FECB54 /* HomeInterface in Frameworks */,
+				F13295E82B1C9FA7009BDAD5 /* ArchiveService in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +182,9 @@
 				F103A1412B1B53AB002B21E3 /* MarkdownService */,
 				F15B07872B1B56A3009AE02D /* MarkdownContent */,
 				F15B07892B1B56A3009AE02D /* MarkdownContentInterface */,
+				F13295E32B1C995D009BDAD5 /* Archive */,
+				F13295E52B1C995D009BDAD5 /* ArchiveInterface */,
+				F13295E72B1C9FA7009BDAD5 /* ArchiveService */,
 			);
 			productName = CSFarming;
 			productReference = F14CCC8B2B1335BA00E8BDA0 /* CSFarming.app */;
@@ -492,6 +501,18 @@
 		F103A1412B1B53AB002B21E3 /* MarkdownService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MarkdownService;
+		};
+		F13295E32B1C995D009BDAD5 /* Archive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Archive;
+		};
+		F13295E52B1C995D009BDAD5 /* ArchiveInterface */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ArchiveInterface;
+		};
+		F13295E72B1C9FA7009BDAD5 /* ArchiveService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ArchiveService;
 		};
 		F15B07872B1B56A3009AE02D /* MarkdownContent */ = {
 			isa = XCSwiftPackageProductDependency;

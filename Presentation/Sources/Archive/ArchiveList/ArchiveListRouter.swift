@@ -1,5 +1,5 @@
 //
-//  HomeListRouter.swift
+//  ArchiveListRouter.swift
 //  CSFarming
 //
 //  Created by 홍성준 on 12/2/23.
@@ -9,44 +9,44 @@ import RIBs
 import RIBsUtil
 import MarkdownContentInterface
 
-protocol HomeListInteractable: Interactable, HomeListListener, MarkdownContentListener {
-    var router: HomeListRouting? { get set }
-    var listener: HomeListListener? { get set }
+protocol ArchiveListInteractable: Interactable, ArchiveListListener, MarkdownContentListener {
+    var router: ArchiveListRouting? { get set }
+    var listener: ArchiveListListener? { get set }
 }
 
-protocol HomeListViewControllable: ViewControllable {}
+protocol ArchiveListViewControllable: ViewControllable {}
 
-final class HomeListRouter: ViewableRouter<HomeListInteractable, HomeListViewControllable>, HomeListRouting {
+final class ArchiveListRouter: ViewableRouter<ArchiveListInteractable, ArchiveListViewControllable>, ArchiveListRouting {
     
-    private let homeListBuilder: HomeListBuildable
-    private var homeListRouting: ViewableRouting?
+    private let archiveListBuilder: ArchiveListBuildable
+    private var archiveListRouting: ViewableRouting?
     
     private let markdownContentBuilder: MarkdownContentBuildable
     private var markdownContentRouting: ViewableRouting?
     
     init(
-        interactor: HomeListInteractable,
-        viewController: HomeListViewControllable,
-        homeListBuilder: HomeListBuildable,
+        interactor: ArchiveListInteractable,
+        viewController: ArchiveListViewControllable,
+        archiveListBuilder: ArchiveListBuildable,
         markdownContentBuilder: MarkdownContentBuildable
     ) {
-        self.homeListBuilder = homeListBuilder
+        self.archiveListBuilder = archiveListBuilder
         self.markdownContentBuilder = markdownContentBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
     
-    func attachHomeList(title: String, path: String) {
-        guard homeListRouting == nil else { return }
-        let router = homeListBuilder.build(withListener: interactor, title: title, path: path, isFromRoot: false)
+    func attachArchiveList(title: String, path: String) {
+        guard archiveListRouting == nil else { return }
+        let router = archiveListBuilder.build(withListener: interactor, title: title, path: path, isFromRoot: false)
         pushRouter(router, animated: true)
-        homeListRouting = router
+        archiveListRouting = router
     }
     
-    func detachHomeList() {
-        guard let router = homeListRouting else { return }
+    func detachArchiveList() {
+        guard let router = archiveListRouting else { return }
         popRouter(router, animated: true)
-        homeListRouting = nil
+        archiveListRouting = nil
     }
     
     func attachMarkdownContent(title: String, path: String) {

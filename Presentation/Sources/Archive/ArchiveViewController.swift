@@ -1,28 +1,28 @@
 //
-//  HomeViewController.swift
+//  ArchiveViewController.swift
 //  CSFarming
 //
-//  Created by 홍성준 on 11/26/23.
+//  Created by 홍성준 on 12/3/23.
 //
 
-import UIKit
 import RIBs
-import CoreUtil
 import RxSwift
+import UIKit
+import CoreUtil
 import SnapKit
 import DesignKit
 import BasePresentation
 
-protocol HomePresentableListener: AnyObject {
+protocol ArchivePresentableListener: AnyObject {
     func didSelect(at indexPath: IndexPath)
 }
 
-final class HomeViewController: BaseViewController, HomePresentable, HomeViewControllable {
+final class ArchiveViewController: BaseViewController, ArchivePresentable, ArchiveViewControllable {
     
-    weak var listener: HomePresentableListener?
-    
-    private var sections: [HomeSection] = []
+    weak var listener: ArchivePresentableListener?
     private let tableView = UITableView(frame: .zero, style: .grouped)
+    
+    private var models: [ArchiveCellModel] = []
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -46,40 +46,38 @@ final class HomeViewController: BaseViewController, HomePresentable, HomeViewCon
         
         tableView.backgroundColor = .csBlue1
         tableView.separatorStyle = .none
-        tableView.register(HomePostCell.self)
-        tableView.register(HomeProblemCell.self)
+        tableView.register(ArchiveCell.self)
         tableView.delegate = self
         tableView.dataSource = self
     }
     
-    func updateSections(_ sections: [HomeSection]) {
-        self.sections = sections
-        tableView.reloadData()
-    }
-    
     private func setupTabBar() {
         tabBarItem = UITabBarItem(
-            title: "홈", 
-            image: UIImage(systemName: "house"),
-            selectedImage: UIImage(systemName: "house.fill")
+            title: "학습",
+            image: UIImage(systemName: "folder"),
+            selectedImage: UIImage(systemName: "folder.fill")
         )
+    }
+    
+    func updateModels(_ models: [ArchiveCellModel]) {
+        self.models = models
+        tableView.reloadData()
     }
     
 }
 
-extension HomeViewController: UITableViewDelegate {
+extension ArchiveViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         listener?.didSelect(at: indexPath)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let header = sections[safe: section]?.header else { return nil }
         let label: UILabel = {
             let label = UILabel()
             label.font = .headerSB
             label.textColor = .csBlack
-            label.text = header
+            label.text = "디렉토리"
             return label
         }()
         
@@ -100,32 +98,23 @@ extension HomeViewController: UITableViewDelegate {
     
 }
 
-extension HomeViewController: UITableViewDataSource {
+extension ArchiveViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[safe: section]?.items.count ?? 0
+        return models.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let item = sections[safe: indexPath.section]?.items[safe: indexPath.row] else {
+        guard let model = models[safe: indexPath.row] else {
             return UITableViewCell()
         }
-        
-        switch item {
-        case .recentPost(let model):
-            let cell = tableView.dequeue(HomePostCell.self, for: indexPath)
-            cell.setup(model: model)
-            return cell
-            
-        case .recentProblem(let model):
-            let cell = tableView.dequeue(HomeProblemCell.self, for: indexPath)
-            cell.setup(model: model)
-            return cell
-        }
+        let cell = tableView.dequeue(ArchiveCell.self, for: indexPath)
+        cell.setup(model: model)
+        return cell
     }
     
 }

@@ -1,5 +1,5 @@
 //
-//  HomeListCell.swift
+//  ArchiveListCell.swift
 //
 //
 //  Created by 홍성준 on 12/2/23.
@@ -10,14 +10,14 @@ import SnapKit
 import DesignKit
 import BasePresentation
 
-struct HomeListCellModel {
+struct ArchiveListCellModel {
     
     let title: String
-    let type: HomeListCellType
+    let type: ArchiveListCellType
     
 }
 
-enum HomeListCellType {
+enum ArchiveListCellType {
     case folder
     case file
     
@@ -29,13 +29,13 @@ enum HomeListCellType {
     }
 }
 
-final class HomeListCell: AnimateTableViewCell {
+final class ArchiveListCell: AnimateTableViewCell {
     
     private let containerView = UIView()
     private let titleLabel = UILabel()
     private let iconImageView = UIImageView()
     
-    func setup(model: HomeListCellModel) {
+    func setup(model: ArchiveListCellModel) {
         titleLabel.text = model.title
         iconImageView.image = UIImage(systemName: model.type.imageName)?.withRenderingMode(.alwaysTemplate)
     }

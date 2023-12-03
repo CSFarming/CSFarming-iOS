@@ -7,10 +7,11 @@
 
 import RIBs
 import HomeInterface
+import ArchiveInterface
 import ProblemInterface
 import RIBsUtil
 
-protocol AppRootInteractable: Interactable, HomeListener, ProblemListener {
+protocol AppRootInteractable: Interactable, HomeListener, ArchiveListener, ProblemListener {
     var router: AppRootRouting? { get set }
 }
 
@@ -23,6 +24,9 @@ final class AppRootRouter: LaunchRouter<AppRootInteractable, AppRootViewControll
     private let homeBuilder: HomeBuildable
     private var homeRouting: Routing?
     
+    private let archiveBuilder: ArchiveBuildable
+    private var archiveRouting: Routing?
+    
     private let problemBuilder: ProblemBuildable
     private var problemRouting: Routing?
     
@@ -30,19 +34,25 @@ final class AppRootRouter: LaunchRouter<AppRootInteractable, AppRootViewControll
         interactor: AppRootInteractable,
         viewController: AppRootViewControllable,
         homeBuilder: HomeBuildable,
+        archiveBuilder: ArchiveBuildable,
         problemBuilder: ProblemBuildable
     ) {
         self.homeBuilder = homeBuilder
+        self.archiveBuilder = archiveBuilder
         self.problemBuilder = problemBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
     
     func attachTabs() {
-        guard homeRouting == nil, problemRouting == nil else { return }
+        guard homeRouting == nil, archiveRouting == nil, problemRouting == nil else { return }
         let homeRouter = homeBuilder.build(withListener: interactor)
         self.homeRouting = homeRouter
         attachChild(homeRouter)
+        
+        let archiveRouter = archiveBuilder.build(withListener: interactor)
+        self.archiveRouting = archiveRouter
+        attachChild(archiveRouter)
         
         let problemRouter = problemBuilder.build(withListener: interactor)
         self.problemRouting = problemRouter
@@ -50,6 +60,7 @@ final class AppRootRouter: LaunchRouter<AppRootInteractable, AppRootViewControll
         
         viewController.setViewControllers([
             NavigationControllable(viewControllable: homeRouter.viewControllable),
+            NavigationControllable(viewControllable: archiveRouter.viewControllable),
             NavigationControllable(viewControllable: problemRouter.viewControllable)
         ])
     }

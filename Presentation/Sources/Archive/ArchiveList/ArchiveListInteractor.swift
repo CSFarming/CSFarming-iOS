@@ -1,5 +1,5 @@
 //
-//  HomeListInteractor.swift
+//  ArchiveListInteractor.swift
 //  CSFarming
 //
 //  Created by 홍성준 on 12/2/23.
@@ -9,45 +9,45 @@ import Foundation
 import RIBs
 import RxSwift
 import BaseService
-import HomeService
+import ArchiveService
 
-protocol HomeListRouting: ViewableRouting {
-    func attachHomeList(title: String, path: String)
-    func detachHomeList()
+protocol ArchiveListRouting: ViewableRouting {
+    func attachArchiveList(title: String, path: String)
+    func detachArchiveList()
     func attachMarkdownContent(title: String, path: String)
     func detachMarkdownContent()
 }
 
-protocol HomeListPresentable: Presentable {
-    var listener: HomeListPresentableListener? { get set }
+protocol ArchiveListPresentable: Presentable {
+    var listener: ArchiveListPresentableListener? { get set }
     func updateTitle(_ title: String)
-    func updateModels(_ models: [HomeListCellModel])
+    func updateModels(_ models: [ArchiveListCellModel])
 }
 
-protocol HomeListListener: AnyObject {
-    func homeListDidTapClose()
+protocol ArchiveListListener: AnyObject {
+    func archiveListDidTapClose()
 }
 
-protocol HomeListInteractorDependency: AnyObject {
-    var homeService: HomeServiceInterface { get }
+protocol ArchiveListInteractorDependency: AnyObject {
+    var archiveService: ArchiveServiceInterface { get }
     var title: String { get }
     var path: String { get }
     var isFromRoot: Bool { get }
 }
 
-final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, HomeListInteractable, HomeListPresentableListener, HomeListListener {
+final class ArchiveListInteractor: PresentableInteractor<ArchiveListPresentable>, ArchiveListInteractable, ArchiveListPresentableListener, ArchiveListListener {
     
-    weak var router: HomeListRouting?
-    weak var listener: HomeListListener?
+    weak var router: ArchiveListRouting?
+    weak var listener: ArchiveListListener?
     
     private var elements: [ContentElement] = []
     
-    private let dependency: HomeListInteractorDependency
+    private let dependency: ArchiveListInteractorDependency
     private let disposeBag = DisposeBag()
     
     init(
-        presenter: HomeListPresentable,
-        dependency: HomeListInteractorDependency
+        presenter: ArchiveListPresentable,
+        dependency: ArchiveListInteractorDependency
     ) {
         self.dependency = dependency
         super.init(presenter: presenter)
@@ -56,7 +56,7 @@ final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, Home
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        fetchHomeList()
+        fetchArchiveList()
         presenter.updateTitle(dependency.title)
     }
 
@@ -65,32 +65,32 @@ final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, Home
     }
     
     func didTapClose() {
-        listener?.homeListDidTapClose()
+        listener?.archiveListDidTapClose()
     }
     
     func didTap(at indexPath: IndexPath) {
         guard let element = elements[safe: indexPath.row] else { return }
         if element.fileType == .directory {
-            router?.attachHomeList(title: element.title, path: element.path)
+            router?.attachArchiveList(title: element.title, path: element.path)
         } else {
             router?.attachMarkdownContent(title: element.title, path: element.path)
         }
     }
     
-    func homeListDidTapClose() {
-        router?.detachHomeList()
+    func archiveListDidTapClose() {
+        router?.detachArchiveList()
     }
     
     func markdownContentDidTapClose() {
         router?.detachMarkdownContent()
     }
     
-    private func fetchHomeList() {
+    private func fetchArchiveList() {
         let request: Single<[ContentElement]> = {
             if dependency.isFromRoot {
-                return dependency.homeService.requestElements(path: dependency.path)
+                return dependency.archiveService.requestElements(path: dependency.path)
             } else {
-                return dependency.homeService.requestElementsWithPrefix(path: dependency.path)
+                return dependency.archiveService.requestElementsWithPrefix(path: dependency.path)
             }
         }()
         
@@ -99,7 +99,7 @@ final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, Home
             .subscribe(
                 with: self,
                 onSuccess: { this, elements in
-                    this.performAfterHomeList(elements)
+                    this.performAfterFetchingArchiveList(elements)
                 },
                 onFailure: { this, error in
                     print(error.localizedDescription)
@@ -107,9 +107,9 @@ final class HomeListInteractor: PresentableInteractor<HomeListPresentable>, Home
             ).disposed(by: disposeBag)
     }
     
-    private func performAfterHomeList(_ elements: [ContentElement]) {
+    private func performAfterFetchingArchiveList(_ elements: [ContentElement]) {
         self.elements = elements
-        let models = elements.map { element -> HomeListCellModel in
+        let models = elements.map { element -> ArchiveListCellModel in
             return .init(
                 title: element.title,
                 type: element.fileType == .directory ? .folder : .file

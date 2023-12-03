@@ -8,6 +8,7 @@
 import RIBs
 import Home
 import Problem
+import Archive
 
 protocol AppRootDependency: Dependency {}
 
@@ -29,6 +30,7 @@ final class AppRootBuilder: Builder<AppRootDependency>, AppRootBuildable {
             interactor: interactor,
             viewController: viewController,
             homeBuilder: HomeBuilder(dependency: component),
+            archiveBuilder: ArchiveBuilder(dependency: component),
             problemBuilder: ProblemBuilder(dependency: component)
         )
     }

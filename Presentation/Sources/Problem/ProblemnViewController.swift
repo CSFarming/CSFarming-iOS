@@ -22,6 +22,16 @@ final class ProblemViewController: BaseViewController, ProblemPresentable, Probl
     private let titleLabel = UILabel()
     private let stackView = UIStackView()
     
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        setupTabBar()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupTabBar()
+    }
+    
     override func setupLayout() {
         view.addSubview(titleLabel)
         view.addSubview(stackView)
@@ -60,6 +70,14 @@ final class ProblemViewController: BaseViewController, ProblemPresentable, Probl
                 .disposed(by: disposeBag)
             stackView.addArrangedSubview(contentView)
         }
+    }
+    
+    private func setupTabBar() {
+        tabBarItem = UITabBarItem(
+            title: "문제",
+            image: UIImage(systemName: "pencil"),
+            selectedImage: UIImage(systemName: "pencil")
+        )
     }
     
     private var contentTapBinder: Binder<ProblemContentViewModel> {
