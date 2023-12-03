@@ -22,7 +22,7 @@ final class MarkdownContent: ObservableObject {
     }
     
     func updateCloseAction(_ action: (() -> Void)?) {
-//        self.closeAction = action
+        self.closeAction = action
     }
     
 }
