@@ -20,7 +20,6 @@
 		F17BAC252B133CD200FECB54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14CCC8E2B1335BA00E8BDA0 /* AppDelegate.swift */; };
 		F17BAC262B133CD200FECB54 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14CCC902B1335BA00E8BDA0 /* SceneDelegate.swift */; };
 		F17BAC272B133CD200FECB54 /* AppComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14CCCD32B133A7000E8BDA0 /* AppComponent.swift */; };
-		F17BAC2A2B133D3400FECB54 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC292B133D3400FECB54 /* Markdown */; };
 		F17BAC2D2B133D4000FECB54 /* RIBs in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC2C2B133D4000FECB54 /* RIBs */; };
 		F17BAC302B133D4C00FECB54 /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC2F2B133D4C00FECB54 /* RxBlocking */; };
 		F17BAC342B133D4C00FECB54 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC332B133D4C00FECB54 /* RxCocoa */; };
@@ -75,7 +74,6 @@
 				F17BAC422B13431100FECB54 /* RIBsUtil in Frameworks */,
 				F17BAC442B13431100FECB54 /* RxUtil in Frameworks */,
 				F15B07882B1B56A3009AE02D /* MarkdownContent in Frameworks */,
-				F17BAC2A2B133D3400FECB54 /* Markdown in Frameworks */,
 				F17BAC542B135D1A00FECB54 /* HomeInterface in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,7 +160,6 @@
 			);
 			name = CSFarming;
 			packageProductDependencies = (
-				F17BAC292B133D3400FECB54 /* Markdown */,
 				F17BAC2C2B133D4000FECB54 /* RIBs */,
 				F17BAC2F2B133D4C00FECB54 /* RxBlocking */,
 				F17BAC332B133D4C00FECB54 /* RxCocoa */,
@@ -209,7 +206,6 @@
 			);
 			mainGroup = F14CCC822B1335BA00E8BDA0;
 			packageReferences = (
-				F17BAC282B133D3400FECB54 /* XCRemoteSwiftPackageReference "swift-markdown" */,
 				F17BAC2B2B133D4000FECB54 /* XCRemoteSwiftPackageReference "RIBs" */,
 				F17BAC2E2B133D4C00FECB54 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				F17BAC392B133D5800FECB54 /* XCRemoteSwiftPackageReference "SnapKit" */,
@@ -462,14 +458,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		F17BAC282B133D3400FECB54 /* XCRemoteSwiftPackageReference "swift-markdown" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-markdown.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.3.0;
-			};
-		};
 		F17BAC2B2B133D4000FECB54 /* XCRemoteSwiftPackageReference "RIBs" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/uber/RIBs";
@@ -512,11 +500,6 @@
 		F15B07892B1B56A3009AE02D /* MarkdownContentInterface */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MarkdownContentInterface;
-		};
-		F17BAC292B133D3400FECB54 /* Markdown */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F17BAC282B133D3400FECB54 /* XCRemoteSwiftPackageReference "swift-markdown" */;
-			productName = Markdown;
 		};
 		F17BAC2C2B133D4000FECB54 /* RIBs */ = {
 			isa = XCSwiftPackageProductDependency;

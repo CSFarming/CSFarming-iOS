@@ -15,6 +15,7 @@ protocol MarkdownContentRouting: ViewableRouting {}
 protocol MarkdownContentPresentable: Presentable {
     var listener: MarkdownContentPresentableListener? { get set }
     func updateMarkdown(_ source: String)
+    func updateTitle(_ title: String)
 }
 
 protocol MarkdownContentInteractorDependency: AnyObject {
@@ -44,6 +45,7 @@ final class MarkdownContentInteractor: PresentableInteractor<MarkdownContentPres
     override func didBecomeActive() {
         super.didBecomeActive()
         fetchMarkdown()
+        presenter.updateTitle(dependency.title)
     }
     
     override func willResignActive() {
