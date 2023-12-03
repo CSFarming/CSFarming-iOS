@@ -90,6 +90,7 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     }
     
     private func performAfterFetchingRecentVisit(_ elements: [ContentElement]) {
+        self.elements = elements
         let models = elements.map { element -> HomeItem in
             return .recentPost(.init(
                 title: element.title,
