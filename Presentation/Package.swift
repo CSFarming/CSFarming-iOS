@@ -43,6 +43,14 @@ let package = Package(
             name: "ArchiveInterface",
             targets: ["ArchiveInterface"]
         ),
+        .library(
+            name: "Question",
+            targets: ["Question"]
+        ),
+        .library(
+            name: "QuestionInterface",
+            targets: ["QuestionInterface"]
+        ),
     ],
     dependencies: [
         .package(path: "../Core"),
@@ -149,6 +157,27 @@ let package = Package(
         ),
         .target(
             name: "ArchiveInterface",
+            dependencies: [
+                "RIBs"
+            ]
+        ),
+        .target(
+            name: "Question",
+            dependencies: [
+                "BasePresentation",
+                "QuestionInterface",
+                .product(name: "CoreUtil", package: "Core"),
+                .product(name: "RIBsUtil", package: "Core"),
+                .product(name: "RxUtil", package: "Core"),
+                "DesignKit",
+                "RIBs",
+                "RxSwift",
+                .product(name: "RxCocoa", package: "RxSwift"),
+                "SnapKit",
+            ]
+        ),
+        .target(
+            name: "QuestionInterface",
             dependencies: [
                 "RIBs"
             ]
