@@ -10,7 +10,10 @@ import RxSwift
 import ProblemInterface
 import ProblemService
 
-protocol ProblemRouting: ViewableRouting {}
+protocol ProblemRouting: ViewableRouting {
+    func attachQuestion(directory: String)
+    func detachQuestion()
+}
 
 protocol ProblemPresentable: Presentable {
     var listener: ProblemPresentableListener? { get set }
@@ -50,7 +53,7 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
     }
     
     func didTap(directory: String) {
-        print("# TAP: \(directory)")
+        router?.attachQuestion(directory: directory)
     }
     
     private func fetchProblemList() {

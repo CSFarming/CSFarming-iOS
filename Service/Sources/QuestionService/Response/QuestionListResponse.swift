@@ -10,13 +10,19 @@ import Foundation
 struct QuestionListResponse: Decodable {
     
     let id: Int
-    let contents: [String]
+    let contents: [QuestionContentResponse]
+}
+
+struct QuestionContentResponse: Decodable {
+    
+    let question: String
+    
 }
 
 extension QuestionListResponse {
     
     func toElement() -> QuestionList {
-        return .init(id: id, questions: contents)
+        return .init(id: id, questions: contents.map(\.question))
     }
     
 }

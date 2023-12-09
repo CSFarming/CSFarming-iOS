@@ -39,6 +39,7 @@
 		F1A4D0D32B24239B007B12A8 /* ProblemService in Frameworks */ = {isa = PBXBuildFile; productRef = F1A4D0D22B24239B007B12A8 /* ProblemService */; };
 		F1A4D0DD2B245F31007B12A8 /* Question in Frameworks */ = {isa = PBXBuildFile; productRef = F1A4D0DC2B245F31007B12A8 /* Question */; };
 		F1A4D0DF2B245F31007B12A8 /* QuestionInterface in Frameworks */ = {isa = PBXBuildFile; productRef = F1A4D0DE2B245F31007B12A8 /* QuestionInterface */; };
+		F1EDAADA2B246CA8003ED40B /* QuestionService in Frameworks */ = {isa = PBXBuildFile; productRef = F1EDAAD92B246CA8003ED40B /* QuestionService */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +70,7 @@
 				F13295E62B1C995D009BDAD5 /* ArchiveInterface in Frameworks */,
 				F103A1202B1B2CCF002B21E3 /* HomeService in Frameworks */,
 				F17BAC2D2B133D4000FECB54 /* RIBs in Frameworks */,
+				F1EDAADA2B246CA8003ED40B /* QuestionService in Frameworks */,
 				F17BAC3B2B133D5800FECB54 /* SnapKit in Frameworks */,
 				F17BAC302B133D4C00FECB54 /* RxBlocking in Frameworks */,
 				F103A1422B1B53AB002B21E3 /* MarkdownService in Frameworks */,
@@ -194,6 +196,7 @@
 				F1A4D0D22B24239B007B12A8 /* ProblemService */,
 				F1A4D0DC2B245F31007B12A8 /* Question */,
 				F1A4D0DE2B245F31007B12A8 /* QuestionInterface */,
+				F1EDAAD92B246CA8003ED40B /* QuestionService */,
 			);
 			productName = CSFarming;
 			productReference = F14CCC8B2B1335BA00E8BDA0 /* CSFarming.app */;
@@ -595,6 +598,10 @@
 		F1A4D0DE2B245F31007B12A8 /* QuestionInterface */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = QuestionInterface;
+		};
+		F1EDAAD92B246CA8003ED40B /* QuestionService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = QuestionService;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -8,7 +8,7 @@
 import RIBs
 
 public protocol QuestionBuildable: Buildable {
-    func build(withListener listener: QuestionListener) -> ViewableRouting
+    func build(withListener listener: QuestionListener, directory: String) -> ViewableRouting
 }
 
 public protocol QuestionListener: AnyObject {}
