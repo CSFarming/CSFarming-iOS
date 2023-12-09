@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum ContentFileType {
+public enum ContentFileType: Equatable {
     
     case directory
     case markdown
