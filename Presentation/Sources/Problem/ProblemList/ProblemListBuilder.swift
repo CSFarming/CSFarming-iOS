@@ -7,9 +7,11 @@
 
 import RIBs
 import ProblemService
+import QuestionInterface
 
 protocol ProblemListDependency: Dependency {
     var problemService: ProblemServiceInterface { get }
+    var questionBuilder: QuestionBuildable { get }
 }
 
 final class ProblemListComponent: Component<ProblemListDependency>, ProblemListInteractorDependency {
@@ -17,6 +19,7 @@ final class ProblemListComponent: Component<ProblemListDependency>, ProblemListI
     let title: String
     let directory: String
     var problemService: ProblemServiceInterface { dependency.problemService }
+    var questionBuilder: QuestionBuildable { dependency.questionBuilder }
     
     init(dependency: ProblemListDependency, title: String, directory: String) {
         self.title = title
@@ -41,7 +44,12 @@ final class ProblemListBuilder: Builder<ProblemListDependency>, ProblemListBuild
         let viewController = ProblemListViewController()
         let interactor = ProblemListInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
-        return ProblemListRouter(interactor: interactor, viewController: viewController)
+        return ProblemListRouter(
+            interactor: interactor,
+            viewController: viewController,
+            problemBuilder: ProblemListBuilder(dependency: dependency),
+            questionBuilder: component.questionBuilder
+        )
     }
     
 }

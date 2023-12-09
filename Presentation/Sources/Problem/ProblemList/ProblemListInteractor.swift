@@ -11,7 +11,12 @@ import RxSwift
 import ProblemInterface
 import ProblemService
 
-protocol ProblemListRouting: ViewableRouting {}
+protocol ProblemListRouting: ViewableRouting {
+    func attachProblemList(title: String, directory: String)
+    func detachProblemList()
+    func attachQuestion(title: String, directory: String)
+    func detachQuestion()
+}
 
 protocol ProblemListPresentable: Presentable {
     var listener: ProblemListPresentableListener? { get set }
@@ -60,6 +65,21 @@ final class ProblemListInteractor: PresentableInteractor<ProblemListPresentable>
     
     func didTap(at indexPath: IndexPath) {
         guard let element = elements[safe: indexPath.row] else { return }
+        switch element.type {
+        case .list:
+            router?.attachProblemList(title: element.title, directory: element.directory)
+            
+        case .question:
+            router?.attachQuestion(title: element.title, directory: element.directory)
+        }
+    }
+    
+    func problemListDidTapClose() {
+        router?.detachProblemList()
+    }
+    
+    func questionDidTapClose() {
+        router?.detachQuestion()
     }
     
     private func fetchProblemList() {
