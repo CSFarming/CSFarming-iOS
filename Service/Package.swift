@@ -23,6 +23,10 @@ let package = Package(
             name: "ArchiveService",
             targets: ["ArchiveService"]
         ),
+        .library(
+            name: "ProblemService",
+            targets: ["ProblemService"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/Moya/Moya.git", .upToNextMajor(from: "15.0.0")),
@@ -52,6 +56,14 @@ let package = Package(
         ),
         .target(
             name: "ArchiveService",
+            dependencies: [
+                "BaseService",
+                "Moya",
+                "SwiftSoup"
+            ]
+        ),
+        .target(
+            name: "ProblemService",
             dependencies: [
                 "BaseService",
                 "Moya",

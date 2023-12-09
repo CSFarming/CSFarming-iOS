@@ -21,11 +21,11 @@ public protocol ArchiveServiceInterface: AnyObject {
 public final class ArchiveService: ArchiveServiceInterface {
     
     private let provider: MoyaProvider<ArchiveAPI>
-    private let parser: ArchiveParserInterface
+    private let parser: GitHubRootParserInterface
     
     public init(
         provider: MoyaProvider<ArchiveAPI> = .init(),
-        parser: ArchiveParserInterface
+        parser: GitHubRootParserInterface
     ) {
         self.provider = provider
         self.parser = parser

@@ -93,6 +93,7 @@ let package = Package(
                 .product(name: "CoreUtil", package: "Core"),
                 .product(name: "RIBsUtil", package: "Core"),
                 .product(name: "RxUtil", package: "Core"),
+                .product(name: "ProblemService", package: "Service"),
                 "DesignKit",
                 "RIBs",
                 "RxSwift",

@@ -14,9 +14,8 @@ import BasePresentation
 
 struct ProblemContentViewModel {
     
-    let id: Int
+    let path: String
     let title: String
-    let subtitle: String
     
 }
 
@@ -25,14 +24,11 @@ final class ProblemContentView: BaseView {
     fileprivate var model: ProblemContentViewModel?
     
     private let folderImageView = UIImageView()
-    private let labelStackView = UIStackView()
     private let titleLabel = UILabel()
-    private let subtitleLabel = UILabel()
     
     func setup(model: ProblemContentViewModel) {
         self.model = model
         titleLabel.text = model.title
-        subtitleLabel.text = model.subtitle
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -42,9 +38,7 @@ final class ProblemContentView: BaseView {
     
     override func setupLayout() {
         addSubview(folderImageView)
-        addSubview(labelStackView)
-        labelStackView.addArrangedSubview(titleLabel)
-        labelStackView.addArrangedSubview(subtitleLabel)
+        addSubview(titleLabel)
         
         folderImageView.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().offset(20)
@@ -52,7 +46,7 @@ final class ProblemContentView: BaseView {
             make.size.equalTo(CGSize(width: 40, height: 40))
         }
         
-        labelStackView.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalTo(folderImageView.snp.trailing).offset(10)
             make.trailing.equalToSuperview().offset(-20)
@@ -70,16 +64,8 @@ final class ProblemContentView: BaseView {
         folderImageView.contentMode = .scaleAspectFit
         folderImageView.tintColor = .csBlue5
         
-        labelStackView.axis = .vertical
-        labelStackView.spacing = 0
-        labelStackView.alignment = .fill
-        labelStackView.distribution = .fillEqually
-        
         titleLabel.textColor = .csBlack
         titleLabel.font = .bodySB
-        
-        subtitleLabel.textColor = .csBlack
-        subtitleLabel.font = .smallR
     }
     
 }

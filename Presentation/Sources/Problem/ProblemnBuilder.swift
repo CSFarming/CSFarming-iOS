@@ -7,10 +7,15 @@
 
 import RIBs
 import ProblemInterface
+import ProblemService
 
-public protocol ProblemDependency: Dependency {}
+public protocol ProblemDependency: Dependency {
+    var problemService: ProblemServiceInterface { get }
+}
 
-final class ProblemComponent: Component<ProblemDependency> {}
+final class ProblemComponent: Component<ProblemDependency>, ProblemInteractorDependency {
+    var problemService: ProblemServiceInterface { dependency.problemService }
+}
 
 public final class ProblemBuilder: Builder<ProblemDependency>, ProblemBuildable {
     
@@ -21,7 +26,7 @@ public final class ProblemBuilder: Builder<ProblemDependency>, ProblemBuildable 
     public func build(withListener listener: ProblemListener) -> ViewableRouting {
         let component = ProblemComponent(dependency: dependency)
         let viewController = ProblemViewController()
-        let interactor = ProblemInteractor(presenter: viewController)
+        let interactor = ProblemInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         return ProblemRouter(interactor: interactor, viewController: viewController)
     }

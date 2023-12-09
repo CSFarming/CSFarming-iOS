@@ -1,19 +1,18 @@
 //
-//  ArchiveParser.swift
+//  GitHubRootParser.swift
 //
 //
-//  Created by 홍성준 on 12/3/23.
+//  Created by 홍성준 on 12/9/23.
 //
 
 import Foundation
 import SwiftSoup
-import BaseService
 
-public protocol ArchiveParserInterface: AnyObject {
+public protocol GitHubRootParserInterface: AnyObject {
     func parse(_ html: String) -> [ContentElement]
 }
 
-public final class ArchiveParser: ArchiveParserInterface {
+public final class GitHubRootParser: GitHubRootParserInterface {
     
     public init() {}
     
