@@ -32,9 +32,9 @@ final class ProblemRouter: ViewableRouter<ProblemInteractable, ProblemViewContro
         interactor.router = self
     }
     
-    func attachQuestion(directory: String) {
+    func attachQuestion(title: String, directory: String) {
         guard questionRouting == nil else { return }
-        let router = questionBuilder.build(withListener: interactor, directory: directory)
+        let router = questionBuilder.build(withListener: interactor, title: title, directory: directory)
         pushRouter(router, animated: true)
         questionRouting = router
     }

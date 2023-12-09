@@ -15,10 +15,12 @@ public protocol QuestionDependency: Dependency {
 
 final class QuestionComponent: Component<QuestionDependency>, QuestionInteractorDependency {
     
+    let title: String
     let directory: String
     var questionService: QuestionServiceInterface { dependency.questionService }
     
-    init(dependency: QuestionDependency, directory: String) {
+    init(dependency: QuestionDependency, title: String, directory: String) {
+        self.title = title
         self.directory = directory
         super.init(dependency: dependency)
     }
@@ -31,8 +33,8 @@ public final class QuestionBuilder: Builder<QuestionDependency>, QuestionBuildab
         super.init(dependency: dependency)
     }
 
-    public func build(withListener listener: QuestionListener, directory: String) -> ViewableRouting {
-        let component = QuestionComponent(dependency: dependency, directory: directory)
+    public func build(withListener listener: QuestionListener, title: String, directory: String) -> ViewableRouting {
+        let component = QuestionComponent(dependency: dependency, title: title, directory: directory)
         let viewController = QuestionViewController()
         let interactor = QuestionInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener

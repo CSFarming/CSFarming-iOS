@@ -11,7 +11,7 @@ import ProblemInterface
 import ProblemService
 
 protocol ProblemRouting: ViewableRouting {
-    func attachQuestion(directory: String)
+    func attachQuestion(title: String, directory: String)
     func detachQuestion()
 }
 
@@ -52,8 +52,8 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
         super.willResignActive()
     }
     
-    func didTap(directory: String) {
-        router?.attachQuestion(directory: directory)
+    func didTap(model: ProblemContentViewModel) {
+        router?.attachQuestion(title: model.title, directory: model.directory)
     }
     
     // MARK: - Question
