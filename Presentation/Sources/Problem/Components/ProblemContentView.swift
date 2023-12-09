@@ -17,6 +17,7 @@ struct ProblemContentViewModel {
     let directory: String
     let title: String
     let content: String
+    let type: ProblemContentType
     
 }
 

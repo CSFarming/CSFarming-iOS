@@ -12,6 +12,7 @@ import BaseService
 public enum ProblemAPI {
     
     case list
+    case problem(String)
     
 }
 
@@ -25,6 +26,9 @@ extension ProblemAPI: TargetType {
         switch self {
         case .list:
             return "/CSFarming/CSFarming-Problem-Archive/master/Contents.json"
+            
+        case .problem(let directory):
+            return "/CSFarming/CSFarming-Problem-Archive/master/\(directory)/Contents.json"
         }
     }
     
@@ -37,7 +41,7 @@ extension ProblemAPI: TargetType {
     }
     
     public var headers: [String : String]? {
-        return nil
+        return NetworkHeader.withJSON
     }
     
     public var validationType: ValidationType {

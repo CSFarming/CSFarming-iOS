@@ -13,6 +13,8 @@ import ProblemService
 protocol ProblemRouting: ViewableRouting {
     func attachQuestion(title: String, directory: String)
     func detachQuestion()
+    func attachProblem(title: String, directory: String)
+    func detachProblem()
 }
 
 protocol ProblemPresentable: Presentable {
@@ -53,13 +55,25 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
     }
     
     func didTap(model: ProblemContentViewModel) {
-        router?.attachQuestion(title: model.title, directory: model.directory)
+        switch model.type {
+        case .problem:
+            router?.attachProblem(title: model.title, directory: model.directory)
+            
+        case .question:
+            router?.attachQuestion(title: model.title, directory: model.directory)
+        }
     }
     
     // MARK: - Question
     
     func questionDidTapClose() {
         router?.detachQuestion()
+    }
+    
+    // MARK: - ProblemList
+    
+    func problemListDidTapClose() {
+        router?.detachProblem()
     }
     
     private func fetchProblemList() {
@@ -80,16 +94,22 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
     
     private func performAfterFetchingList(_ elements: [ProblemElement]) {
         self.elements = elements
-        
-        let models = elements.map { element -> ProblemContentViewModel in
-            return .init(
-                directory: element.directory,
-                title: element.title,
-                content: element.content
-            )
-        }
-        
+        let models = elements.map { $0.toModel() }
         presenter.updateModels(models)
+    }
+    
+}
+
+private extension ProblemElement {
+    
+    func toModel() -> ProblemContentViewModel {
+        let type: ProblemContentType = {
+            switch self.type {
+            case .list: return .problem
+            case .question: return .question
+            }
+        }()
+        return .init(directory: directory, title: title, content: content, type: type)
     }
     
 }
