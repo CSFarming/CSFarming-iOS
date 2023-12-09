@@ -8,6 +8,8 @@
 import RIBs
 import RxSwift
 import ProblemInterface
+import ProblemService
+import BaseService
 
 protocol ProblemRouting: ViewableRouting {}
 
@@ -16,31 +18,69 @@ protocol ProblemPresentable: Presentable {
     func updateModels(_ models: [ProblemContentViewModel])
 }
 
+protocol ProblemInteractorDependency: AnyObject {
+    var problemService: ProblemServiceInterface { get }
+}
+
 final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, ProblemInteractable, ProblemPresentableListener {
     
     weak var router: ProblemRouting?
     weak var listener: ProblemListener?
     
-    override init(presenter: ProblemPresentable) {
+    private var elements: [ContentElement] = []
+    
+    private let dependency: ProblemInteractorDependency
+    private let disposeBag = DisposeBag()
+    
+    init(
+        presenter: ProblemPresentable,
+        dependency: ProblemInteractorDependency
+    ) {
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }
     
     override func didBecomeActive() {
         super.didBecomeActive()
-        presenter.updateModels([
-            .init(id: 1, title: "네트워크", subtitle: "Network"),
-            .init(id: 2, title: "알고리즘", subtitle: "Algorithm"),
-            .init(id: 3, title: "운영체제", subtitle: "Operating System (OS)"),
-        ])
+        fetchProblemList()
     }
     
     override func willResignActive() {
         super.willResignActive()
     }
     
-    func didTap(id: Int) {
-        print("# TAP: \(id)")
+    func didTap(path: String) {
+        print("# TAP: \(path)")
+    }
+    
+    private func fetchProblemList() {
+        dependency.problemService
+            .requestElements()
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe(
+                with: self,
+                onSuccess: { this, elements in
+                    this.performAfterFetchingList(elements)
+                },
+                onFailure: { this, error in
+                    print(error.localizedDescription)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    private func performAfterFetchingList(_ elements: [ContentElement]) {
+        self.elements = elements
+        
+        let models = elements.map { element -> ProblemContentViewModel in
+            return .init(
+                path: element.path,
+                title: element.title
+            )
+        }
+        
+        presenter.updateModels(models)
     }
     
 }
