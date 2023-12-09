@@ -12,6 +12,7 @@ import BaseService
 
 public protocol ProblemServiceInterface: AnyObject {
     func requestElements() -> Single<[ProblemElement]>
+    func requestElements(directory: String) -> Single<[ProblemElement]>
 }
 
 public final class ProblemService: ProblemServiceInterface {
@@ -24,6 +25,11 @@ public final class ProblemService: ProblemServiceInterface {
     
     public func requestElements() -> Single<[ProblemElement]> {
         let request: Single<ProblemListResponse> = provider.request(.list)
+        return request.map { $0.toElements() }
+    }
+    
+    public func requestElements(directory: String) -> Single<[ProblemElement]> {
+        let request: Single<ProblemListResponse> = provider.request(.problem(directory))
         return request.map { $0.toElements() }
     }
     

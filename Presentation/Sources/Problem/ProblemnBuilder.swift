@@ -15,7 +15,7 @@ public protocol ProblemDependency: Dependency {
     var questionBuilder: QuestionBuildable { get }
 }
 
-final class ProblemComponent: Component<ProblemDependency>, ProblemInteractorDependency {
+final class ProblemComponent: Component<ProblemDependency>, ProblemInteractorDependency, ProblemListDependency {
     var problemService: ProblemServiceInterface { dependency.problemService }
     var questionBuilder: QuestionBuildable { dependency.questionBuilder }
 }
@@ -34,7 +34,8 @@ public final class ProblemBuilder: Builder<ProblemDependency>, ProblemBuildable 
         return ProblemRouter(
             interactor: interactor,
             viewController: viewController,
-            questionBuilder: component.questionBuilder
+            questionBuilder: component.questionBuilder,
+            problemBuilder: ProblemListBuilder(dependency: component)
         )
     }
     
