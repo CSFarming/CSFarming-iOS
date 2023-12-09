@@ -98,6 +98,7 @@ let package = Package(
             dependencies: [
                 "BasePresentation",
                 "ProblemInterface",
+                "QuestionInterface",
                 .product(name: "CoreUtil", package: "Core"),
                 .product(name: "RIBsUtil", package: "Core"),
                 .product(name: "RxUtil", package: "Core"),
@@ -169,6 +170,7 @@ let package = Package(
                 .product(name: "CoreUtil", package: "Core"),
                 .product(name: "RIBsUtil", package: "Core"),
                 .product(name: "RxUtil", package: "Core"),
+                .product(name: "QuestionService", package: "Service"),
                 "DesignKit",
                 "RIBs",
                 "RxSwift",

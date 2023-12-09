@@ -10,7 +10,10 @@ import RxSwift
 import ProblemInterface
 import ProblemService
 
-protocol ProblemRouting: ViewableRouting {}
+protocol ProblemRouting: ViewableRouting {
+    func attachQuestion(title: String, directory: String)
+    func detachQuestion()
+}
 
 protocol ProblemPresentable: Presentable {
     var listener: ProblemPresentableListener? { get set }
@@ -49,8 +52,14 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
         super.willResignActive()
     }
     
-    func didTap(url: String) {
-        print("# TAP: \(url)")
+    func didTap(model: ProblemContentViewModel) {
+        router?.attachQuestion(title: model.title, directory: model.directory)
+    }
+    
+    // MARK: - Question
+    
+    func questionDidTapClose() {
+        router?.detachQuestion()
     }
     
     private func fetchProblemList() {
@@ -73,7 +82,11 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
         self.elements = elements
         
         let models = elements.map { element -> ProblemContentViewModel in
-            return .init(url: element.url, title: element.title, content: element.content)
+            return .init(
+                directory: element.directory,
+                title: element.title,
+                content: element.content
+            )
         }
         
         presenter.updateModels(models)

@@ -14,7 +14,7 @@ import BasePresentation
 
 struct ProblemContentViewModel {
     
-    let url: String
+    let directory: String
     let title: String
     let content: String
     

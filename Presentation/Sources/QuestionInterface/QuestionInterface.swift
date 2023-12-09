@@ -8,7 +8,9 @@
 import RIBs
 
 public protocol QuestionBuildable: Buildable {
-    func build(withListener listener: QuestionListener) -> ViewableRouting
+    func build(withListener listener: QuestionListener, title: String, directory: String) -> ViewableRouting
 }
 
-public protocol QuestionListener: AnyObject {}
+public protocol QuestionListener: AnyObject {
+    func questionDidTapClose()
+}

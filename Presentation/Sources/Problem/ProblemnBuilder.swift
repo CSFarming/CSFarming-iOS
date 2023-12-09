@@ -8,13 +8,16 @@
 import RIBs
 import ProblemInterface
 import ProblemService
+import QuestionInterface
 
 public protocol ProblemDependency: Dependency {
     var problemService: ProblemServiceInterface { get }
+    var questionBuilder: QuestionBuildable { get }
 }
 
 final class ProblemComponent: Component<ProblemDependency>, ProblemInteractorDependency {
     var problemService: ProblemServiceInterface { dependency.problemService }
+    var questionBuilder: QuestionBuildable { dependency.questionBuilder }
 }
 
 public final class ProblemBuilder: Builder<ProblemDependency>, ProblemBuildable {
@@ -28,7 +31,11 @@ public final class ProblemBuilder: Builder<ProblemDependency>, ProblemBuildable 
         let viewController = ProblemViewController()
         let interactor = ProblemInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
-        return ProblemRouter(interactor: interactor, viewController: viewController)
+        return ProblemRouter(
+            interactor: interactor,
+            viewController: viewController,
+            questionBuilder: component.questionBuilder
+        )
     }
     
 }
