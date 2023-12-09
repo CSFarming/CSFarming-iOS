@@ -47,6 +47,10 @@ final class QuestionInteractor: PresentableInteractor<QuestionPresentable>, Ques
         super.willResignActive()
     }
     
+    func didTapClose() {
+        listener?.questionDidTapClose()
+    }
+    
     private func fetchQuestionList() {
         dependency.questionService
             .requestQuestions(directory: dependency.directory)

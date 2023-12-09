@@ -56,6 +56,12 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
         router?.attachQuestion(directory: directory)
     }
     
+    // MARK: - Question
+    
+    func questionDidTapClose() {
+        router?.detachQuestion()
+    }
+    
     private func fetchProblemList() {
         dependency.problemService
             .requestElements()

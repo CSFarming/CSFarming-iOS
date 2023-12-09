@@ -11,4 +11,6 @@ public protocol QuestionBuildable: Buildable {
     func build(withListener listener: QuestionListener, directory: String) -> ViewableRouting
 }
 
-public protocol QuestionListener: AnyObject {}
+public protocol QuestionListener: AnyObject {
+    func questionDidTapClose()
+}
