@@ -9,32 +9,22 @@ import Foundation
 import BaseService
 
 struct ProblemListResponse: Decodable {
-    let payload: ProblemListPayloadResponse
+    let contents: [ProblemContentResponse]
 }
 
-struct ProblemListPayloadResponse: Decodable {
-    let tree: ProblemListTreeResponse
-}
-
-struct ProblemListTreeResponse: Decodable {
-    let items: [ProblemListItemResponse]
-}
-
-struct ProblemListItemResponse: Decodable {
-    let name: String?
-    let path: String?
-    let contentType: String?
+struct ProblemContentResponse: Decodable {
+    let title: String
+    let content: String
+    let url: String
 }
 
 extension ProblemListResponse {
     
-    func toElements() -> [ContentElement] {
-        return payload.tree.items.compactMap { item in
-            guard let title = item.name, let path = item.path else {
-                return nil
-            }
-            return ContentElement(title: title, path: path)
-        }
+    func toElements() -> [ProblemElement] {
+        return contents.map { ProblemElement(
+            title: $0.title,
+            content: $0.content,
+            url: $0.url
+        )}
     }
-    
 }

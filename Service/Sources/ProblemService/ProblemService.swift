@@ -11,26 +11,20 @@ import RxSwift
 import BaseService
 
 public protocol ProblemServiceInterface: AnyObject {
-    func requestElements() -> Single<[ContentElement]>
+    func requestElements() -> Single<[ProblemElement]>
 }
 
 public final class ProblemService: ProblemServiceInterface {
     
     private let provider: MoyaProvider<ProblemAPI>
-    private let parser: GitHubRootParserInterface
     
-    public init(
-        provider: MoyaProvider<ProblemAPI> = .init(),
-        parser: GitHubRootParserInterface
-    ) {
+    public init(provider: MoyaProvider<ProblemAPI> = .init()) {
         self.provider = provider
-        self.parser = parser
     }
     
-    public func requestElements() -> Single<[ContentElement]> {
-        return provider.request(.list)
-            .map(parser.parse)
-            .map { $0.filter { $0.isEnabled(option: .directoryOnly) }}
+    public func requestElements() -> Single<[ProblemElement]> {
+        let request: Single<ProblemListResponse> = provider.request(.list)
+        return request.map { $0.toElements() }
     }
     
 }

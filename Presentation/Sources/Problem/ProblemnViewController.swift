@@ -12,7 +12,7 @@ import RIBs
 import RxSwift
 
 protocol ProblemPresentableListener: AnyObject {
-    func didTap(path: String)
+    func didTap(url: String)
 }
 
 final class ProblemViewController: BaseViewController, ProblemPresentable, ProblemViewControllable {
@@ -82,7 +82,7 @@ final class ProblemViewController: BaseViewController, ProblemPresentable, Probl
     
     private var contentTapBinder: Binder<ProblemContentViewModel> {
         return Binder(self) { this, value in
-            this.listener?.didTap(path: value.path)
+            this.listener?.didTap(url: value.url)
         }
     }
     

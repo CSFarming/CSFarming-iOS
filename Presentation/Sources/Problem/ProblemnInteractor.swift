@@ -9,7 +9,6 @@ import RIBs
 import RxSwift
 import ProblemInterface
 import ProblemService
-import BaseService
 
 protocol ProblemRouting: ViewableRouting {}
 
@@ -27,7 +26,7 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
     weak var router: ProblemRouting?
     weak var listener: ProblemListener?
     
-    private var elements: [ContentElement] = []
+    private var elements: [ProblemElement] = []
     
     private let dependency: ProblemInteractorDependency
     private let disposeBag = DisposeBag()
@@ -50,8 +49,8 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
         super.willResignActive()
     }
     
-    func didTap(path: String) {
-        print("# TAP: \(path)")
+    func didTap(url: String) {
+        print("# TAP: \(url)")
     }
     
     private func fetchProblemList() {
@@ -70,14 +69,11 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
             .disposed(by: disposeBag)
     }
     
-    private func performAfterFetchingList(_ elements: [ContentElement]) {
+    private func performAfterFetchingList(_ elements: [ProblemElement]) {
         self.elements = elements
         
         let models = elements.map { element -> ProblemContentViewModel in
-            return .init(
-                path: element.path,
-                title: element.title
-            )
+            return .init(url: element.url, title: element.title, content: element.content)
         }
         
         presenter.updateModels(models)
