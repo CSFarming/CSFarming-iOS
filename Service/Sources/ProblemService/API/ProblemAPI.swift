@@ -18,13 +18,13 @@ public enum ProblemAPI {
 extension ProblemAPI: TargetType {
     
     public var baseURL: URL {
-        return URL(string: NetworkHost.github)!
+        return URL(string: NetworkHost.githubRaw)!
     }
     
     public var path: String {
         switch self {
         case .list:
-            return "/CSFarming/CSFarming-Problem-Archive/tree/master"
+            return "/CSFarming/CSFarming-Problem-Archive/master/Contents.json"
         }
     }
     

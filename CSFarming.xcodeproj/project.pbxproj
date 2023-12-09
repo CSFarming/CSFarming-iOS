@@ -37,6 +37,8 @@
 		F17BAC602B138FFA00FECB54 /* Problem in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC5F2B138FFA00FECB54 /* Problem */; };
 		F17BAC622B138FFA00FECB54 /* ProblemInterface in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC612B138FFA00FECB54 /* ProblemInterface */; };
 		F1A4D0D32B24239B007B12A8 /* ProblemService in Frameworks */ = {isa = PBXBuildFile; productRef = F1A4D0D22B24239B007B12A8 /* ProblemService */; };
+		F1A4D0DD2B245F31007B12A8 /* Question in Frameworks */ = {isa = PBXBuildFile; productRef = F1A4D0DC2B245F31007B12A8 /* Question */; };
+		F1A4D0DF2B245F31007B12A8 /* QuestionInterface in Frameworks */ = {isa = PBXBuildFile; productRef = F1A4D0DE2B245F31007B12A8 /* QuestionInterface */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +73,8 @@
 				F17BAC302B133D4C00FECB54 /* RxBlocking in Frameworks */,
 				F103A1422B1B53AB002B21E3 /* MarkdownService in Frameworks */,
 				F17BAC522B135D1A00FECB54 /* Home in Frameworks */,
+				F1A4D0DF2B245F31007B12A8 /* QuestionInterface in Frameworks */,
+				F1A4D0DD2B245F31007B12A8 /* Question in Frameworks */,
 				F17BAC382B133D4C00FECB54 /* RxRelay in Frameworks */,
 				F17BAC622B138FFA00FECB54 /* ProblemInterface in Frameworks */,
 				F13295E42B1C995D009BDAD5 /* Archive in Frameworks */,
@@ -188,6 +192,8 @@
 				F13295E52B1C995D009BDAD5 /* ArchiveInterface */,
 				F13295E72B1C9FA7009BDAD5 /* ArchiveService */,
 				F1A4D0D22B24239B007B12A8 /* ProblemService */,
+				F1A4D0DC2B245F31007B12A8 /* Question */,
+				F1A4D0DE2B245F31007B12A8 /* QuestionInterface */,
 			);
 			productName = CSFarming;
 			productReference = F14CCC8B2B1335BA00E8BDA0 /* CSFarming.app */;
@@ -581,6 +587,14 @@
 		F1A4D0D22B24239B007B12A8 /* ProblemService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ProblemService;
+		};
+		F1A4D0DC2B245F31007B12A8 /* Question */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Question;
+		};
+		F1A4D0DE2B245F31007B12A8 /* QuestionInterface */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = QuestionInterface;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
