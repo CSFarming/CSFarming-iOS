@@ -15,7 +15,7 @@ struct ProblemListResponse: Decodable {
 struct ProblemContentResponse: Decodable {
     let title: String
     let content: String
-    let url: String
+    let directory: String
 }
 
 extension ProblemListResponse {
@@ -24,7 +24,7 @@ extension ProblemListResponse {
         return contents.map { ProblemElement(
             title: $0.title,
             content: $0.content,
-            url: $0.url
+            directory: $0.directory
         )}
     }
 }

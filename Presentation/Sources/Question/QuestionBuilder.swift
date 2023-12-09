@@ -6,18 +6,11 @@
 //
 
 import RIBs
+import QuestionInterface
 
-protocol QuestionDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
-}
+protocol QuestionDependency: Dependency {}
 
-final class QuestionComponent: Component<QuestionDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
-}
-
-
+final class QuestionComponent: Component<QuestionDependency> {}
 
 final class QuestionBuilder: Builder<QuestionDependency>, QuestionBuildable {
 

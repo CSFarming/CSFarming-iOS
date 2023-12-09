@@ -49,8 +49,8 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
         super.willResignActive()
     }
     
-    func didTap(url: String) {
-        print("# TAP: \(url)")
+    func didTap(directory: String) {
+        print("# TAP: \(directory)")
     }
     
     private func fetchProblemList() {
@@ -73,7 +73,11 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
         self.elements = elements
         
         let models = elements.map { element -> ProblemContentViewModel in
-            return .init(url: element.url, title: element.title, content: element.content)
+            return .init(
+                directory: element.directory,
+                title: element.title,
+                content: element.content
+            )
         }
         
         presenter.updateModels(models)

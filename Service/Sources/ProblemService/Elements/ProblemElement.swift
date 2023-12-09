@@ -11,12 +11,12 @@ public struct ProblemElement {
     
     public let title: String
     public let content: String
-    public let url: String
+    public let directory: String
     
-    public init(title: String, content: String, url: String) {
+    public init(title: String, content: String, directory: String) {
         self.title = title
         self.content = content
-        self.url = url
+        self.directory = directory
     }
     
 }
