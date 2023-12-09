@@ -30,6 +30,7 @@ public final class ProblemService: ProblemServiceInterface {
     public func requestElements() -> Single<[ContentElement]> {
         return provider.request(.list)
             .map(parser.parse)
+            .map { $0.filter { $0.isEnabled(option: .directoryOnly) }}
     }
     
 }

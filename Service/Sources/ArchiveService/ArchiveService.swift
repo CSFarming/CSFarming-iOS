@@ -34,6 +34,7 @@ public final class ArchiveService: ArchiveServiceInterface {
     public func requestElements() -> Single<[ContentElement]> {
         return provider.request(.list)
             .map(parser.parse)
+            .map { $0.filter { $0.isEnabled(option: .directoryOnly) }}
     }
     
     public func requestElements(path: String) -> Single<[ContentElement]> {
