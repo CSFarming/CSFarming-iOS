@@ -6,10 +6,15 @@
 //
 
 import RIBs
+import QuestionInterface
 
-protocol ProblemCreateDependency: Dependency {}
+protocol ProblemCreateDependency: Dependency {
+    var questionCreateBuilder: QuestionCreateBuildable { get }
+}
 
-final class ProblemCreateComponent: Component<ProblemCreateDependency> {}
+final class ProblemCreateComponent: Component<ProblemCreateDependency> {
+    var questionBuilder: QuestionCreateBuildable { dependency.questionCreateBuilder }
+}
 
 protocol ProblemCreateBuildable: Buildable {
     func build(withListener listener: ProblemCreateListener) -> ViewableRouting
@@ -26,7 +31,11 @@ final class ProblemCreateBuilder: Builder<ProblemCreateDependency>, ProblemCreat
         let viewController = ProblemCreateViewController()
         let interactor = ProblemCreateInteractor(presenter: viewController)
         interactor.listener = listener
-        return ProblemCreateRouter(interactor: interactor, viewController: viewController)
+        return ProblemCreateRouter(
+            interactor: interactor, 
+            viewController: viewController,
+            questionBuilder: component.questionBuilder
+        )
     }
     
 }

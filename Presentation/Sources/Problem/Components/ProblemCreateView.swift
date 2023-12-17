@@ -31,7 +31,7 @@ final class ProblemCreateView: BaseView {
         backgroundColor = .csBlue5
         layer.cornerRadius = 25
         layer.borderWidth = 1
-        layer.borderColor = UIColor.csBlue3.cgColor
+        layer.borderColor = UIColor.csBlue2.cgColor
         
         plusImageView.image = UIImage(systemName: "plus")?.withRenderingMode(.alwaysTemplate)
         plusImageView.tintColor = .csWhite

@@ -21,7 +21,9 @@ import QuestionInterface
 import Question
 import ArchiveInterface
 
-final class AppRootComponent: Component<AppRootDependency>, HomeDependency, ArchiveDependency, ProblemDependency, MarkdownContentDependency, QuestionDependency {
+typealias AppRootComponentDependency = HomeDependency & ArchiveDependency & ProblemDependency & MarkdownContentDependency & QuestionDependency & QuestionCreateDependency
+
+final class AppRootComponent: Component<AppRootDependency>, AppRootComponentDependency {
     
     let homeService: HomeServiceInterface = HomeService(repository: HomeRepository())
     let archiveService: ArchiveServiceInterface = ArchiveService(parser: GitHubRootParser())
@@ -31,5 +33,6 @@ final class AppRootComponent: Component<AppRootDependency>, HomeDependency, Arch
     
     lazy var markdownContentBuilder: MarkdownContentBuildable = MarkdownContentBuilder(dependency: self)
     lazy var questionBuilder: QuestionBuildable = QuestionBuilder(dependency: self)
+    lazy var questionCreateBuilder: QuestionCreateBuildable = QuestionCreateBuilder(dependency: self)
     
 }

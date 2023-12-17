@@ -12,12 +12,13 @@ public enum ActionButtonStyle {
     case normal
     case smallNormal
     case secondary
+    case smallSecondary
     case alert
     
     var textColor: UIColor {
         switch self {
         case .normal, .smallNormal: return .csWhite
-        case .secondary: return .csBlack
+        case .secondary, .smallSecondary: return .csBlack
         case .alert: return .csWhite
         }
     }
@@ -29,7 +30,7 @@ public enum ActionButtonStyle {
     var backgroundColor: UIColor {
         switch self {
         case .normal, .smallNormal: return .csBlue5
-        case .secondary: return .csBlue3
+        case .secondary, .smallSecondary: return .csWhite
         case .alert: return .red
         }
     }
@@ -44,21 +45,21 @@ public enum ActionButtonStyle {
     
     var borderWidh: CGFloat {
         switch self {
-        case .secondary: return 1
+        case .secondary, .smallSecondary: return 1
         default: return 0
         }
     }
     
     var borderColor: UIColor {
         switch self {
-        case .secondary: return .csBlue4
+        case .secondary, .smallSecondary: return .csBlue4
         default: return .clear
         }
     }
     
     var font: UIFont {
         switch self {
-        case .smallNormal:
+        case .smallNormal, .smallSecondary:
             return .captionSB
         default:
             return .bodySB

@@ -8,7 +8,10 @@
 import RIBs
 import RxSwift
 
-protocol ProblemCreateRouting: ViewableRouting {}
+protocol ProblemCreateRouting: ViewableRouting {
+    func attachQuestionCreate()
+    func detachQuestionCreate()
+}
 
 protocol ProblemCreatePresentable: Presentable {
     var listener: ProblemCreatePresentableListener? { get set }
@@ -41,7 +44,13 @@ final class ProblemCreateInteractor: PresentableInteractor<ProblemCreatePresenta
     }
     
     func didTapQuestion() {
-        
+        router?.attachQuestionCreate()
+    }
+    
+    // MARK: - QuestionCreate
+    
+    func questionCreateDidTapClose() {
+        router?.detachQuestionCreate()
     }
     
 }
