@@ -11,4 +11,6 @@ public protocol QuestionCreateBuildable: Buildable {
     func build(withListener listener: QuestionCreateListener) -> ViewableRouting
 }
 
-public protocol QuestionCreateListener: AnyObject {}
+public protocol QuestionCreateListener: AnyObject {
+    func questionCreateDidTapClose()
+}

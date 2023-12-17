@@ -47,4 +47,10 @@ final class ProblemCreateInteractor: PresentableInteractor<ProblemCreatePresenta
         router?.attachQuestionCreate()
     }
     
+    // MARK: - QuestionCreate
+    
+    func questionCreateDidTapClose() {
+        router?.detachQuestionCreate()
+    }
+    
 }
