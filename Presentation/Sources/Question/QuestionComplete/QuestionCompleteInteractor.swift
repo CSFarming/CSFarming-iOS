@@ -8,38 +8,41 @@
 import RIBs
 import RxSwift
 
-protocol QuestionCompleteRouting: ViewableRouting {
-    // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
-}
+protocol QuestionCompleteRouting: ViewableRouting {}
 
 protocol QuestionCompletePresentable: Presentable {
     var listener: QuestionCompletePresentableListener? { get set }
-    // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-protocol QuestionCompleteListener: AnyObject {
-    // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
+protocol QuestionCompleteListener: AnyObject {}
+
+protocol QuestionCompleteInteractorDependency: AnyObject {
+    var questions: [String] { get }
+    var answers: [QuestionAnswerType] { get }
 }
 
 final class QuestionCompleteInteractor: PresentableInteractor<QuestionCompletePresentable>, QuestionCompleteInteractable, QuestionCompletePresentableListener {
-
+    
     weak var router: QuestionCompleteRouting?
     weak var listener: QuestionCompleteListener?
-
-    // TODO: Add additional dependencies to constructor. Do not perform any logic
-    // in constructor.
-    override init(presenter: QuestionCompletePresentable) {
+    
+    private let dependency: QuestionCompleteInteractorDependency
+    
+    init(
+        presenter: QuestionCompletePresentable,
+        dependency: QuestionCompleteInteractorDependency
+    ) {
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }
-
+    
     override func didBecomeActive() {
         super.didBecomeActive()
-        // TODO: Implement business logic here.
     }
-
+    
     override func willResignActive() {
         super.willResignActive()
-        // TODO: Pause any business logic.
     }
+    
 }

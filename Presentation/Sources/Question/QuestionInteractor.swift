@@ -11,7 +11,9 @@ import QuestionInterface
 import QuestionService
 import CoreUtil
 
-protocol QuestionRouting: ViewableRouting {}
+protocol QuestionRouting: ViewableRouting {
+    func attachQuestionComplete(questions: [String], answers: [QuestionAnswerType])
+}
 
 protocol QuestionPresentable: Presentable {
     var listener: QuestionPresentableListener? { get set }
@@ -74,8 +76,7 @@ final class QuestionInteractor: PresentableInteractor<QuestionPresentable>, Ques
     
     private func updateNextStep() {
         guard let question = questions[safe: questionIndex] else {
-            print("FINISH")
-            listener?.questionDidTapClose()
+            router?.attachQuestionComplete(questions: questions, answers: answers)
             return
         }
         

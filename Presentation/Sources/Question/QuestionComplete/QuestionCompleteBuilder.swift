@@ -7,33 +7,37 @@
 
 import RIBs
 
-protocol QuestionCompleteDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
+protocol QuestionCompleteDependency: Dependency {}
+
+final class QuestionCompleteComponent: Component<QuestionCompleteDependency>, QuestionCompleteInteractorDependency {
+    
+    let questions: [String]
+    let answers: [QuestionAnswerType]
+    
+    init(dependency: QuestionCompleteDependency, questions: [String], answers: [QuestionAnswerType]) {
+        self.questions = questions
+        self.answers = answers
+        super.init(dependency: dependency)
+    }
+    
 }
-
-final class QuestionCompleteComponent: Component<QuestionCompleteDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
-}
-
-// MARK: - Builder
 
 protocol QuestionCompleteBuildable: Buildable {
-    func build(withListener listener: QuestionCompleteListener) -> QuestionCompleteRouting
+    func build(withListener listener: QuestionCompleteListener, questions: [String], answers: [QuestionAnswerType]) -> ViewableRouting
 }
 
 final class QuestionCompleteBuilder: Builder<QuestionCompleteDependency>, QuestionCompleteBuildable {
-
+    
     override init(dependency: QuestionCompleteDependency) {
         super.init(dependency: dependency)
     }
-
-    func build(withListener listener: QuestionCompleteListener) -> QuestionCompleteRouting {
-        let component = QuestionCompleteComponent(dependency: dependency)
+    
+    func build(withListener listener: QuestionCompleteListener, questions: [String], answers: [QuestionAnswerType]) -> ViewableRouting {
+        let component = QuestionCompleteComponent(dependency: dependency, questions: questions, answers: answers)
         let viewController = QuestionCompleteViewController()
-        let interactor = QuestionCompleteInteractor(presenter: viewController)
+        let interactor = QuestionCompleteInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         return QuestionCompleteRouter(interactor: interactor, viewController: viewController)
     }
+    
 }

@@ -13,7 +13,9 @@ public protocol QuestionDependency: Dependency {
     var questionService: QuestionServiceInterface { get }
 }
 
-final class QuestionComponent: Component<QuestionDependency>, QuestionInteractorDependency {
+final class QuestionComponent: Component<QuestionDependency>,
+                               QuestionCompleteDependency,
+                               QuestionInteractorDependency {
     
     let title: String
     let directory: String
@@ -28,16 +30,20 @@ final class QuestionComponent: Component<QuestionDependency>, QuestionInteractor
 }
 
 public final class QuestionBuilder: Builder<QuestionDependency>, QuestionBuildable {
-
+    
     public override init(dependency: QuestionDependency) {
         super.init(dependency: dependency)
     }
-
+    
     public func build(withListener listener: QuestionListener, title: String, directory: String) -> ViewableRouting {
         let component = QuestionComponent(dependency: dependency, title: title, directory: directory)
         let viewController = QuestionViewController()
         let interactor = QuestionInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
-        return QuestionRouter(interactor: interactor, viewController: viewController)
+        return QuestionRouter(
+            interactor: interactor,
+            viewController: viewController,
+            questionCompleteBuilder: QuestionCompleteBuilder(dependency: component)
+        )
     }
 }
