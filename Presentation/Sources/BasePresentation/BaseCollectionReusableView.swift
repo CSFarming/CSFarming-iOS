@@ -1,13 +1,13 @@
 //
-//  BaseCollectionViewCell.swift
+//  BaseCollectionReusableView.swift
 //
 //
-//  Created by 홍성준 on 11/26/23.
+//  Created by 홍성준 on 12/17/23.
 //
 
 import UIKit
 
-open class BaseCollectionViewCell: UICollectionViewCell {
+open class BaseCollectionReusableView: UICollectionReusableView {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
