@@ -6,22 +6,19 @@
 //
 
 import RIBs
+import QuestionInterface
 
-protocol QuestionCreateDependency: Dependency {}
+public protocol QuestionCreateDependency: Dependency {}
 
 final class QuestionCreateComponent: Component<QuestionCreateDependency> {}
 
-protocol QuestionCreateBuildable: Buildable {
-    func build(withListener listener: QuestionCreateListener) -> ViewableRouting
-}
-
-final class QuestionCreateBuilder: Builder<QuestionCreateDependency>, QuestionCreateBuildable {
+public final class QuestionCreateBuilder: Builder<QuestionCreateDependency>, QuestionCreateBuildable {
     
-    override init(dependency: QuestionCreateDependency) {
+    public override init(dependency: QuestionCreateDependency) {
         super.init(dependency: dependency)
     }
     
-    func build(withListener listener: QuestionCreateListener) -> ViewableRouting {
+    public func build(withListener listener: QuestionCreateListener) -> ViewableRouting {
         let component = QuestionCreateComponent(dependency: dependency)
         let viewController = QuestionCreateViewController()
         let interactor = QuestionCreateInteractor(presenter: viewController)

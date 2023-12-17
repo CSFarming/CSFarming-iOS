@@ -7,14 +7,13 @@
 
 import RIBs
 import RxSwift
+import QuestionInterface
 
 protocol QuestionCreateRouting: ViewableRouting {}
 
 protocol QuestionCreatePresentable: Presentable {
     var listener: QuestionCreatePresentableListener? { get set }
 }
-
-protocol QuestionCreateListener: AnyObject {}
 
 final class QuestionCreateInteractor: PresentableInteractor<QuestionCreatePresentable>, QuestionCreateInteractable, QuestionCreatePresentableListener {
     

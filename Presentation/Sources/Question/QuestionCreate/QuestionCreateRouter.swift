@@ -6,6 +6,7 @@
 //
 
 import RIBs
+import QuestionInterface
 
 protocol QuestionCreateInteractable: Interactable {
     var router: QuestionCreateRouting? { get set }
