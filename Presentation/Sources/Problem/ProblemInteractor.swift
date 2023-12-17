@@ -15,6 +15,8 @@ protocol ProblemRouting: ViewableRouting {
     func detachQuestion()
     func attachProblem(title: String, directory: String)
     func detachProblem()
+    func attachProblemCreate()
+    func detachProblemCreate()
 }
 
 protocol ProblemPresentable: Presentable {
@@ -64,6 +66,10 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
         }
     }
     
+    func didTapCreate() {
+        router?.attachProblemCreate()
+    }
+    
     // MARK: - Question
     
     func questionDidTapClose() {
@@ -74,6 +80,12 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
     
     func problemListDidTapClose() {
         router?.detachProblem()
+    }
+    
+    // MARK: - ProblemCreate
+    
+    func problemCreateDidTapClose() {
+        router?.detachProblemCreate()
     }
     
     private func fetchProblemList() {

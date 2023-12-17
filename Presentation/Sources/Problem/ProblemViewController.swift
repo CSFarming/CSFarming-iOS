@@ -13,6 +13,7 @@ import RxSwift
 
 protocol ProblemPresentableListener: AnyObject {
     func didTap(model: ProblemContentViewModel)
+    func didTapCreate()
 }
 
 final class ProblemViewController: BaseViewController, ProblemPresentable, ProblemViewControllable {
@@ -21,6 +22,7 @@ final class ProblemViewController: BaseViewController, ProblemPresentable, Probl
     
     private let titleLabel = UILabel()
     private let stackView = UIStackView()
+    private let createView = ProblemCreateView()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -34,16 +36,22 @@ final class ProblemViewController: BaseViewController, ProblemPresentable, Probl
     
     override func setupLayout() {
         view.addSubview(titleLabel)
-        view.addSubview(stackView)
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(30)
             make.leading.trailing.equalToSuperview().inset(20)
         }
         
+        view.addSubview(stackView)
         stackView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
+        }
+        
+        view.addSubview(createView)
+        createView.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-20)
         }
     }
     
@@ -58,6 +66,12 @@ final class ProblemViewController: BaseViewController, ProblemPresentable, Probl
         stackView.alignment = .fill
         stackView.distribution = .equalSpacing
         stackView.spacing = 15
+    }
+    
+    override func bind() {
+        createView.rx.tapGesture
+            .bind(to: createBinder)
+            .disposed(by: disposeBag)
     }
     
     func updateModels(_ models: [ProblemContentViewModel]) {
@@ -83,6 +97,12 @@ final class ProblemViewController: BaseViewController, ProblemPresentable, Probl
     private var contentTapBinder: Binder<ProblemContentViewModel> {
         return Binder(self) { this, value in
             this.listener?.didTap(model: value)
+        }
+    }
+    
+    private var createBinder: Binder<UITapGestureRecognizer> {
+        return Binder(self) { this, _ in
+            this.listener?.didTapCreate()
         }
     }
     
