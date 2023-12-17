@@ -52,13 +52,18 @@ final class ProblemListRouter: ViewableRouter<ProblemListInteractable, ProblemLi
     func attachQuestion(title: String, directory: String) {
         guard questionRouting == nil else { return }
         let router = questionBuilder.build(withListener: interactor, title: title, directory: directory)
-        pushRouter(router, animated: true)
+        viewController.present(
+            NavigationControllable(viewControllable: router.viewControllable),
+            animated: true, 
+            isFullScreen: true
+        )
+        attachChild(router)
         questionRouting = router
     }
     
     func detachQuestion() {
         guard let router = questionRouting else { return }
-        popRouter(router, animated: true)
+        dismiss(router, animated: true)
         questionRouting = nil
     }
     

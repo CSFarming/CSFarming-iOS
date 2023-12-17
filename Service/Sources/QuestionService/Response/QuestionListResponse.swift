@@ -16,13 +16,20 @@ struct QuestionListResponse: Decodable {
 struct QuestionContentResponse: Decodable {
     
     let question: String
+    let answer: String
     
 }
 
 extension QuestionListResponse {
     
     func toElement() -> QuestionList {
-        return .init(id: id, questions: contents.map(\.question))
+        return .init(
+            id: id, 
+            questions: contents.map { .init(
+                question: $0.question, 
+                answer: $0.answer
+            )}
+        )
     }
     
 }

@@ -83,7 +83,7 @@ final class QuestionViewController: BaseViewController, QuestionPresentable, Que
         view.backgroundColor = .csBlue1
         
         navigationView.setup(model: .init(
-            leftButtonType: .back,
+            leftButtonType: .close,
             rightButtonType: .none
         ))
         navigationView.hideSeparator()

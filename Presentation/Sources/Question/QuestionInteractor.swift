@@ -11,7 +11,9 @@ import QuestionInterface
 import QuestionService
 import CoreUtil
 
-protocol QuestionRouting: ViewableRouting {}
+protocol QuestionRouting: ViewableRouting {
+    func attachQuestionComplete(questions: [Question], answers: [QuestionAnswerType])
+}
 
 protocol QuestionPresentable: Presentable {
     var listener: QuestionPresentableListener? { get set }
@@ -33,7 +35,7 @@ final class QuestionInteractor: PresentableInteractor<QuestionPresentable>, Ques
     private let dependency: QuestionInteractorDependency
     private let disposeBag = DisposeBag()
     
-    private var questions: [String] = []
+    private var questions: [Question] = []
     private var questionIndex = 0
     private var answers: [QuestionAnswerType] = []
     
@@ -72,16 +74,19 @@ final class QuestionInteractor: PresentableInteractor<QuestionPresentable>, Ques
         updateNextStep()
     }
     
+    func questionCompleteDidTapDone() {
+        listener?.questionDidTapClose()
+    }
+    
     private func updateNextStep() {
         guard let question = questions[safe: questionIndex] else {
-            print("FINISH")
-            listener?.questionDidTapClose()
+            router?.attachQuestionComplete(questions: questions, answers: answers)
             return
         }
         
         presenter.setup(model: .init(
             title: "질문 \(questionIndex + 1)", 
-            question: question,
+            question: question.question,
             progress: Float(answers.count) / Float(questions.count)
         ))
     }
