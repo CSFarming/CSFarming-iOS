@@ -81,6 +81,8 @@ final class QuestionCompleteCell: AnimateCollectionViewCell {
     override func setupAttributes() {
         backgroundColor = .csWhite
         layer.cornerRadius = 16
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.csBlue2.cgColor
         
         questionLabel.textColor = .csBlack
         questionLabel.font = .bodySB

@@ -25,7 +25,10 @@ extension QuestionListResponse {
     func toElement() -> QuestionList {
         return .init(
             id: id, 
-            questions: contents.map { .init(question: $0.question, answer: $0.answer)}
+            questions: contents.map { .init(
+                question: $0.question, 
+                answer: $0.answer
+            )}
         )
     }
     

@@ -53,6 +53,8 @@ final class QuestionContentView: BaseView {
         
         questionContainerView.backgroundColor = .csWhite
         questionContainerView.layer.cornerRadius = 16
+        questionContainerView.layer.borderWidth = 1
+        questionContainerView.layer.borderColor = UIColor.csBlue2.cgColor
         
         questionLabel.textColor = .csBlack
         questionLabel.font = .bodyR
