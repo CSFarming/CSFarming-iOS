@@ -13,11 +13,13 @@ import QuestionInterface
 public protocol ProblemDependency: Dependency {
     var problemService: ProblemServiceInterface { get }
     var questionBuilder: QuestionBuildable { get }
+    var questionCreateBuilder: QuestionCreateBuildable { get }
 }
 
 final class ProblemComponent: Component<ProblemDependency>, ProblemInteractorDependency, ProblemListDependency, ProblemCreateDependency {
     var problemService: ProblemServiceInterface { dependency.problemService }
     var questionBuilder: QuestionBuildable { dependency.questionBuilder }
+    var questionCreateBuilder: QuestionCreateBuildable { dependency.questionCreateBuilder }
 }
 
 public final class ProblemBuilder: Builder<ProblemDependency>, ProblemBuildable {
