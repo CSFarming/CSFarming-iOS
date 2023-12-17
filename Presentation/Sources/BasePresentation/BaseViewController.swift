@@ -13,8 +13,10 @@ import DesignKit
 open class BaseViewController: UIViewController {
     
     public let navigationView = NavigationView()
-    
     public var disposeBag = DisposeBag()
+    public var isSwipeBackEnabled = true {
+        didSet { updateSwipeBack() }
+    }
     
     open override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,11 +31,20 @@ open class BaseViewController: UIViewController {
     
     open func bind() {}
     
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateSwipeBack()
+    }
+    
     open override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if isMovingFromParent {
             navigationView.leftButton.sendActions(for: .touchUpInside)
         }
+    }
+    
+    private func updateSwipeBack() {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = isSwipeBackEnabled
     }
     
 }

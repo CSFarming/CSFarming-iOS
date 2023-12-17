@@ -8,11 +8,20 @@
 import RIBs
 import RxSwift
 import UIKit
+import BasePresentation
 
 protocol QuestionCompletePresentableListener: AnyObject {}
 
-final class QuestionCompleteViewController: UIViewController, QuestionCompletePresentable, QuestionCompleteViewControllable {
+final class QuestionCompleteViewController: BaseViewController, QuestionCompletePresentable, QuestionCompleteViewControllable {
     
     weak var listener: QuestionCompletePresentableListener?
+    
+    override func setupLayout() {
+        
+    }
+    
+    override func setupAttributes() {
+        isSwipeBackEnabled = false
+    }
     
 }
