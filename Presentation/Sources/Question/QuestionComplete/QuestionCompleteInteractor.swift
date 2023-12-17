@@ -9,6 +9,7 @@ import Foundation
 import RIBs
 import RxSwift
 import CoreUtil
+import QuestionService
 
 protocol QuestionCompleteRouting: ViewableRouting {}
 
@@ -24,7 +25,7 @@ protocol QuestionCompleteListener: AnyObject {
 }
 
 protocol QuestionCompleteInteractorDependency: AnyObject {
-    var questions: [String] { get }
+    var questions: [Question] { get }
     var answers: [QuestionAnswerType] { get }
 }
 
@@ -75,7 +76,7 @@ final class QuestionCompleteInteractor: PresentableInteractor<QuestionCompletePr
         
         zip(dependency.questions, dependency.answers)
             .forEach { question, answer in
-                let model = QuestionCompleteCellModel(question: question, answer: "Answer", isOpened: false)
+                let model = QuestionCompleteCellModel(question: question.question, answer: question.answer, isOpened: false)
                 switch answer {
                 case .ok: okModels.append(model)
                 case .pass: passModels.append(model)

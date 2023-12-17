@@ -8,6 +8,7 @@
 import RIBs
 import RIBsUtil
 import QuestionInterface
+import QuestionService
 
 protocol QuestionInteractable: Interactable, QuestionCompleteListener {
     var router: QuestionRouting? { get set }
@@ -31,7 +32,7 @@ final class QuestionRouter: ViewableRouter<QuestionInteractable, QuestionViewCon
         interactor.router = self
     }
     
-    func attachQuestionComplete(questions: [String], answers: [QuestionAnswerType]) {
+    func attachQuestionComplete(questions: [Question], answers: [QuestionAnswerType]) {
         guard questionCompleteRouting == nil else { return }
         let router = questionCompleteBuilder.build(withListener: interactor, questions: questions, answers: answers)
         pushRouter(router, animated: true)

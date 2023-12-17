@@ -6,15 +6,16 @@
 //
 
 import RIBs
+import QuestionService
 
 protocol QuestionCompleteDependency: Dependency {}
 
 final class QuestionCompleteComponent: Component<QuestionCompleteDependency>, QuestionCompleteInteractorDependency {
     
-    let questions: [String]
+    let questions: [Question]
     let answers: [QuestionAnswerType]
     
-    init(dependency: QuestionCompleteDependency, questions: [String], answers: [QuestionAnswerType]) {
+    init(dependency: QuestionCompleteDependency, questions: [Question], answers: [QuestionAnswerType]) {
         self.questions = questions
         self.answers = answers
         super.init(dependency: dependency)
@@ -23,7 +24,7 @@ final class QuestionCompleteComponent: Component<QuestionCompleteDependency>, Qu
 }
 
 protocol QuestionCompleteBuildable: Buildable {
-    func build(withListener listener: QuestionCompleteListener, questions: [String], answers: [QuestionAnswerType]) -> ViewableRouting
+    func build(withListener listener: QuestionCompleteListener, questions: [Question], answers: [QuestionAnswerType]) -> ViewableRouting
 }
 
 final class QuestionCompleteBuilder: Builder<QuestionCompleteDependency>, QuestionCompleteBuildable {
@@ -32,7 +33,7 @@ final class QuestionCompleteBuilder: Builder<QuestionCompleteDependency>, Questi
         super.init(dependency: dependency)
     }
     
-    func build(withListener listener: QuestionCompleteListener, questions: [String], answers: [QuestionAnswerType]) -> ViewableRouting {
+    func build(withListener listener: QuestionCompleteListener, questions: [Question], answers: [QuestionAnswerType]) -> ViewableRouting {
         let component = QuestionCompleteComponent(dependency: dependency, questions: questions, answers: answers)
         let viewController = QuestionCompleteViewController()
         let interactor = QuestionCompleteInteractor(presenter: viewController, dependency: component)
