@@ -74,6 +74,10 @@ final class QuestionInteractor: PresentableInteractor<QuestionPresentable>, Ques
         updateNextStep()
     }
     
+    func questionCompleteDidTapDone() {
+        listener?.questionDidTapClose()
+    }
+    
     private func updateNextStep() {
         guard let question = questions[safe: questionIndex] else {
             router?.attachQuestionComplete(questions: questions, answers: answers)
