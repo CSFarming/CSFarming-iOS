@@ -10,7 +10,7 @@ import ProblemInterface
 import QuestionInterface
 import RIBsUtil
 
-protocol ProblemInteractable: Interactable, QuestionListener, ProblemListListener {
+protocol ProblemInteractable: Interactable, QuestionListener, ProblemListListener, ProblemCreateListener {
     var router: ProblemRouting? { get set }
     var listener: ProblemListener? { get set }
 }
@@ -25,14 +25,19 @@ final class ProblemRouter: ViewableRouter<ProblemInteractable, ProblemViewContro
     private let problemBuilder: ProblemListBuildable
     private var problemRouting: ViewableRouting?
     
+    private let problemCreateBuilder: ProblemCreateBuildable
+    private var problemCreateRouting: ViewableRouting?
+    
     init(
         interactor: ProblemInteractable,
         viewController: ProblemViewControllable,
         questionBuilder: QuestionBuildable,
-        problemBuilder: ProblemListBuildable
+        problemBuilder: ProblemListBuildable,
+        problemCreateBuilder: ProblemCreateBuildable
     ) {
         self.questionBuilder = questionBuilder
         self.problemBuilder = problemBuilder
+        self.problemCreateBuilder = problemCreateBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -61,6 +66,20 @@ final class ProblemRouter: ViewableRouter<ProblemInteractable, ProblemViewContro
         guard let router = problemRouting else { return }
         popRouter(router, animated: true)
         problemRouting = nil
+    }
+    
+    func attachProblemCreate() {
+        guard problemCreateRouting == nil else { return }
+        let router = problemCreateBuilder.build(withListener: interactor)
+        viewController.present(NavigationControllable(viewControllable: router.viewControllable), animated: true, isFullScreen: true)
+        attachChild(router)
+        problemCreateRouting = router
+    }
+    
+    func detachProblemCreate() {
+        guard let router = problemCreateRouting else { return }
+        dismiss(router, animated: true)
+        problemCreateRouting = nil
     }
     
 }

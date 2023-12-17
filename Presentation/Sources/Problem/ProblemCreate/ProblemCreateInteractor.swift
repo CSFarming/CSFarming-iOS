@@ -14,7 +14,9 @@ protocol ProblemCreatePresentable: Presentable {
     var listener: ProblemCreatePresentableListener? { get set }
 }
 
-protocol ProblemCreateListener: AnyObject {}
+protocol ProblemCreateListener: AnyObject {
+    func problemCreateDidTapClose()
+}
 
 final class ProblemCreateInteractor: PresentableInteractor<ProblemCreatePresentable>, ProblemCreateInteractable, ProblemCreatePresentableListener {
     
@@ -32,6 +34,14 @@ final class ProblemCreateInteractor: PresentableInteractor<ProblemCreatePresenta
     
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    func didTapClose() {
+        listener?.problemCreateDidTapClose()
+    }
+    
+    func didTapQuestion() {
+        
     }
     
 }
