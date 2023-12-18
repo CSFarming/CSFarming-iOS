@@ -19,6 +19,7 @@ protocol ProblemCreatePresentable: Presentable {
 
 protocol ProblemCreateListener: AnyObject {
     func problemCreateDidTapClose()
+    func problemCreateDidCreate()
 }
 
 final class ProblemCreateInteractor: PresentableInteractor<ProblemCreatePresentable>, ProblemCreateInteractable, ProblemCreatePresentableListener {
@@ -51,6 +52,10 @@ final class ProblemCreateInteractor: PresentableInteractor<ProblemCreatePresenta
     
     func questionCreateDidTapClose() {
         router?.detachQuestionCreate()
+    }
+    
+    func questionCreateDidCreate() {
+        listener?.problemCreateDidCreate()
     }
     
 }

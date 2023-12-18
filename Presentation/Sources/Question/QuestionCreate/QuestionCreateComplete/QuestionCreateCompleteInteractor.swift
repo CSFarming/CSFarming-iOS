@@ -18,12 +18,14 @@ protocol QuestionCreateCompletePresentable: Presentable {
 
 protocol QuestionCreateCompleteListener: AnyObject {
     func questionCreateCompleteDidTapClose()
+    func questionCreateCompleteDidFinish()
 }
 
 protocol QuestionCreateCompleteInteractorDependency: AnyObject {
     var title: String { get }
     var subtitle: String { get }
     var questions: [Question] { get }
+    var questionService: QuestionServiceInterface { get }
 }
 
 final class QuestionCreateCompleteInteractor: PresentableInteractor<QuestionCreateCompletePresentable>, QuestionCreateCompleteInteractable, QuestionCreateCompletePresentableListener {
@@ -32,6 +34,7 @@ final class QuestionCreateCompleteInteractor: PresentableInteractor<QuestionCrea
     weak var listener: QuestionCreateCompleteListener?
     
     private let dependency: QuestionCreateCompleteInteractorDependency
+    private let disposeBag = DisposeBag()
     
     init(
         presenter: QuestionCreateCompletePresentable,
@@ -56,7 +59,23 @@ final class QuestionCreateCompleteInteractor: PresentableInteractor<QuestionCrea
     }
     
     func didTapCreate() {
-        
+        dependency.questionService
+            .insertQuestion(element: .init(
+                title: dependency.title,
+                subtitle: dependency.subtitle,
+                questions: dependency.questions
+            ))
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe(
+                with: self,
+                onSuccess: { this, _ in
+                    this.listener?.questionCreateCompleteDidFinish()
+                },
+                onFailure: { this, error in
+                    dump("# ERROR: \(error.localizedDescription)")
+                }
+            )
+            .disposed(by: disposeBag)
     }
     
     func didTapShare() {

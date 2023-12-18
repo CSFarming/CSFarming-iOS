@@ -8,12 +8,15 @@
 import RIBs
 import QuestionService
 
-protocol QuestionCreateCompleteDependency: Dependency {}
+protocol QuestionCreateCompleteDependency: Dependency {
+    var questionService: QuestionServiceInterface { get }
+}
 
 final class QuestionCreateCompleteComponent: Component<QuestionCreateCompleteDependency>, QuestionCreateCompleteInteractorDependency {
     let title: String
     let subtitle: String
     let questions: [Question]
+    var questionService: QuestionServiceInterface { dependency.questionService }
     
     init(dependency: QuestionCreateCompleteDependency, title: String, subtitle: String, questions: [Question]) {
         self.title = title

@@ -7,10 +7,15 @@
 
 import RIBs
 import QuestionInterface
+import QuestionService
 
-public protocol QuestionCreateDependency: Dependency {}
+public protocol QuestionCreateDependency: Dependency {
+    var questionService: QuestionServiceInterface { get }
+}
 
-final class QuestionCreateComponent: Component<QuestionCreateDependency>, QuestionCreateCompleteDependency {}
+final class QuestionCreateComponent: Component<QuestionCreateDependency>, QuestionCreateCompleteDependency {
+    var questionService: QuestionServiceInterface { dependency.questionService }
+}
 
 public final class QuestionCreateBuilder: Builder<QuestionCreateDependency>, QuestionCreateBuildable {
     

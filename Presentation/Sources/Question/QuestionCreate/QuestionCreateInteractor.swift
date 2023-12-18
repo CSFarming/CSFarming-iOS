@@ -93,6 +93,10 @@ final class QuestionCreateInteractor: PresentableInteractor<QuestionCreatePresen
         router?.detachComplete()
     }
     
+    func questionCreateCompleteDidFinish() {
+        listener?.questionCreateDidCreate()
+    }
+    
     private func appendQuestion() {
         let index = questions.count
         questions.append("")

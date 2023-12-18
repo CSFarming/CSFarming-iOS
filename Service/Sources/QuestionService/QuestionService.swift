@@ -12,14 +12,21 @@ import BaseService
 
 public protocol QuestionServiceInterface: AnyObject {
     func requestQuestions(directory: String) -> Single<QuestionList>
+    func requestLocalQuestions() -> Single<[QuestionElement]>
+    func insertQuestion(element: QuestionElement) -> Single<Void>
 }
 
 public final class QuestionService: QuestionServiceInterface {
     
     private let provider: MoyaProvider<QuestionAPI>
+    private let repository: QuestionRepositoryInterface
     
-    public init(provider: MoyaProvider<QuestionAPI> = .init()) {
+    public init(
+        provider: MoyaProvider<QuestionAPI> = .init(),
+        repository: QuestionRepositoryInterface
+    ) {
         self.provider = provider
+        self.repository = repository
     }
     
     public func requestQuestions(directory: String) -> Single<QuestionList> {
@@ -27,5 +34,12 @@ public final class QuestionService: QuestionServiceInterface {
         return request.map { $0.toElement() }
     }
     
+    public func requestLocalQuestions() -> Single<[QuestionElement]> {
+        return repository.read()
+    }
+    
+    public func insertQuestion(element: QuestionElement) -> Single<Void> {
+        return repository.insert(element: element)
+    }
     
 }

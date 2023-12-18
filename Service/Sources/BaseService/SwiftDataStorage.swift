@@ -15,47 +15,48 @@ public enum SwiftDataStorageError: Error {
 
 public protocol SwiftDataStorageInterface: AnyObject {
     
-    associatedtype T: PersistentModel
-    
-    func read(sortBy: [SortDescriptor<T>]) -> Single<[T]>
-    func read(sortBy: [SortDescriptor<T>], limit: Int) -> Single<[T]>
-    func removeAll() -> Single<Void>
-    func insert(model: T) -> Single<Void>
+    func read<T: PersistentModel>(sortBy: [SortDescriptor<T>]) -> Single<[T]>
+    func read<T: PersistentModel>(sortBy: [SortDescriptor<T>], limit: Int) -> Single<[T]>
+    func removeAll<T: PersistentModel>(model: T.Type) -> Single<Void>
+    func insert<T: PersistentModel>(model: T) -> Single<Void>
     
 }
 
-open class SwiftDataStorage<T: PersistentModel>: SwiftDataStorageInterface {
+open class SwiftDataStorage: SwiftDataStorageInterface {
     
     private let container: ModelContainer
     private let context: ModelContext
     
-    #warning("강제 언래핑 제거")
-    public init() {
-        let container = try! ModelContainer(for: T.self)
-        self.container = container
-        self.context = ModelContext(container)
+    public init(schema: Schema) {
+        do {
+            let container = try ModelContainer(for: schema)
+            self.container = container
+            self.context = ModelContext(container)
+        } catch {
+            fatalError(error.localizedDescription)
+        }
     }
     
-    open func read(sortBy: [SortDescriptor<T>]) async throws -> [T] {
+    open func read<T: PersistentModel>(sortBy: [SortDescriptor<T>]) async throws -> [T] {
         let descriptor = FetchDescriptor(sortBy: sortBy)
         return try context.fetch(descriptor)
     }
     
-    open func read(sortBy: [SortDescriptor<T>], limit: Int) async throws -> [T]  {
+    open func read<T: PersistentModel>(sortBy: [SortDescriptor<T>], limit: Int) async throws -> [T]  {
         var descriptor = FetchDescriptor(sortBy: sortBy)
         descriptor.fetchLimit = limit
         return try context.fetch(descriptor)
     }
     
-    open func removeAll() async throws {
-        try context.delete(model: T.self)
+    open func removeAll<T: PersistentModel>(model: T.Type) async throws {
+        try context.delete(model: model)
     }
     
-    open func insert(model: T) async {
+    open func insert<T: PersistentModel>(model: T) async {
         context.insert(model)
     }
     
-    open func read(sortBy: [SortDescriptor<T>]) -> Single<[T]> {
+    open func read<T: PersistentModel>(sortBy: [SortDescriptor<T>]) -> Single<[T]> {
         return Single<[T]>.create { single -> Disposable in
             let request = Task { [weak self] in
                 guard let self else {
@@ -76,7 +77,7 @@ open class SwiftDataStorage<T: PersistentModel>: SwiftDataStorageInterface {
         }
     }
     
-    open func read(sortBy: [SortDescriptor<T>], limit: Int) -> Single<[T]> {
+    open func read<T: PersistentModel>(sortBy: [SortDescriptor<T>], limit: Int) -> Single<[T]> {
         return Single<[T]>.create { single -> Disposable in
             let request = Task { [weak self] in
                 guard let self else {
@@ -97,7 +98,7 @@ open class SwiftDataStorage<T: PersistentModel>: SwiftDataStorageInterface {
         }
     }
     
-    open func removeAll() -> Single<Void> {
+    open func removeAll<T: PersistentModel>(model: T.Type) -> Single<Void> {
         return Single<Void>.create { single -> Disposable in
             let request = Task { [weak self] in
                 guard let self else {
@@ -105,7 +106,7 @@ open class SwiftDataStorage<T: PersistentModel>: SwiftDataStorageInterface {
                     return
                 }
                 do {
-                    try await removeAll()
+                    try await removeAll(model: model)
                     single(.success(()))
                 } catch {
                     single(.failure(error))
@@ -118,7 +119,7 @@ open class SwiftDataStorage<T: PersistentModel>: SwiftDataStorageInterface {
         }
     }
     
-    open func insert(model: T) -> Single<Void> {
+    open func insert<T: PersistentModel>(model: T) -> Single<Void> {
         return Single<Void>.create { single -> Disposable in
             let request = Task { [weak self] in
                 guard let self else {
