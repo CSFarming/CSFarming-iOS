@@ -10,7 +10,7 @@ import QuestionInterface
 
 public protocol QuestionCreateDependency: Dependency {}
 
-final class QuestionCreateComponent: Component<QuestionCreateDependency> {}
+final class QuestionCreateComponent: Component<QuestionCreateDependency>, QuestionCreateCompleteDependency {}
 
 public final class QuestionCreateBuilder: Builder<QuestionCreateDependency>, QuestionCreateBuildable {
     
@@ -23,7 +23,11 @@ public final class QuestionCreateBuilder: Builder<QuestionCreateDependency>, Que
         let viewController = QuestionCreateViewController()
         let interactor = QuestionCreateInteractor(presenter: viewController)
         interactor.listener = listener
-        return QuestionCreateRouter(interactor: interactor, viewController: viewController)
+        return QuestionCreateRouter(
+            interactor: interactor, 
+            viewController: viewController,
+            completeBuilder: QuestionCreateCompleteBuilder(dependency: component)
+        )
     }
     
 }

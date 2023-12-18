@@ -6,13 +6,25 @@
 //
 
 import RIBs
+import QuestionService
 
 protocol QuestionCreateCompleteDependency: Dependency {}
 
-final class QuestionCreateCompleteComponent: Component<QuestionCreateCompleteDependency> {}
+final class QuestionCreateCompleteComponent: Component<QuestionCreateCompleteDependency>, QuestionCreateCompleteInteractorDependency {
+    let title: String
+    let subtitle: String
+    let questions: [Question]
+    
+    init(dependency: QuestionCreateCompleteDependency, title: String, subtitle: String, questions: [Question]) {
+        self.title = title
+        self.subtitle = subtitle
+        self.questions = questions
+        super.init(dependency: dependency)
+    }
+}
 
 protocol QuestionCreateCompleteBuildable: Buildable {
-    func build(withListener listener: QuestionCreateCompleteListener) -> QuestionCreateCompleteRouting
+    func build(withListener listener: QuestionCreateCompleteListener, title: String, subtitle: String, questions: [Question]) -> ViewableRouting
 }
 
 final class QuestionCreateCompleteBuilder: Builder<QuestionCreateCompleteDependency>, QuestionCreateCompleteBuildable {
@@ -21,10 +33,10 @@ final class QuestionCreateCompleteBuilder: Builder<QuestionCreateCompleteDepende
         super.init(dependency: dependency)
     }
     
-    func build(withListener listener: QuestionCreateCompleteListener) -> QuestionCreateCompleteRouting {
-        let component = QuestionCreateCompleteComponent(dependency: dependency)
+    func build(withListener listener: QuestionCreateCompleteListener, title: String, subtitle: String, questions: [Question]) -> ViewableRouting {
+        let component = QuestionCreateCompleteComponent(dependency: dependency, title: title, subtitle: subtitle, questions: questions)
         let viewController = QuestionCreateCompleteViewController()
-        let interactor = QuestionCreateCompleteInteractor(presenter: viewController)
+        let interactor = QuestionCreateCompleteInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         return QuestionCreateCompleteRouter(interactor: interactor, viewController: viewController)
     }

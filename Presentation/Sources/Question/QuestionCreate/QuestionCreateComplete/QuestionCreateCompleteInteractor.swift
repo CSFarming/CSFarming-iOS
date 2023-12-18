@@ -7,6 +7,7 @@
 
 import RIBs
 import RxSwift
+import QuestionService
 
 protocol QuestionCreateCompleteRouting: ViewableRouting {}
 
@@ -16,12 +17,24 @@ protocol QuestionCreateCompletePresentable: Presentable {
 
 protocol QuestionCreateCompleteListener: AnyObject {}
 
+protocol QuestionCreateCompleteInteractorDependency: AnyObject {
+    var title: String { get }
+    var subtitle: String { get }
+    var questions: [Question] { get }
+}
+
 final class QuestionCreateCompleteInteractor: PresentableInteractor<QuestionCreateCompletePresentable>, QuestionCreateCompleteInteractable, QuestionCreateCompletePresentableListener {
     
     weak var router: QuestionCreateCompleteRouting?
     weak var listener: QuestionCreateCompleteListener?
     
-    override init(presenter: QuestionCreateCompletePresentable) {
+    private let dependency: QuestionCreateCompleteInteractorDependency
+    
+    init(
+        presenter: QuestionCreateCompletePresentable,
+        dependency: QuestionCreateCompleteInteractorDependency
+    ) {
+        self.dependency = dependency
         super.init(presenter: presenter)
         presenter.listener = self
     }
