@@ -9,15 +9,18 @@ import RIBs
 import ProblemInterface
 import ProblemService
 import QuestionInterface
+import QuestionService
 
 public protocol ProblemDependency: Dependency {
     var problemService: ProblemServiceInterface { get }
+    var questionService: QuestionServiceInterface { get }
     var questionBuilder: QuestionBuildable { get }
     var questionCreateBuilder: QuestionCreateBuildable { get }
 }
 
 final class ProblemComponent: Component<ProblemDependency>, ProblemInteractorDependency, ProblemListDependency, ProblemCreateDependency {
     var problemService: ProblemServiceInterface { dependency.problemService }
+    var questionService: QuestionServiceInterface { dependency.questionService }
     var questionBuilder: QuestionBuildable { dependency.questionBuilder }
     var questionCreateBuilder: QuestionCreateBuildable { dependency.questionCreateBuilder }
 }

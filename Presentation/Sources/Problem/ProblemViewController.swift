@@ -12,7 +12,7 @@ import RIBs
 import RxSwift
 
 protocol ProblemPresentableListener: AnyObject {
-    func didTap(model: ProblemContentViewModel)
+    func didTap(at indexPath: IndexPath)
     func didTapCreate()
 }
 
@@ -20,8 +20,8 @@ final class ProblemViewController: BaseViewController, ProblemPresentable, Probl
     
     weak var listener: ProblemPresentableListener?
     
-    private let titleLabel = UILabel()
-    private let stackView = UIStackView()
+    private var sections: [ProblemSection] = []
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeCollectionViewLayout())
     private let createView = ProblemCreateView()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -35,17 +35,9 @@ final class ProblemViewController: BaseViewController, ProblemPresentable, Probl
     }
     
     override func setupLayout() {
-        view.addSubview(titleLabel)
-        
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(30)
-            make.leading.trailing.equalToSuperview().inset(20)
-        }
-        
-        view.addSubview(stackView)
-        stackView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(20)
+        view.addSubview(collectionView)
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         
         view.addSubview(createView)
@@ -58,14 +50,11 @@ final class ProblemViewController: BaseViewController, ProblemPresentable, Probl
     override func setupAttributes() {
         view.backgroundColor = .csBlue1
         
-        titleLabel.text = "카테고리"
-        titleLabel.font = .headerSB
-        titleLabel.textColor = .csBlack
-        
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
-        stackView.spacing = 15
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(ProblemContentCell.self)
+        collectionView.register(LocalProblemContentCell.self)
+        collectionView.registerHeader(ProblemHeader.self)
     }
     
     override func bind() {
@@ -74,15 +63,25 @@ final class ProblemViewController: BaseViewController, ProblemPresentable, Probl
             .disposed(by: disposeBag)
     }
     
-    func updateModels(_ models: [ProblemContentViewModel]) {
-        stackView.subviews.forEach { $0.removeFromSuperview() }
-        models.forEach { model in
-            let contentView = ProblemContentView()
-            contentView.setup(model: model)
-            contentView.rx.tap
-                .bind(to: contentTapBinder)
-                .disposed(by: disposeBag)
-            stackView.addArrangedSubview(contentView)
+    func updateSections(_ sections: [ProblemSection]) {
+        self.sections = sections
+        collectionView.reloadData()
+    }
+    
+    private func makeCollectionViewLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
+            var configuration = UICollectionLayoutListConfiguration(appearance: .grouped)
+            configuration.headerMode = .supplementary
+            configuration.backgroundColor = .csBlue1
+            configuration.headerTopPadding = 30
+            configuration.showsSeparators = false
+            let section = NSCollectionLayoutSection.list(
+                using: configuration,
+                layoutEnvironment: layoutEnvironment
+            )
+            section.interGroupSpacing = 20
+            section.contentInsets = .init(top: 20, leading: 20, bottom: 0, trailing: 20)
+            return section
         }
     }
     
@@ -94,15 +93,61 @@ final class ProblemViewController: BaseViewController, ProblemPresentable, Probl
         )
     }
     
-    private var contentTapBinder: Binder<ProblemContentViewModel> {
-        return Binder(self) { this, value in
-            this.listener?.didTap(model: value)
-        }
-    }
-    
     private var createBinder: Binder<UITapGestureRecognizer> {
         return Binder(self) { this, _ in
             this.listener?.didTapCreate()
+        }
+    }
+    
+}
+
+extension ProblemViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        listener?.didTap(at: indexPath)
+    }
+    
+}
+
+extension ProblemViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return sections.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return sections[safe: section]?.items.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let item = sections[safe: indexPath.section]?.items[safe: indexPath.row] else {
+            return UICollectionViewCell()
+        }
+        switch item {
+        case .remote(let model):
+            let cell = collectionView.dequeue(ProblemContentCell.self, for: indexPath)
+            cell.setup(model: model)
+            return cell
+            
+        case .local(let model):
+            let cell = collectionView.dequeue(LocalProblemContentCell.self, for: indexPath)
+            cell.setup(model: model)
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            guard let title = sections[safe: indexPath.section]?.header else {
+                return UICollectionReusableView()
+            }
+            let header = collectionView.dequeueHeader(ProblemHeader.self, for: indexPath)
+            header.updateTitle(title)
+            return header
+            
+        default:
+            return UICollectionReusableView()
         }
     }
     

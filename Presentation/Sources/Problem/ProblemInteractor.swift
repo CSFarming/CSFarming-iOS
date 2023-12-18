@@ -5,10 +5,12 @@
 //  Created by 홍성준 on 11/26/23.
 //
 
+import Foundation
 import RIBs
 import RxSwift
 import ProblemInterface
 import ProblemService
+import QuestionService
 
 protocol ProblemRouting: ViewableRouting {
     func attachQuestion(title: String, directory: String)
@@ -21,11 +23,12 @@ protocol ProblemRouting: ViewableRouting {
 
 protocol ProblemPresentable: Presentable {
     var listener: ProblemPresentableListener? { get set }
-    func updateModels(_ models: [ProblemContentViewModel])
+    func updateSections(_ sections: [ProblemSection])
 }
 
 protocol ProblemInteractorDependency: AnyObject {
     var problemService: ProblemServiceInterface { get }
+    var questionService: QuestionServiceInterface { get }
 }
 
 final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, ProblemInteractable, ProblemPresentableListener {
@@ -33,7 +36,9 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
     weak var router: ProblemRouting?
     weak var listener: ProblemListener?
     
-    private var elements: [ProblemElement] = []
+    private var problemElements: [ProblemElement] = []
+    private var questionElements: [QuestionElement] = []
+    private var sections: [ProblemSection] = []
     
     private let dependency: ProblemInteractorDependency
     private let disposeBag = DisposeBag()
@@ -56,13 +61,23 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
         super.willResignActive()
     }
     
-    func didTap(model: ProblemContentViewModel) {
-        switch model.type {
-        case .problem:
-            router?.attachProblem(title: model.title, directory: model.directory)
+    func didTap(at indexPath: IndexPath) {
+        guard let section = sections[safe: indexPath.section] else { return }
+        switch section {
+        case .remote:
+            guard let item = problemElements[safe: indexPath.item] else { return }
+            switch item.type {
+            case .list:
+                router?.attachProblem(title: item.title, directory: item.directory)
+                
+            case .question:
+                router?.attachQuestion(title: item.title, directory: item.directory)
+            }
             
-        case .question:
-            router?.attachQuestion(title: model.title, directory: model.directory)
+        case .local:
+            guard let item = questionElements[safe: indexPath.item] else { return }
+            print("Attach Local Question: \(item)")
+            
         }
     }
     
@@ -93,39 +108,56 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
     }
     
     private func fetchProblemList() {
-        dependency.problemService
-            .requestElements()
+        Observable.zip(
+            dependency.problemService.requestElements().asObservable(),
+            dependency.questionService.requestLocalQuestions().asObservable()
+        )
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(
                 with: self,
-                onSuccess: { this, elements in
+                onNext: { this, elements in
                     this.performAfterFetchingList(elements)
                 },
-                onFailure: { this, error in
+                onError: { this, error in
                     print(error.localizedDescription)
                 }
             )
             .disposed(by: disposeBag)
     }
     
-    private func performAfterFetchingList(_ elements: [ProblemElement]) {
-        self.elements = elements
-        let models = elements.map { $0.toModel() }
-        presenter.updateModels(models)
+    private func performAfterFetchingList(_ elements: ([ProblemElement], [QuestionElement])) {
+        problemElements = elements.0
+        questionElements = elements.1
+        
+        sections = makeSections(problems: problemElements, questions: questionElements)
+        presenter.updateSections(sections)
+    }
+    
+    private func makeSections(problems: [ProblemElement], questions: [QuestionElement]) -> [ProblemSection] {
+        var sections: [ProblemSection] = []
+        
+        sections.append(.remote(problems.map { $0.toModel() }))
+        
+        if !questions.isEmpty {
+            sections.append(.local(questions.map { $0.toModel() }))
+        }
+        return sections
     }
     
 }
 
 private extension ProblemElement {
     
-    func toModel() -> ProblemContentViewModel {
-        let type: ProblemContentType = {
-            switch self.type {
-            case .list: return .problem
-            case .question: return .question
-            }
-        }()
-        return .init(directory: directory, title: title, content: content, type: type)
+    func toModel() -> ProblemItem {
+        return .remote(.init(title: title, content: content))
+    }
+    
+}
+
+private extension QuestionElement {
+    
+    func toModel() -> ProblemItem {
+        return .local(.init(title: title, subtitle: subtitle))
     }
     
 }
