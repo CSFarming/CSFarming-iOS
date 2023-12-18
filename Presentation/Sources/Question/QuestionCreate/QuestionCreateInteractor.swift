@@ -89,6 +89,10 @@ final class QuestionCreateInteractor: PresentableInteractor<QuestionCreatePresen
         (0..<3).forEach { _ in appendQuestion() }
     }
     
+    func questionCreateCompleteDidTapClose() {
+        router?.detachComplete()
+    }
+    
     private func appendQuestion() {
         let index = questions.count
         questions.append("")

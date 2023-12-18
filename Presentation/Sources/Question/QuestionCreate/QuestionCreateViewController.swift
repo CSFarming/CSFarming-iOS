@@ -106,7 +106,7 @@ final class QuestionCreateViewController: BaseViewController, QuestionCreatePres
         navigationView.setup(model: .init(leftButtonType: .back, rightButtonType: .none))
         
         createButton.style = .normal
-        createButton.setTitle("추가하기", for: .normal)
+        createButton.setTitle("다음", for: .normal)
         createButton.layer.cornerRadius = 16
         
         scrollView.showsVerticalScrollIndicator = false

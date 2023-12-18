@@ -13,9 +13,12 @@ protocol QuestionCreateCompleteRouting: ViewableRouting {}
 
 protocol QuestionCreateCompletePresentable: Presentable {
     var listener: QuestionCreateCompletePresentableListener? { get set }
+    func setup(title: String, subtitle: String, questions: [Question])
 }
 
-protocol QuestionCreateCompleteListener: AnyObject {}
+protocol QuestionCreateCompleteListener: AnyObject {
+    func questionCreateCompleteDidTapClose()
+}
 
 protocol QuestionCreateCompleteInteractorDependency: AnyObject {
     var title: String { get }
@@ -41,10 +44,23 @@ final class QuestionCreateCompleteInteractor: PresentableInteractor<QuestionCrea
     
     override func didBecomeActive() {
         super.didBecomeActive()
+        presenter.setup(title: dependency.title, subtitle: dependency.subtitle, questions: dependency.questions)
     }
     
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    func didTapClose() {
+        listener?.questionCreateCompleteDidTapClose()
+    }
+    
+    func didTapCreate() {
+        
+    }
+    
+    func didTapShare() {
+        
     }
     
 }
