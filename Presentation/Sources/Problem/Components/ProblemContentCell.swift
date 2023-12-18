@@ -1,49 +1,37 @@
 //
-//  ProblemContentView.swift
+//  ProblemContentCell.swift
 //
 //
-//  Created by 홍성준 on 11/26/23.
+//  Created by 홍성준 on 12/18/23.
 //
 
 import UIKit
 import SnapKit
-import RxSwift
-import RxCocoa
 import DesignKit
 import BasePresentation
 
-struct ProblemContentViewModel {
+struct ProblemContentCellModel {
     
-    let directory: String
     let title: String
     let content: String
-    let type: ProblemContentType
     
 }
 
-final class ProblemContentView: BaseView {
-    
-    fileprivate var model: ProblemContentViewModel?
+final class ProblemContentCell: AnimateCollectionViewCell {
     
     private let folderImageView = UIImageView()
     private let labelStackView = UIStackView()
     private let titleLabel = UILabel()
     private let contentLabel = UILabel()
     
-    func setup(model: ProblemContentViewModel) {
-        self.model = model
+    func setup(model: ProblemContentCellModel) {
         titleLabel.text = model.title
         contentLabel.text = model.content
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        selectAnimate()
-    }
-    
     override func setupLayout() {
-        addSubview(folderImageView)
-        addSubview(labelStackView)
+        contentView.addSubview(folderImageView)
+        contentView.addSubview(labelStackView)
         
         labelStackView.addArrangedSubview(titleLabel)
         labelStackView.addArrangedSubview(contentLabel)
@@ -82,16 +70,6 @@ final class ProblemContentView: BaseView {
         
         contentLabel.textColor = .csBlack
         contentLabel.font = .captionR
-    }
-    
-}
-
-extension Reactive where Base: ProblemContentView {
-    
-    var tap: ControlEvent<ProblemContentViewModel> {
-        let source = base.rx.tapGesture
-            .compactMap { _ in base.model }
-        return ControlEvent(events: source)
     }
     
 }
