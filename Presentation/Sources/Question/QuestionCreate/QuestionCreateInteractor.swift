@@ -10,7 +10,10 @@ import RxSwift
 import QuestionInterface
 import QuestionService
 
-protocol QuestionCreateRouting: ViewableRouting {}
+protocol QuestionCreateRouting: ViewableRouting {
+    func attachComplete(title: String, subtitle: String, questions: [Question])
+    func detachComplete()
+}
 
 protocol QuestionCreatePresentable: Presentable {
     var listener: QuestionCreatePresentableListener? { get set }
@@ -51,7 +54,11 @@ final class QuestionCreateInteractor: PresentableInteractor<QuestionCreatePresen
     }
     
     func didTapCreate() {
-        
+        let questions = zip(questions, answers)
+            .map { question, answer in
+                return Question(question: question, answer: answer)
+            }
+        router?.attachComplete(title: title, subtitle: subtitle, questions: questions)
     }
     
     func didTapAddQuestion() {
@@ -80,6 +87,14 @@ final class QuestionCreateInteractor: PresentableInteractor<QuestionCreatePresen
     
     func viewDidLoad() {
         (0..<3).forEach { _ in appendQuestion() }
+    }
+    
+    func questionCreateCompleteDidTapClose() {
+        router?.detachComplete()
+    }
+    
+    func questionCreateCompleteDidFinish() {
+        listener?.questionCreateDidCreate()
     }
     
     private func appendQuestion() {

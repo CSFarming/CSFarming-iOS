@@ -2,21 +2,21 @@
 //  QuestionElement.swift
 //
 //
-//  Created by 홍성준 on 12/9/23.
+//  Created by 홍성준 on 12/18/23.
 //
 
 import Foundation
 
-public struct QuestionList {
+public struct QuestionElement {
     
-    public let id: Int
+    public let title: String
+    public let subtitle: String
     public let questions: [Question]
     
-}
-
-public struct Question {
-    
-    public let question: String
-    public let answer: String
+    public init(title: String, subtitle: String, questions: [Question]) {
+        self.title = title
+        self.subtitle = subtitle
+        self.questions = questions
+    }
     
 }

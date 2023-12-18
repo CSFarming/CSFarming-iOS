@@ -13,4 +13,5 @@ public protocol QuestionCreateBuildable: Buildable {
 
 public protocol QuestionCreateListener: AnyObject {
     func questionCreateDidTapClose()
+    func questionCreateDidCreate()
 }

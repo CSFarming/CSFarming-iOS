@@ -7,10 +7,15 @@
 
 import RIBs
 import QuestionInterface
+import QuestionService
 
-public protocol QuestionCreateDependency: Dependency {}
+public protocol QuestionCreateDependency: Dependency {
+    var questionService: QuestionServiceInterface { get }
+}
 
-final class QuestionCreateComponent: Component<QuestionCreateDependency> {}
+final class QuestionCreateComponent: Component<QuestionCreateDependency>, QuestionCreateCompleteDependency {
+    var questionService: QuestionServiceInterface { dependency.questionService }
+}
 
 public final class QuestionCreateBuilder: Builder<QuestionCreateDependency>, QuestionCreateBuildable {
     
@@ -23,7 +28,11 @@ public final class QuestionCreateBuilder: Builder<QuestionCreateDependency>, Que
         let viewController = QuestionCreateViewController()
         let interactor = QuestionCreateInteractor(presenter: viewController)
         interactor.listener = listener
-        return QuestionCreateRouter(interactor: interactor, viewController: viewController)
+        return QuestionCreateRouter(
+            interactor: interactor, 
+            viewController: viewController,
+            completeBuilder: QuestionCreateCompleteBuilder(dependency: component)
+        )
     }
     
 }

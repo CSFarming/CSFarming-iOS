@@ -88,6 +88,10 @@ final class ProblemInteractor: PresentableInteractor<ProblemPresentable>, Proble
         router?.detachProblemCreate()
     }
     
+    func problemCreateDidCreate() {
+        router?.detachProblemCreate()
+    }
+    
     private func fetchProblemList() {
         dependency.problemService
             .requestElements()
