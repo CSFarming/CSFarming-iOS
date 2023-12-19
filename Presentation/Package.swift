@@ -59,7 +59,10 @@ let package = Package(
         .package(url: "https://github.com/uber/RIBs", from: "0.9.7"),
         .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.6.0"),
         .package(url: "https://github.com/SnapKit/SnapKit", from: "5.6.0"),
-        .package(url: "https://github.com/gonzalezreal/swift-markdown-ui", from: "2.2.0")
+        .package(url: "https://github.com/gonzalezreal/swift-markdown-ui", from: "2.2.0"),
+        .package(url: "https://github.com/Quick/Quick.git", from: "7.3.0"),
+        .package(url: "https://github.com/Quick/Nimble.git", from: "13.0.0"),
+        .package(url: "https://github.com/RxSwiftCommunity/RxNimble", from: "6.3.1"),
     ],
     targets: [
         .target(
@@ -185,5 +188,17 @@ let package = Package(
                 "RIBs"
             ]
         ),
+        .testTarget(
+            name: "ArchiveTests",
+            dependencies: [
+                "Quick",
+                "Nimble",
+                "RxNimble",
+                "RIBs",
+                "Archive",
+                .product(name: "RIBsTestUtil", package: "Core"),
+                .product(name: "ArchiveServiceTestUtil", package: "Service"),
+            ]
+        )
     ]
 )
