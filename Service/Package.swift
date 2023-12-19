@@ -16,6 +16,10 @@ let package = Package(
             targets: ["HomeService"]
         ),
         .library(
+            name: "HomeServiceTestUtil",
+            targets: ["HomeServiceTestUtil"]
+        ),
+        .library(
             name: "MarkdownService",
             targets: ["MarkdownService"]
         ),
@@ -53,6 +57,13 @@ let package = Package(
                 "BaseService",
                 "Moya",
                 "SwiftSoup"
+            ]
+        ),
+        .target(
+            name: "HomeServiceTestUtil",
+            dependencies: [
+                "BaseService",
+                "HomeService"
             ]
         ),
         .target(
