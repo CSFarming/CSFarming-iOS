@@ -211,6 +211,18 @@ let package = Package(
                 .product(name: "RIBsTestUtil", package: "Core"),
                 .product(name: "HomeServiceTestUtil", package: "Service"),
             ]
+        ),
+        .testTarget(
+            name: "MarkdownContentTests",
+            dependencies: [
+                "Quick",
+                "Nimble",
+                "RxNimble",
+                "RIBs",
+                "MarkdownContent",
+                .product(name: "RIBsTestUtil", package: "Core"),
+                .product(name: "MarkdownServiceTestUtil", package: "Service"),
+            ]
         )
     ]
 )

@@ -61,15 +61,15 @@ let package = Package(
         .target(
             name: "BaseService",
             dependencies: [
-                "Moya"
+                "Moya",
+                "SwiftSoup"
             ]
         ),
         .target(
             name: "HomeService",
             dependencies: [
                 "BaseService",
-                "Moya",
-                "SwiftSoup"
+                "Moya"
             ]
         ),
         .target(
