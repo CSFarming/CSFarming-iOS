@@ -18,6 +18,10 @@ let package = Package(
             name: "RxUtil",
             targets: ["RxUtil"]
         ),
+        .library(
+            name: "RIBsTestUtil",
+            targets: ["RIBsTestUtil"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/uber/RIBs", from: "0.9.7"),
@@ -39,6 +43,12 @@ let package = Package(
             dependencies: [
                 "RxSwift",
                 .product(name: "RxCocoa", package: "RxSwift")
+            ]
+        ),
+        .target(
+            name: "RIBsTestUtil",
+            dependencies: [
+                "RIBs"
             ]
         ),
     ]
