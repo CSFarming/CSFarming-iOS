@@ -24,6 +24,10 @@ let package = Package(
             targets: ["ArchiveService"]
         ),
         .library(
+            name: "ArchiveServiceTestUtil",
+            targets: ["ArchiveServiceTestUtil"]
+        ),
+        .library(
             name: "ProblemService",
             targets: ["ProblemService"]
         ),
@@ -64,6 +68,13 @@ let package = Package(
                 "BaseService",
                 "Moya",
                 "SwiftSoup"
+            ]
+        ),
+        .target(
+            name: "ArchiveServiceTestUtil",
+            dependencies: [
+                "BaseService",
+                "ArchiveService"
             ]
         ),
         .target(
