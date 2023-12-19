@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		F103A1202B1B2CCF002B21E3 /* HomeService in Frameworks */ = {isa = PBXBuildFile; productRef = F103A11F2B1B2CCF002B21E3 /* HomeService */; };
 		F103A1422B1B53AB002B21E3 /* MarkdownService in Frameworks */ = {isa = PBXBuildFile; productRef = F103A1412B1B53AB002B21E3 /* MarkdownService */; };
+		F13267D02B316CFC0075B78F /* CoreUtil in Frameworks */ = {isa = PBXBuildFile; productRef = F13267CF2B316CFC0075B78F /* CoreUtil */; };
+		F13267D22B316CFC0075B78F /* RIBsTestUtil in Frameworks */ = {isa = PBXBuildFile; productRef = F13267D12B316CFC0075B78F /* RIBsTestUtil */; };
+		F13267D42B316DA90075B78F /* DesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = F13267D32B316DA90075B78F /* DesignKit */; };
 		F13295E42B1C995D009BDAD5 /* Archive in Frameworks */ = {isa = PBXBuildFile; productRef = F13295E32B1C995D009BDAD5 /* Archive */; };
 		F13295E62B1C995D009BDAD5 /* ArchiveInterface in Frameworks */ = {isa = PBXBuildFile; productRef = F13295E52B1C995D009BDAD5 /* ArchiveInterface */; };
 		F13295E82B1C9FA7009BDAD5 /* ArchiveService in Frameworks */ = {isa = PBXBuildFile; productRef = F13295E72B1C9FA7009BDAD5 /* ArchiveService */; };
@@ -30,7 +33,6 @@
 		F17BAC3B2B133D5800FECB54 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC3A2B133D5800FECB54 /* SnapKit */; };
 		F17BAC422B13431100FECB54 /* RIBsUtil in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC412B13431100FECB54 /* RIBsUtil */; };
 		F17BAC442B13431100FECB54 /* RxUtil in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC432B13431100FECB54 /* RxUtil */; };
-		F17BAC472B13480A00FECB54 /* DesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC462B13480A00FECB54 /* DesignKit */; };
 		F17BAC522B135D1A00FECB54 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC512B135D1A00FECB54 /* Home */; };
 		F17BAC542B135D1A00FECB54 /* HomeInterface in Frameworks */ = {isa = PBXBuildFile; productRef = F17BAC532B135D1A00FECB54 /* HomeInterface */; };
 		F17BAC562B1360CF00FECB54 /* AppRootComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17BAC552B1360CF00FECB54 /* AppRootComponent.swift */; };
@@ -73,15 +75,17 @@
 				F1EDAADA2B246CA8003ED40B /* QuestionService in Frameworks */,
 				F17BAC3B2B133D5800FECB54 /* SnapKit in Frameworks */,
 				F17BAC302B133D4C00FECB54 /* RxBlocking in Frameworks */,
+				F13267D02B316CFC0075B78F /* CoreUtil in Frameworks */,
 				F103A1422B1B53AB002B21E3 /* MarkdownService in Frameworks */,
+				F13267D42B316DA90075B78F /* DesignKit in Frameworks */,
 				F17BAC522B135D1A00FECB54 /* Home in Frameworks */,
 				F1A4D0DF2B245F31007B12A8 /* QuestionInterface in Frameworks */,
 				F1A4D0DD2B245F31007B12A8 /* Question in Frameworks */,
 				F17BAC382B133D4C00FECB54 /* RxRelay in Frameworks */,
 				F17BAC622B138FFA00FECB54 /* ProblemInterface in Frameworks */,
 				F13295E42B1C995D009BDAD5 /* Archive in Frameworks */,
+				F13267D22B316CFC0075B78F /* RIBsTestUtil in Frameworks */,
 				F17BAC342B133D4C00FECB54 /* RxCocoa in Frameworks */,
-				F17BAC472B13480A00FECB54 /* DesignKit in Frameworks */,
 				F15B078A2B1B56A3009AE02D /* MarkdownContentInterface in Frameworks */,
 				F17BAC422B13431100FECB54 /* RIBsUtil in Frameworks */,
 				F17BAC442B13431100FECB54 /* RxUtil in Frameworks */,
@@ -181,7 +185,6 @@
 				F17BAC3A2B133D5800FECB54 /* SnapKit */,
 				F17BAC412B13431100FECB54 /* RIBsUtil */,
 				F17BAC432B13431100FECB54 /* RxUtil */,
-				F17BAC462B13480A00FECB54 /* DesignKit */,
 				F17BAC512B135D1A00FECB54 /* Home */,
 				F17BAC532B135D1A00FECB54 /* HomeInterface */,
 				F17BAC5F2B138FFA00FECB54 /* Problem */,
@@ -197,6 +200,9 @@
 				F1A4D0DC2B245F31007B12A8 /* Question */,
 				F1A4D0DE2B245F31007B12A8 /* QuestionInterface */,
 				F1EDAAD92B246CA8003ED40B /* QuestionService */,
+				F13267CF2B316CFC0075B78F /* CoreUtil */,
+				F13267D12B316CFC0075B78F /* RIBsTestUtil */,
+				F13267D32B316DA90075B78F /* DesignKit */,
 			);
 			productName = CSFarming;
 			productReference = F14CCC8B2B1335BA00E8BDA0 /* CSFarming.app */;
@@ -514,6 +520,18 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = MarkdownService;
 		};
+		F13267CF2B316CFC0075B78F /* CoreUtil */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreUtil;
+		};
+		F13267D12B316CFC0075B78F /* RIBsTestUtil */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RIBsTestUtil;
+		};
+		F13267D32B316DA90075B78F /* DesignKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DesignKit;
+		};
 		F13295E32B1C995D009BDAD5 /* Archive */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Archive;
@@ -566,10 +584,6 @@
 		F17BAC432B13431100FECB54 /* RxUtil */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RxUtil;
-		};
-		F17BAC462B13480A00FECB54 /* DesignKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = DesignKit;
 		};
 		F17BAC512B135D1A00FECB54 /* Home */ = {
 			isa = XCSwiftPackageProductDependency;

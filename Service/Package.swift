@@ -16,25 +16,46 @@ let package = Package(
             targets: ["HomeService"]
         ),
         .library(
+            name: "HomeServiceTestUtil",
+            targets: ["HomeServiceTestUtil"]
+        ),
+        .library(
             name: "MarkdownService",
             targets: ["MarkdownService"]
+        ),
+        .library(
+            name: "MarkdownServiceTestUtil",
+            targets: ["MarkdownServiceTestUtil"]
         ),
         .library(
             name: "ArchiveService",
             targets: ["ArchiveService"]
         ),
         .library(
+            name: "ArchiveServiceTestUtil",
+            targets: ["ArchiveServiceTestUtil"]
+        ),
+        .library(
             name: "ProblemService",
             targets: ["ProblemService"]
+        ),
+        .library(
+            name: "ProblemServiceTestUtil",
+            targets: ["ProblemServiceTestUtil"]
         ),
         .library(
             name: "QuestionService",
             targets: ["QuestionService"]
         ),
+        .library(
+            name: "QuestionServiceTestUtil",
+            targets: ["QuestionServiceTestUtil"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/Moya/Moya.git", .upToNextMajor(from: "15.0.0")),
-        .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.6.0")
+        .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.6.0"),
+        .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.6.0"),
     ],
     targets: [
         .target(
@@ -52,10 +73,26 @@ let package = Package(
             ]
         ),
         .target(
+            name: "HomeServiceTestUtil",
+            dependencies: [
+                "RxSwift",
+                "BaseService",
+                "HomeService"
+            ]
+        ),
+        .target(
             name: "MarkdownService",
             dependencies: [
                 "BaseService",
                 "Moya"
+            ]
+        ),
+        .target(
+            name: "MarkdownServiceTestUtil",
+            dependencies: [
+                "RxSwift",
+                "BaseService",
+                "MarkdownService"
             ]
         ),
         .target(
@@ -67,6 +104,14 @@ let package = Package(
             ]
         ),
         .target(
+            name: "ArchiveServiceTestUtil",
+            dependencies: [
+                "RxSwift",
+                "BaseService",
+                "ArchiveService"
+            ]
+        ),
+        .target(
             name: "ProblemService",
             dependencies: [
                 "BaseService",
@@ -74,10 +119,26 @@ let package = Package(
             ]
         ),
         .target(
+            name: "ProblemServiceTestUtil",
+            dependencies: [
+                "RxSwift",
+                "BaseService",
+                "ProblemService",
+            ]
+        ),
+        .target(
             name: "QuestionService",
             dependencies: [
                 "BaseService",
                 "Moya"
+            ]
+        ),
+        .target(
+            name: "QuestionServiceTestUtil",
+            dependencies: [
+                "RxSwift",
+                "BaseService",
+                "QuestionService"
             ]
         )
     ]
