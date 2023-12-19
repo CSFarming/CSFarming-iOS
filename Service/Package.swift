@@ -40,6 +40,10 @@ let package = Package(
             targets: ["ProblemService"]
         ),
         .library(
+            name: "ProblemServiceTestUtil",
+            targets: ["ProblemServiceTestUtil"]
+        ),
+        .library(
             name: "QuestionService",
             targets: ["QuestionService"]
         ),
@@ -108,6 +112,14 @@ let package = Package(
             dependencies: [
                 "BaseService",
                 "Moya",
+            ]
+        ),
+        .target(
+            name: "ProblemServiceTestUtil",
+            dependencies: [
+                "RxSwift",
+                "BaseService",
+                "ProblemService",
             ]
         ),
         .target(
