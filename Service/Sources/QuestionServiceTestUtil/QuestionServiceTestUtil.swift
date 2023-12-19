@@ -17,6 +17,8 @@ public enum QuestionServiceMockError: Error {
 
 public final class QuestionServiceMock: QuestionServiceInterface {
     
+    public init() {}
+    
     public var requestQuestionsDirectoryCallCount = 0
     public var requestQuestionsDirectoryDirectory: String?
     public var requestQuestionsDirectoryResult: QuestionList?
