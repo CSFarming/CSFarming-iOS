@@ -12,4 +12,9 @@ public struct QuestionList {
     public let id: Int
     public let questions: [Question]
     
+    public init(id: Int, questions: [Question]) {
+        self.id = id
+        self.questions = questions
+    }
+    
 }
