@@ -18,12 +18,14 @@ public enum ArchiveServiceMockError: Error {
 
 public final class ArchiveServiceMock: ArchiveServiceInterface {
     
+    public init() {}
+    
     public var requestElementsCallCount = 0
-    public var requestElementsContentElements: [ContentElement]?
+    public var requestElementsResult: [ContentElement]?
     public func requestElements() -> Single<[ContentElement]> {
         requestElementsCallCount += 1
-        if let requestElementsContentElements {
-            return .just(requestElementsContentElements)
+        if let requestElementsResult {
+            return .just(requestElementsResult)
         } else {
             return .error(ArchiveServiceMockError.requestElementsError)
         }

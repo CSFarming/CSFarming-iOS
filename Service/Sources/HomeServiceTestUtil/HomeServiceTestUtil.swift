@@ -12,6 +12,8 @@ import HomeService
 
 public final class HomeServiceMock: HomeServiceInterface {
     
+    public init() {}
+    
     public let currentHistorySubject = PublishSubject<[HomeElement]>()
     public var currentHistory: Observable<[HomeElement]> {
         currentHistorySubject.asObservable()

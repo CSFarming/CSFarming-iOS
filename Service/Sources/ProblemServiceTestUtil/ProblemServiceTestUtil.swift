@@ -17,6 +17,8 @@ public enum ProblemServiceMockError: Error {
 
 public final class ProblemServiceMock: ProblemServiceInterface {
     
+    public init() {}
+    
     public var requestElementsCallCount = 0
     public var requestElementsResult: [ProblemElement]?
     public func requestElements() -> Single<[ProblemElement]> {

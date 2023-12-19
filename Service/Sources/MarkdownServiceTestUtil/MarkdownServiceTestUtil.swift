@@ -17,6 +17,8 @@ public enum MarkdownServiceMockError: Error {
 
 public final class MarkdownServiceMock: MarkdownServiceInterface {
     
+    public init() {}
+    
     public var requestMarkdownFromRootPathCallCount = 0
     public var requestMarkdownFromRootPathPath: String?
     public var requestMarkdownFromRootPathResult: String?
