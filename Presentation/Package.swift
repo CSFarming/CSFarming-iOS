@@ -199,6 +199,18 @@ let package = Package(
                 .product(name: "RIBsTestUtil", package: "Core"),
                 .product(name: "ArchiveServiceTestUtil", package: "Service"),
             ]
+        ),
+        .testTarget(
+            name: "HomeTests",
+            dependencies: [
+                "Quick",
+                "Nimble",
+                "RxNimble",
+                "RIBs",
+                "Home",
+                .product(name: "RIBsTestUtil", package: "Core"),
+                .product(name: "HomeServiceTestUtil", package: "Service"),
+            ]
         )
     ]
 )
