@@ -24,6 +24,10 @@ let package = Package(
             targets: ["MarkdownService"]
         ),
         .library(
+            name: "MarkdownServiceTestUtil",
+            targets: ["MarkdownServiceTestUtil"]
+        ),
+        .library(
             name: "ArchiveService",
             targets: ["ArchiveService"]
         ),
@@ -42,7 +46,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/Moya/Moya.git", .upToNextMajor(from: "15.0.0")),
-        .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.6.0")
+        .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.6.0"),
+        .package(url: "https://github.com/ReactiveX/RxSwift", from: "6.6.0"),
     ],
     targets: [
         .target(
@@ -62,6 +67,7 @@ let package = Package(
         .target(
             name: "HomeServiceTestUtil",
             dependencies: [
+                "RxSwift",
                 "BaseService",
                 "HomeService"
             ]
@@ -71,6 +77,14 @@ let package = Package(
             dependencies: [
                 "BaseService",
                 "Moya"
+            ]
+        ),
+        .target(
+            name: "MarkdownServiceTestUtil",
+            dependencies: [
+                "RxSwift",
+                "BaseService",
+                "MarkdownService"
             ]
         ),
         .target(
@@ -84,6 +98,7 @@ let package = Package(
         .target(
             name: "ArchiveServiceTestUtil",
             dependencies: [
+                "RxSwift",
                 "BaseService",
                 "ArchiveService"
             ]
