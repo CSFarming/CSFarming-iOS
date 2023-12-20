@@ -13,17 +13,14 @@ import SnapKit
 import DesignKit
 import BasePresentation
 
-protocol HomePresentableListener: AnyObject {
-    func didSelect(at indexPath: IndexPath)
-    func viewWillAppear()
-}
+protocol HomePresentableListener: AnyObject {}
 
 final class HomeViewController: BaseViewController, HomePresentable, HomeViewControllable {
     
     weak var listener: HomePresentableListener?
     
-    private var sections: [HomeSection] = []
-    private let tableView = UITableView(frame: .zero, style: .grouped)
+    private let scrollView = UIScrollView()
+    private let stackView = UIStackView()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -35,32 +32,42 @@ final class HomeViewController: BaseViewController, HomePresentable, HomeViewCon
         setupTabBar()
     }
     
-    override func setupLayout() {
-        view.addSubview(tableView)
-        tableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+    func setDashboard(_ viewControllable: ViewControllable) {
+        let viewController = viewControllable.uiviewController
+        addChild(viewController)
+        stackView.addArrangedSubview(viewController.view)
+        viewController.didMove(toParent: self)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        listener?.viewWillAppear()
+    func removeDashboard(_ viewControllable: ViewControllable) {
+        let viewController = viewControllable.uiviewController
+        viewController.view.removeFromSuperview()
+        viewController.removeFromParent()
+    }
+    
+    override func setupLayout() {
+        view.addSubview(scrollView)
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
+        }
+        
+        scrollView.addSubview(stackView)
+        stackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalToSuperview()
+        }
     }
     
     override func setupAttributes() {
         view.backgroundColor = .csBlue1
         
-        tableView.backgroundColor = .csBlue1
-        tableView.separatorStyle = .none
-        tableView.register(HomePostCell.self)
-        tableView.register(HomeProblemCell.self)
-        tableView.delegate = self
-        tableView.dataSource = self
-    }
-    
-    func updateSections(_ sections: [HomeSection]) {
-        self.sections = sections
-        tableView.reloadData()
+        scrollView.contentInset = .init(top: 40, left: 0, bottom: 40, right: 0)
+        scrollView.showsVerticalScrollIndicator = false
+        
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 60
     }
     
     private func setupTabBar() {
@@ -73,65 +80,3 @@ final class HomeViewController: BaseViewController, HomePresentable, HomeViewCon
     
 }
 
-extension HomeViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        listener?.didSelect(at: indexPath)
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let header = sections[safe: section]?.header else { return nil }
-        let label: UILabel = {
-            let label = UILabel()
-            label.font = .headerSB
-            label.textColor = .csBlack
-            label.text = header
-            return label
-        }()
-        
-        let containerView: UIView = {
-            let containerView = UIView()
-            containerView.backgroundColor = .csBlue1
-            containerView.addSubview(label)
-            return containerView
-        }()
-
-        label.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(30)
-            make.leading.equalToSuperview().offset(20)
-            make.bottom.equalToSuperview().offset(-20)
-        }
-        return containerView
-    }
-    
-}
-
-extension HomeViewController: UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections[safe: section]?.items.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let item = sections[safe: indexPath.section]?.items[safe: indexPath.row] else {
-            return UITableViewCell()
-        }
-        
-        switch item {
-        case .recentPost(let model):
-            let cell = tableView.dequeue(HomePostCell.self, for: indexPath)
-            cell.setup(model: model)
-            return cell
-            
-        case .recentProblem(let model):
-            let cell = tableView.dequeue(HomeProblemCell.self, for: indexPath)
-            cell.setup(model: model)
-            return cell
-        }
-    }
-    
-}

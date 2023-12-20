@@ -14,17 +14,17 @@ struct HomeFarmingChartViewModel {
     let barModels: [HomeFarmingChartBarViewModel]
 }
 
-final class HomeFarmingChartView: BaseView {
+final class HomeFarmingChartView: AnimateBaseView {
     
     private let containerView = UIView()
     private let stackView = UIStackView()
     
-    func setup(model: HomeFarmingChartViewModel) {
+    func setup(model: HomeFarmingChartViewModel, height: CGFloat) {
         stackView.subviews.forEach { $0.removeFromSuperview() }
         
         model.barModels.forEach { barModel in
             let barView = HomeFarmingChartBarView()
-            barView.setup(model: barModel)
+            barView.setup(model: barModel, height: height)
             stackView.addArrangedSubview(barView)
         }
     }
