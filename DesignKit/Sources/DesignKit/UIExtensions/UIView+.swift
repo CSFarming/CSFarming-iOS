@@ -1,5 +1,5 @@
 //
-//  UIView+Animation.swift
+//  UIView+.swift
 //
 //
 //  Created by 홍성준 on 11/26/23.
@@ -8,6 +8,12 @@
 import UIKit
 
 public extension UIView {
+    
+    func maskCornerRadius(cornerRadius: CGFloat, cornerMask: CACornerMask) {
+        clipsToBounds = true
+        layer.cornerRadius = cornerRadius
+        layer.maskedCorners = CACornerMask(arrayLiteral: cornerMask)
+    }
     
     func selectAnimate(
         scaleX x: CGFloat = 1.05,
