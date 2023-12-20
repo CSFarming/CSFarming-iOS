@@ -12,7 +12,7 @@ import BasePresentation
 
 struct HomeFarmingChartBarViewModel {
     let score: Int
-    let barHeight: CGFloat
+    let maxScore: Int
     let dayModel: HomeFarmingChartBarDayViewModel
 }
 
@@ -24,10 +24,10 @@ final class HomeFarmingChartBarView: BaseView {
     private let barView = UIView()
     private let dayView = HomeFarmingChartBarDayView()
     
-    func setup(model: HomeFarmingChartBarViewModel) {
+    func setup(model: HomeFarmingChartBarViewModel, height: CGFloat) {
         scoreLabel.text = "\(model.score)"
         dayView.setup(model: model.dayModel)
-        barViewHeightConstraint?.update(offset: model.barHeight)
+        barViewHeightConstraint?.update(offset: height * CGFloat(model.score) / CGFloat(model.maxScore))
     }
     
     override func setupLayout() {

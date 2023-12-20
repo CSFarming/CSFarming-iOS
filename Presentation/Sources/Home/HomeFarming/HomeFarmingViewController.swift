@@ -17,4 +17,35 @@ final class HomeFarmingViewController: BaseViewController, HomeFarmingPresentabl
     
     weak var listener: HomeFarmingPresentableListener?
     
+    private let barHeight: CGFloat = 200
+    
+    private let titleLabel = UILabel()
+    private let chartView = HomeFarmingChartView()
+    
+    func setup(model: HomeFarmingChartViewModel) {
+        chartView.setup(model: model, height: barHeight)
+    }
+    
+    override func setupLayout() {
+        view.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+        }
+        
+        view.addSubview(chartView)
+        chartView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(20)
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(barHeight + 100)
+        }
+    }
+    
+    override func setupAttributes() {
+        view.backgroundColor = .csBlue1
+        
+        titleLabel.text = "나의 파밍"
+        titleLabel.font = .headerSB
+        titleLabel.textColor = .csBlack
+    }
+    
 }
