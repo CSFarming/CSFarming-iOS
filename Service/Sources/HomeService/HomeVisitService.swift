@@ -8,11 +8,14 @@
 import Foundation
 import RxSwift
 import BaseService
+import FarmingService
 
 public protocol HomeVisitServiceInterface: AnyObject {
     
     var currentHistory: Observable<[HomeElement]> { get }
+    var farmingList: Observable<[FarmingElement]> { get }
     func requestVisitHistory()
+    func requestFarmingList()
     func requestRemoveAll() -> Single<Void>
     
 }

@@ -10,6 +10,7 @@ import Moya
 import RxSwift
 import RxRelay
 import BaseService
+import FarmingService
 
 public protocol HomeServiceInterface: HomeVisitServiceInterface {}
 
@@ -19,15 +20,25 @@ public final class HomeService: HomeServiceInterface {
         return historyRelay.asObservable()
     }
     
+    public var farmingList: Observable<[FarmingElement]> {
+        return farmingRelay.asObservable()
+    }
+    
     private let repository: HomeRepositoryInterface
+    private let farmingRepository: FarmingRepositoryInterface
     private let historyRelay = PublishRelay<[HomeElement]>()
+    private let farmingRelay = PublishRelay<[FarmingElement]>()
     private let historyLimit = 5
     private let refreshSeconds = 60 // 1분
     private let disposeBag = DisposeBag()
     private var lastUpdated: Date?
     
-    public init(repository: HomeRepositoryInterface) {
+    public init(
+        repository: HomeRepositoryInterface,
+        farmingRepository: FarmingRepositoryInterface
+    ) {
         self.repository = repository
+        self.farmingRepository = farmingRepository
     }
     
     public func requestVisitHistory() {
@@ -45,6 +56,17 @@ public final class HomeService: HomeServiceInterface {
                 with: self,
                 onSuccess: { this, elements in
                     this.historyRelay.accept(elements)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    public func requestFarmingList() {
+        farmingRepository.read(limit: 7)
+            .subscribe(
+                with: self,
+                onSuccess: { this, elements in
+                    this.farmingRelay.accept(elements)
                 }
             )
             .disposed(by: disposeBag)

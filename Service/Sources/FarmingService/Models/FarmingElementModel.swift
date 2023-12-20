@@ -11,12 +11,12 @@ import SwiftData
 @Model
 public final class FarmingElementModel {
     
-    public let types: [FarmingType]
-    public let date: FarmingDate
+    public let activityScore: Int
+    @Attribute(.unique) let date: FarmingElementDateModel
     
-    public init(types: [FarmingType], date: FarmingDate) {
-        self.types = types
-        self.date = date
+    public init(activityScore: Int, date: FarmingDate) {
+        self.activityScore = activityScore
+        self.date = FarmingElementDateModel(year: date.year, month: date.month, day: date.day)
     }
     
 }
@@ -24,7 +24,10 @@ public final class FarmingElementModel {
 public extension FarmingElementModel {
     
     func toElement() -> FarmingElement {
-        return FarmingElement(types: types, date: date)
+        return FarmingElement(
+            activityScore: activityScore, 
+            date: .init(year: date.year, month: date.month, day: date.day)
+        )
     }
     
 }

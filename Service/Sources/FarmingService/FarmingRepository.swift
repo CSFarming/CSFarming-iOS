@@ -11,11 +11,12 @@ import BaseService
 
 public protocol FarmingRepositoryInterface: AnyObject {
     func read(limit: Int) -> Single<[FarmingElement]>
+    func readOne(date: FarmingDate) -> Single<FarmingElement?>
     func insert(element: FarmingElement) -> Single<Void>
     func removeAll() -> Single<Void>
 }
 
-public final class FarmingRepository {
+public final class FarmingRepository: FarmingRepositoryInterface {
     
     private let storage: SwiftDataStorageInterface
     
@@ -31,8 +32,17 @@ public final class FarmingRepository {
             }
     }
     
+    public func readOne(date: FarmingDate) -> Single<FarmingElement?> {
+        let predicate = #Predicate<FarmingElementModel> { model in
+            date == model.date
+        }
+        
+        return storage.readOne(predicate: predicate)
+            .map { $0?.toElement() }
+    }
+    
     public func insert(element: FarmingElement) -> Single<Void> {
-        let model = FarmingElementModel(types: element.types, date: element.date)
+        let model = FarmingElementModel(activityScore: element.activityScore, date: element.date)
         return storage.insert(model: model)
     }
     

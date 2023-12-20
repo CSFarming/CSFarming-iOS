@@ -8,11 +8,6 @@
 import Foundation
 import BaseService
 
-public enum FarmingType {
-    case article
-    case problem
-}
-
 public struct FarmingDate {
     
     public let year: Int
@@ -28,23 +23,20 @@ public struct FarmingDate {
 
 public struct FarmingElement {
     
-    public let types: [FarmingType]
+    public let activityScore: Int
     public let date: FarmingDate
     
-    public init(types: [FarmingType], date: FarmingDate) {
-        self.types = types
+    public init(activityScore: Int, date: FarmingDate) {
+        self.activityScore = activityScore
         self.date = date
     }
     
 }
 
-extension FarmingDate: Comparable {
+extension FarmingDate {
     
-    public static func < (lhs: FarmingDate, rhs: FarmingDate) -> Bool {
-        if lhs.year < rhs.year { return true }
-        if lhs.month < rhs.month { return true }
-        return lhs.day < rhs.day
+    static func == (lhs: FarmingDate, rhs: FarmingElementDateModel) -> Bool {
+        return lhs.year == rhs.year && lhs.month == rhs.month && lhs.day == rhs.day
     }
-    
     
 }

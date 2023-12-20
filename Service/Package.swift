@@ -73,6 +73,7 @@ let package = Package(
             name: "HomeService",
             dependencies: [
                 "BaseService",
+                "FarmingService",
                 "Moya"
             ]
         ),
@@ -88,6 +89,7 @@ let package = Package(
             name: "MarkdownService",
             dependencies: [
                 "BaseService",
+                "FarmingService",
                 "Moya"
             ]
         ),
