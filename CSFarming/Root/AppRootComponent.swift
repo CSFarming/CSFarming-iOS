@@ -39,12 +39,13 @@ final class AppRootComponent: Component<AppRootDependency>, AppRootComponentDepe
     lazy var questionBuilder: QuestionBuildable = QuestionBuilder(dependency: self)
     lazy var questionCreateBuilder: QuestionCreateBuildable = QuestionCreateBuilder(dependency: self)
     
+    let calendar: Calendar
     
     override init(dependency: AppRootDependency) {
         let schema = Schema([ContentElementModel.self, QuestionListModel.self, FarmingElementModel.self])
         let storage = SwiftDataStorage(schema: schema)
         
-        let calendar: Calendar = {
+        self.calendar = {
             var calendar = Calendar(identifier: .gregorian)
             calendar.locale = Locale(identifier: "ko_kr")
             return calendar

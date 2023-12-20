@@ -12,11 +12,11 @@ import SwiftData
 public final class FarmingElementModel {
     
     public let activityScore: Int
-    @Attribute(.unique) let date: FarmingElementDateModel
+    public let date: Date
     
-    public init(activityScore: Int, date: FarmingDate) {
+    public init(activityScore: Int, date: Date) {
         self.activityScore = activityScore
-        self.date = FarmingElementDateModel(year: date.year, month: date.month, day: date.day)
+        self.date = date
     }
     
 }
@@ -26,7 +26,7 @@ public extension FarmingElementModel {
     func toElement() -> FarmingElement {
         return FarmingElement(
             activityScore: activityScore, 
-            date: .init(year: date.year, month: date.month, day: date.day)
+            date: date
         )
     }
     

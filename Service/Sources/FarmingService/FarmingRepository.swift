@@ -11,7 +11,7 @@ import BaseService
 
 public protocol FarmingRepositoryInterface: AnyObject {
     func read(limit: Int) -> Single<[FarmingElement]>
-    func readOne(date: FarmingDate) -> Single<FarmingElement?>
+    func readOne(date: Date) -> Single<FarmingElement?>
     func insert(element: FarmingElement) -> Single<Void>
     func removeAll() -> Single<Void>
 }
@@ -32,9 +32,9 @@ public final class FarmingRepository: FarmingRepositoryInterface {
             }
     }
     
-    public func readOne(date: FarmingDate) -> Single<FarmingElement?> {
-        let predicate = #Predicate<FarmingElementModel> { model in
-            date == model.date
+    public func readOne(date: Date) -> Single<FarmingElement?> {
+        let predicate = #Predicate<FarmingElementModel> {
+            $0.date == date
         }
         
         return storage.readOne(predicate: predicate)
@@ -42,8 +42,15 @@ public final class FarmingRepository: FarmingRepositoryInterface {
     }
     
     public func insert(element: FarmingElement) -> Single<Void> {
-        let model = FarmingElementModel(activityScore: element.activityScore, date: element.date)
-        return storage.insert(model: model)
+        let date = element.date
+        let predicate = #Predicate<FarmingElementModel> {
+            $0.date == date
+        }
+        let model = FarmingElementModel(
+            activityScore: element.activityScore,
+            date: element.date
+        )
+        return storage.upsert(model: model, predicate: predicate)
     }
     
     public func removeAll() -> Single<Void> {

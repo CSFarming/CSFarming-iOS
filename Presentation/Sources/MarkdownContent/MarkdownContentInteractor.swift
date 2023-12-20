@@ -79,18 +79,20 @@ final class MarkdownContentInteractor: PresentableInteractor<MarkdownContentPres
     }
     
     private func requestVisited() {
-        dependency.markdownService
-            .requestVisit(element: .init(title: dependency.title, path: dependency.path))
-            .subscribe(
-                with: self,
-                onSuccess: { this, _ in
-                    print("# 성공적으로 방문 기록 작성")
-                },
-                onFailure: { this, error in
-                    print("# 방문 기록 작성 실패: \(error.localizedDescription)")
-                }
-            )
-            .disposed(by: disposeBag)
+        Observable.zip(
+            dependency.markdownService.requestVisit(element: .init(title: dependency.title, path: dependency.path)).asObservable(),
+            dependency.markdownService.requestVisitFarming().asObservable()
+        )
+        .subscribe(
+            with: self,
+            onNext: { this, _ in
+                print("# 성공적으로 방문 기록 작성")
+            },
+            onError: { this, error in
+                print("# 방문 기록 작성 실패: \(error.localizedDescription)")
+            }
+        )
+        .disposed(by: disposeBag)
     }
     
 }

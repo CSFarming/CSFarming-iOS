@@ -20,6 +20,7 @@ public protocol SwiftDataStorageInterface: AnyObject {
     func readOne<T: PersistentModel>(predicate: Predicate<T>) -> Single<T?>
     func removeAll<T: PersistentModel>(model: T.Type) -> Single<Void>
     func insert<T: PersistentModel>(model: T) -> Single<Void>
+    func upsert<T: PersistentModel>(model: T, predicate: Predicate<T>) -> Single<Void>
     
 }
 
@@ -38,28 +39,51 @@ open class SwiftDataStorage: SwiftDataStorageInterface {
         }
     }
     
+    @MainActor
     open func read<T: PersistentModel>(sortBy: [SortDescriptor<T>]) async throws -> [T] {
-        let descriptor = FetchDescriptor(sortBy: sortBy)
-        return try context.fetch(descriptor)
+        try await MainActor.run {
+            let descriptor = FetchDescriptor(sortBy: sortBy)
+            return try context.fetch(descriptor)
+        }
     }
     
+    @MainActor
     open func read<T: PersistentModel>(sortBy: [SortDescriptor<T>], limit: Int) async throws -> [T]  {
         var descriptor = FetchDescriptor(sortBy: sortBy)
         descriptor.fetchLimit = limit
         return try context.fetch(descriptor)
     }
     
+    @MainActor
     open func readOne<T: PersistentModel>(predicate: Predicate<T>) async throws -> T? {
         var descriptor = FetchDescriptor(predicate: predicate)
         descriptor.fetchLimit = 1
         return try context.fetch(descriptor).first
     }
 
+    @MainActor
     open func removeAll<T: PersistentModel>(model: T.Type) async throws {
         try context.delete(model: model)
     }
     
+    @MainActor
     open func insert<T: PersistentModel>(model: T) async {
+        context.insert(model)
+    }
+    
+    @MainActor
+    open func remove<T: PersistentModel>(model: T) async {
+        context.delete(model)
+    }
+    
+    @MainActor
+    open func remove<T: PersistentModel>(model: T.Type, where predicate: Predicate<T>) async throws {
+        try context.delete(model: model, where: predicate)
+    }
+    
+    @MainActor
+    open func upsert<T: PersistentModel>(model: T, where predicate: Predicate<T>) async throws {
+        try await remove(model: T.self, where: predicate)
         context.insert(model)
     }
     
@@ -164,5 +188,25 @@ open class SwiftDataStorage: SwiftDataStorageInterface {
         }
     }
     
+    open func upsert<T: PersistentModel>(model: T, predicate: Predicate<T>) -> Single<Void> {
+        return Single<Void>.create { single -> Disposable in
+            let request = Task { [weak self] in
+                guard let self else {
+                    single(.failure(SwiftDataStorageError.canceled))
+                    return
+                }
+                do {
+                    try await upsert(model: model, where: predicate)
+                    single(.success(()))
+                } catch {
+                    single(.failure(error))
+                }
+            }
+            
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
     
 }

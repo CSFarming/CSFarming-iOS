@@ -5,11 +5,19 @@
 //  Created by 홍성준 on 12/20/23.
 //
 
+import Foundation
 import RIBs
+import HomeService
 
-protocol HomeFarmingDependency: Dependency {}
+protocol HomeFarmingDependency: Dependency {
+    var homeService: HomeServiceInterface { get }
+    var calendar: Calendar { get }
+}
 
-final class HomeFarmingComponent: Component<HomeFarmingDependency> {}
+final class HomeFarmingComponent: Component<HomeFarmingDependency>, HomeFarmingInteractorDependency {
+    var homeService: HomeServiceInterface { dependency.homeService }
+    var calendar: Calendar { dependency.calendar }
+}
 
 protocol HomeFarmingBuildable: Buildable {
     func build(withListener listener: HomeFarmingListener) -> ViewableRouting
@@ -24,7 +32,7 @@ final class HomeFarmingBuilder: Builder<HomeFarmingDependency>, HomeFarmingBuild
     func build(withListener listener: HomeFarmingListener) -> ViewableRouting {
         let component = HomeFarmingComponent(dependency: dependency)
         let viewController = HomeFarmingViewController()
-        let interactor = HomeFarmingInteractor(presenter: viewController)
+        let interactor = HomeFarmingInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         return HomeFarmingRouter(interactor: interactor, viewController: viewController)
     }

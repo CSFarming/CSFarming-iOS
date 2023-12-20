@@ -5,6 +5,7 @@
 //  Created by 홍성준 on 11/26/23.
 //
 
+import Foundation
 import RIBs
 import HomeInterface
 import HomeService
@@ -13,6 +14,7 @@ import MarkdownContentInterface
 public protocol HomeDependency: Dependency {
     var homeService: HomeServiceInterface { get }
     var markdownContentBuilder: MarkdownContentBuildable { get }
+    var calendar: Calendar { get }
 }
 
 final class HomeComponent: Component<HomeDependency>,
@@ -21,6 +23,7 @@ final class HomeComponent: Component<HomeDependency>,
                            HomeRecentDependency {
     var homeService: HomeServiceInterface { dependency.homeService }
     var markdownContentBuilder: MarkdownContentBuildable { dependency.markdownContentBuilder }
+    var calendar: Calendar { dependency.calendar }
 }
 
 public final class HomeBuilder: Builder<HomeDependency>, HomeBuildable {
