@@ -17,7 +17,8 @@ public protocol HomeDependency: Dependency {
 
 final class HomeComponent: Component<HomeDependency>,
                            HomeInteractorDependency,
-                           HomeFarmingDependency {
+                           HomeFarmingDependency,
+                           HomeRecentDependency {
     var homeService: HomeServiceInterface { dependency.homeService }
     var markdownContentBuilder: MarkdownContentBuildable { dependency.markdownContentBuilder }
 }
@@ -40,7 +41,8 @@ public final class HomeBuilder: Builder<HomeDependency>, HomeBuildable {
             interactor: interactor,
             viewController: viewController,
             markdownContentBuilder: component.markdownContentBuilder,
-            homeFarmingBuilder: HomeFarmingBuilder(dependency: component)
+            homeFarmingBuilder: HomeFarmingBuilder(dependency: component),
+            homeRecentBuilder: HomeRecentBuilder(dependency: component)
         )
     }
     

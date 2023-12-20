@@ -6,10 +6,15 @@
 //
 
 import RIBs
+import HomeService
 
-protocol HomeRecentDependency: Dependency {}
+protocol HomeRecentDependency: Dependency {
+    var homeService: HomeServiceInterface { get }
+}
 
-final class HomeRecentComponent: Component<HomeRecentDependency> {}
+final class HomeRecentComponent: Component<HomeRecentDependency>, HomeRecentInteractorDependency {
+    var homeService: HomeServiceInterface { dependency.homeService }
+}
 
 protocol HomeRecentBuildable: Buildable {
     func build(withListener listener: HomeRecentListener) -> ViewableRouting
@@ -24,7 +29,7 @@ final class HomeRecentBuilder: Builder<HomeRecentDependency>, HomeRecentBuildabl
     func build(withListener listener: HomeRecentListener) -> ViewableRouting {
         let component = HomeRecentComponent(dependency: dependency)
         let viewController = HomeRecentViewController()
-        let interactor = HomeRecentInteractor(presenter: viewController)
+        let interactor = HomeRecentInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         return HomeRecentRouter(interactor: interactor, viewController: viewController)
     }
