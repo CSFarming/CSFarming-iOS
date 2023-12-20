@@ -51,6 +51,10 @@ let package = Package(
             name: "QuestionServiceTestUtil",
             targets: ["QuestionServiceTestUtil"]
         ),
+        .library(
+            name: "FarmingService",
+            targets: ["FarmingService"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/Moya/Moya.git", .upToNextMajor(from: "15.0.0")),
@@ -69,6 +73,7 @@ let package = Package(
             name: "HomeService",
             dependencies: [
                 "BaseService",
+                "FarmingService",
                 "Moya"
             ]
         ),
@@ -84,6 +89,7 @@ let package = Package(
             name: "MarkdownService",
             dependencies: [
                 "BaseService",
+                "FarmingService",
                 "Moya"
             ]
         ),
@@ -140,6 +146,13 @@ let package = Package(
                 "BaseService",
                 "QuestionService"
             ]
-        )
+        ),
+        .target(
+            name: "FarmingService",
+            dependencies: [
+                "RxSwift",
+                "BaseService"
+            ]
+        ),
     ]
 )
