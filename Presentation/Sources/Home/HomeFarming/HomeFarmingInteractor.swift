@@ -30,6 +30,9 @@ final class HomeFarmingInteractor: PresentableInteractor<HomeFarmingPresentable>
     weak var router: HomeFarmingRouting?
     weak var listener: HomeFarmingListener?
     
+    private var elements: [FarmingElement] = []
+    private var isFirstAppear = true
+    
     private let dependency: HomeFarmingInteractorDependency
     private let disposeBag = DisposeBag()
     
@@ -52,6 +55,14 @@ final class HomeFarmingInteractor: PresentableInteractor<HomeFarmingPresentable>
         super.willResignActive()
     }
     
+    func viewWillAppear() {
+        guard isFirstAppear == false else {
+            isFirstAppear = false
+            return
+        }
+        fetchChartList()
+    }
+    
     private func fetchChartList() {
         dependency.homeService.requestFarmingList()
     }
@@ -70,6 +81,10 @@ final class HomeFarmingInteractor: PresentableInteractor<HomeFarmingPresentable>
     }
     
     private func performAfterFetchingFarmingList(_ elements: [FarmingElement]) {
+        if self.elements == elements {
+            return
+        }
+        self.elements = elements
         let model = generateChartModel(elements)
         presenter.setup(model: model)
     }

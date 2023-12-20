@@ -11,7 +11,9 @@ import UIKit
 import DesignKit
 import BasePresentation
 
-protocol HomeFarmingPresentableListener: AnyObject {}
+protocol HomeFarmingPresentableListener: AnyObject {
+    func viewWillAppear()
+}
 
 final class HomeFarmingViewController: BaseViewController, HomeFarmingPresentable, HomeFarmingViewControllable {
     
@@ -24,6 +26,11 @@ final class HomeFarmingViewController: BaseViewController, HomeFarmingPresentabl
     
     func setup(model: HomeFarmingChartViewModel) {
         chartView.setup(model: model, height: barHeight)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        listener?.viewWillAppear()
     }
     
     override func setupLayout() {

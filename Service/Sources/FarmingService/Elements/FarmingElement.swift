@@ -19,3 +19,11 @@ public struct FarmingElement {
     }
     
 }
+
+extension FarmingElement: Equatable {
+    
+    public static func == (lhs: FarmingElement, rhs: FarmingElement) -> Bool {
+        return lhs.activityScore == rhs.activityScore && lhs.date == rhs.date
+    }
+    
+}
