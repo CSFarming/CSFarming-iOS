@@ -12,7 +12,7 @@ protocol HomeFarmingDependency: Dependency {}
 final class HomeFarmingComponent: Component<HomeFarmingDependency> {}
 
 protocol HomeFarmingBuildable: Buildable {
-    func build(withListener listener: HomeFarmingListener) -> HomeFarmingRouting
+    func build(withListener listener: HomeFarmingListener) -> ViewableRouting
 }
 
 final class HomeFarmingBuilder: Builder<HomeFarmingDependency>, HomeFarmingBuildable {
@@ -21,7 +21,7 @@ final class HomeFarmingBuilder: Builder<HomeFarmingDependency>, HomeFarmingBuild
         super.init(dependency: dependency)
     }
     
-    func build(withListener listener: HomeFarmingListener) -> HomeFarmingRouting {
+    func build(withListener listener: HomeFarmingListener) -> ViewableRouting {
         let component = HomeFarmingComponent(dependency: dependency)
         let viewController = HomeFarmingViewController()
         let interactor = HomeFarmingInteractor(presenter: viewController)

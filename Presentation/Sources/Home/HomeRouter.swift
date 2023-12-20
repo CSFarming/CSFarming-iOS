@@ -22,12 +22,17 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable>, 
     private let markdownContentBuilder: MarkdownContentBuildable
     private var markdownContentRouting: ViewableRouting?
     
+    private let homeFarmingBuilder: HomeFarmingBuildable
+    private var homeFarmingRouting: ViewableRouting?
+    
     init(
         interactor: HomeInteractable,
         viewController: HomeViewControllable,
-        markdownContentBuilder: MarkdownContentBuildable
+        markdownContentBuilder: MarkdownContentBuildable,
+        homeFarmingBuilder: HomeFarmingBuildable
     ) {
         self.markdownContentBuilder = markdownContentBuilder
+        self.homeFarmingBuilder = homeFarmingBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
