@@ -40,11 +40,13 @@ public final class ArchiveService: ArchiveServiceInterface {
     public func requestElements(path: String) -> Single<[ContentElement]> {
         let request: Single<ArchiveListResponse> = provider.request(.detail(path: path))
         return request.map { $0.toElements() }
+            .map { $0.filter { $0.isEnabled() }}
     }
     
     public func requestElementsWithPrefix(path: String) -> Single<[ContentElement]> {
         let request: Single<ArchiveListResponse> = provider.request(.detailWithPrefix(path: path))
         return request.map { $0.toElements() }
+            .map { $0.filter { $0.isEnabled() }}
     }
     
 }
