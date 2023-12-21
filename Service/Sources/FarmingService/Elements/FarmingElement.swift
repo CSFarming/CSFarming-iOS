@@ -14,6 +14,10 @@ public struct FarmingElement {
     public let date: Date
     public let problems: [FarmingProblemElement]
     
+    public var totalScore: Int {
+        return activityScore + problems.map(\.score).reduce(0, +)
+    }
+    
     public init(activityScore: Int, date: Date, problems: [FarmingProblemElement]) {
         self.activityScore = activityScore
         self.date = date

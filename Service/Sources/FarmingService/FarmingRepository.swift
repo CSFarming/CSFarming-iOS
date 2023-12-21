@@ -94,7 +94,13 @@ public final class FarmingRepository: FarmingRepositoryInterface {
             answer: $0.answer,
             isCorrect: $0.isCorrect
         )}
-        let model = FarmingProblemModel(contents: contents, element: farmingElement)
+        let model = FarmingProblemModel(
+            title: element.title,
+            contents: contents,
+            createdAt: element.createdAt,
+            element: farmingElement,
+            score: element.score
+        )
         try await storage.insert(model: model).value
     }
     

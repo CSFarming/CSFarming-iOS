@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		F103A1202B1B2CCF002B21E3 /* HomeService in Frameworks */ = {isa = PBXBuildFile; productRef = F103A11F2B1B2CCF002B21E3 /* HomeService */; };
 		F103A1422B1B53AB002B21E3 /* MarkdownService in Frameworks */ = {isa = PBXBuildFile; productRef = F103A1412B1B53AB002B21E3 /* MarkdownService */; };
+		F1077AA32B347706000BF929 /* Farming in Frameworks */ = {isa = PBXBuildFile; productRef = F1077AA22B347706000BF929 /* Farming */; };
+		F1077AA52B347706000BF929 /* FarmingInterface in Frameworks */ = {isa = PBXBuildFile; productRef = F1077AA42B347706000BF929 /* FarmingInterface */; };
 		F13267D02B316CFC0075B78F /* CoreUtil in Frameworks */ = {isa = PBXBuildFile; productRef = F13267CF2B316CFC0075B78F /* CoreUtil */; };
 		F13267D22B316CFC0075B78F /* RIBsTestUtil in Frameworks */ = {isa = PBXBuildFile; productRef = F13267D12B316CFC0075B78F /* RIBsTestUtil */; };
 		F13267D42B316DA90075B78F /* DesignKit in Frameworks */ = {isa = PBXBuildFile; productRef = F13267D32B316DA90075B78F /* DesignKit */; };
@@ -78,6 +80,7 @@
 				F17BAC302B133D4C00FECB54 /* RxBlocking in Frameworks */,
 				F13267D02B316CFC0075B78F /* CoreUtil in Frameworks */,
 				F103A1422B1B53AB002B21E3 /* MarkdownService in Frameworks */,
+				F1077AA52B347706000BF929 /* FarmingInterface in Frameworks */,
 				F13267D42B316DA90075B78F /* DesignKit in Frameworks */,
 				F17BAC522B135D1A00FECB54 /* Home in Frameworks */,
 				F1A4D0DF2B245F31007B12A8 /* QuestionInterface in Frameworks */,
@@ -90,6 +93,7 @@
 				F15B078A2B1B56A3009AE02D /* MarkdownContentInterface in Frameworks */,
 				F17BAC422B13431100FECB54 /* RIBsUtil in Frameworks */,
 				F17BAC442B13431100FECB54 /* RxUtil in Frameworks */,
+				F1077AA32B347706000BF929 /* Farming in Frameworks */,
 				F13267EB2B3316A10075B78F /* FarmingService in Frameworks */,
 				F1A4D0D32B24239B007B12A8 /* ProblemService in Frameworks */,
 				F15B07882B1B56A3009AE02D /* MarkdownContent in Frameworks */,
@@ -206,6 +210,8 @@
 				F13267D12B316CFC0075B78F /* RIBsTestUtil */,
 				F13267D32B316DA90075B78F /* DesignKit */,
 				F13267EA2B3316A10075B78F /* FarmingService */,
+				F1077AA22B347706000BF929 /* Farming */,
+				F1077AA42B347706000BF929 /* FarmingInterface */,
 			);
 			productName = CSFarming;
 			productReference = F14CCC8B2B1335BA00E8BDA0 /* CSFarming.app */;
@@ -522,6 +528,14 @@
 		F103A1412B1B53AB002B21E3 /* MarkdownService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MarkdownService;
+		};
+		F1077AA22B347706000BF929 /* Farming */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Farming;
+		};
+		F1077AA42B347706000BF929 /* FarmingInterface */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FarmingInterface;
 		};
 		F13267CF2B316CFC0075B78F /* CoreUtil */ = {
 			isa = XCSwiftPackageProductDependency;

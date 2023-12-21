@@ -71,7 +71,7 @@ final class HomeRecentViewController: BaseViewController, HomeRecentPresentable,
         view.backgroundColor = .csBlue1
         
         titleLabel.text = "최근 내역"
-        titleLabel.font = .headerSB
+        titleLabel.font = .largeB
         titleLabel.textColor = .csBlack
         
         stackView.axis = .vertical

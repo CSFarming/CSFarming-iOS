@@ -18,7 +18,9 @@ protocol HomeFarmingPresentable: Presentable {
     func setup(model: HomeFarmingChartViewModel)
 }
 
-protocol HomeFarmingListener: AnyObject {}
+protocol HomeFarmingListener: AnyObject {
+    func homeFarmingDidTapChart()
+}
 
 protocol HomeFarmingInteractorDependency: AnyObject {
     var homeService: HomeServiceInterface { get }
@@ -53,6 +55,10 @@ final class HomeFarmingInteractor: PresentableInteractor<HomeFarmingPresentable>
     
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    func didTapChart() {
+        listener?.homeFarmingDidTapChart()
     }
     
     func viewWillAppear() {
@@ -90,10 +96,10 @@ final class HomeFarmingInteractor: PresentableInteractor<HomeFarmingPresentable>
     }
     
     private func generateChartModel(_ elements: [FarmingElement]) -> HomeFarmingChartViewModel {
-        let maxScore = elements.map(\.activityScore).max() ?? 1
+        let maxScore = elements.map(\.totalScore).max() ?? 1
         let barModels: [HomeFarmingChartBarViewModel] = generateDefaultDayModel()
             .map { model in
-                let score = elements.first(where: { dependency.calendar.component(.day, from: $0.date) == model.day } )?.activityScore ?? 0
+                let score = elements.first(where: { dependency.calendar.component(.day, from: $0.date) == model.day } )?.totalScore ?? 0
                 return .init(score: score, maxScore: maxScore, dayModel: model)
             }
         

@@ -9,11 +9,13 @@ import RIBs
 import RIBsUtil
 import HomeInterface
 import MarkdownContentInterface
+import FarmingInterface
 
 protocol HomeInteractable: Interactable,
                            MarkdownContentListener,
                            HomeFarmingListener,
-                           HomeRecentListener {
+                           HomeRecentListener,
+                           FarmingHomeListener {
     var router: HomeRouting? { get set }
     var listener: HomeListener? { get set }
 }
@@ -34,16 +36,21 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable>, 
     private let homeRecentBuilder: HomeRecentBuildable
     private var homeRecentRouting:  ViewableRouting?
     
+    private let farmingHomeBuilder: FarmingHomeBuildable
+    private var farmingHomeRouting: ViewableRouting?
+    
     init(
         interactor: HomeInteractable,
         viewController: HomeViewControllable,
         markdownContentBuilder: MarkdownContentBuildable,
         homeFarmingBuilder: HomeFarmingBuildable,
-        homeRecentBuilder: HomeRecentBuildable
+        homeRecentBuilder: HomeRecentBuildable,
+        farmingHomeBuilder: FarmingHomeBuildable
     ) {
         self.markdownContentBuilder = markdownContentBuilder
         self.homeFarmingBuilder = homeFarmingBuilder
         self.homeRecentBuilder = homeRecentBuilder
+        self.farmingHomeBuilder = farmingHomeBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -75,6 +82,19 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable>, 
         viewController.setDashboard(router.viewControllable)
         homeRecentRouting = router
         attachChild(router)
+    }
+    
+    func attachFarmingHome() {
+        guard farmingHomeRouting == nil else { return }
+        let router = farmingHomeBuilder.build(withListener: interactor)
+        pushRouter(router, animated: true)
+        farmingHomeRouting = router
+    }
+    
+    func detachFarmingHome() {
+        guard let router = farmingHomeRouting else { return }
+        popRouter(router, animated: true)
+        farmingHomeRouting = nil
     }
     
 }

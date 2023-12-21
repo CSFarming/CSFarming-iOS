@@ -1,35 +1,34 @@
 //
-//  ProblemHeader.swift
+//  TextOnlyCollectionHeaderView.swift
 //
 //
-//  Created by 홍성준 on 12/18/23.
+//  Created by 홍성준 on 12/22/23.
 //
 
 import UIKit
 import SnapKit
 import DesignKit
-import BasePresentation
 
-final class ProblemHeader: BaseCollectionReusableView {
+open class TextOnlyCollectionHeaderView: BaseCollectionReusableView {
     
     private let titleLabel = UILabel()
     
-    func updateTitle(_ title: String) {
+    public func updateTitle(_ title: String) {
         titleLabel.text = title
     }
     
-    override func clear() {
+    open override func clear() {
         titleLabel.text = nil
     }
     
-    override func setupLayout() {
+    open override func setupLayout() {
         addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.top.leading.trailing.bottom.equalToSuperview()
         }
     }
     
-    override func setupAttributes() {
+    open override func setupAttributes() {
         titleLabel.textColor = .csBlack
         titleLabel.font = .largeB
     }
