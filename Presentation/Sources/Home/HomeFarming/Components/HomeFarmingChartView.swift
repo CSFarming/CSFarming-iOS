@@ -18,9 +18,11 @@ final class HomeFarmingChartView: AnimateBaseView {
     
     private let containerView = UIView()
     private let stackView = UIStackView()
+    private let emptyView = HomeFarmingEmptyChartContentView()
     
     func setup(model: HomeFarmingChartViewModel, height: CGFloat) {
         stackView.subviews.forEach { $0.removeFromSuperview() }
+        emptyView.isHidden = true
         
         model.barModels.forEach { barModel in
             let barView = HomeFarmingChartBarView()
@@ -38,6 +40,12 @@ final class HomeFarmingChartView: AnimateBaseView {
         containerView.addSubview(stackView)
         stackView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(20)
+        }
+        
+        containerView.addSubview(emptyView)
+        emptyView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.centerY.equalToSuperview()
         }
     }
     
