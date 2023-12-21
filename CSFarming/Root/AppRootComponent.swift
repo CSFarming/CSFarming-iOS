@@ -8,23 +8,25 @@
 import Foundation
 import SwiftData
 import RIBs
-import Home
-import Archive
-import Problem
 import BaseService
-import HomeService
+import Archive
 import ArchiveService
-import ProblemService
-import MarkdownService
+import ArchiveInterface
+import Farming
+import FarmingService
+import FarmingInterface
+import Home
+import HomeService
 import MarkdownContent
+import MarkdownService
 import MarkdownContentInterface
+import Problem
+import ProblemService
+import Question
 import QuestionService
 import QuestionInterface
-import Question
-import ArchiveInterface
-import FarmingService
 
-typealias AppRootComponentDependency = HomeDependency & ArchiveDependency & ProblemDependency & MarkdownContentDependency & QuestionDependency & QuestionCreateDependency
+typealias AppRootComponentDependency = HomeDependency & ArchiveDependency & ProblemDependency & MarkdownContentDependency & QuestionDependency & QuestionCreateDependency & FarmingHomeDependency
 
 final class AppRootComponent: Component<AppRootDependency>, AppRootComponentDependency {
     
@@ -38,6 +40,7 @@ final class AppRootComponent: Component<AppRootDependency>, AppRootComponentDepe
     lazy var markdownContentBuilder: MarkdownContentBuildable = MarkdownContentBuilder(dependency: self)
     lazy var questionBuilder: QuestionBuildable = QuestionBuilder(dependency: self)
     lazy var questionCreateBuilder: QuestionCreateBuildable = QuestionCreateBuilder(dependency: self)
+    lazy var farmingHomeBuilder: FarmingHomeBuildable = FarmingHomeBuilder(dependency: self)
     
     let calendar: Calendar
     

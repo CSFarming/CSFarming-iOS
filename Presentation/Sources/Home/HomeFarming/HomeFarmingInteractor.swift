@@ -18,7 +18,9 @@ protocol HomeFarmingPresentable: Presentable {
     func setup(model: HomeFarmingChartViewModel)
 }
 
-protocol HomeFarmingListener: AnyObject {}
+protocol HomeFarmingListener: AnyObject {
+    func homeFarmingDidTapChart()
+}
 
 protocol HomeFarmingInteractorDependency: AnyObject {
     var homeService: HomeServiceInterface { get }
@@ -53,6 +55,10 @@ final class HomeFarmingInteractor: PresentableInteractor<HomeFarmingPresentable>
     
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    func didTapChart() {
+        listener?.homeFarmingDidTapChart()
     }
     
     func viewWillAppear() {

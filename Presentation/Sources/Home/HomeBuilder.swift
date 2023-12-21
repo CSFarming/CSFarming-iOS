@@ -10,10 +10,12 @@ import RIBs
 import HomeInterface
 import HomeService
 import MarkdownContentInterface
+import FarmingInterface
 
 public protocol HomeDependency: Dependency {
     var homeService: HomeServiceInterface { get }
     var markdownContentBuilder: MarkdownContentBuildable { get }
+    var farmingHomeBuilder: FarmingHomeBuildable { get }
     var calendar: Calendar { get }
 }
 
@@ -23,6 +25,7 @@ final class HomeComponent: Component<HomeDependency>,
                            HomeRecentDependency {
     var homeService: HomeServiceInterface { dependency.homeService }
     var markdownContentBuilder: MarkdownContentBuildable { dependency.markdownContentBuilder }
+    var farmingHomeBuilder: FarmingHomeBuildable { dependency.farmingHomeBuilder }
     var calendar: Calendar { dependency.calendar }
 }
 
@@ -45,7 +48,8 @@ public final class HomeBuilder: Builder<HomeDependency>, HomeBuildable {
             viewController: viewController,
             markdownContentBuilder: component.markdownContentBuilder,
             homeFarmingBuilder: HomeFarmingBuilder(dependency: component),
-            homeRecentBuilder: HomeRecentBuilder(dependency: component)
+            homeRecentBuilder: HomeRecentBuilder(dependency: component),
+            farmingHomeBuilder: component.farmingHomeBuilder
         )
     }
     

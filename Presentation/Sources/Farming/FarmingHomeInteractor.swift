@@ -5,6 +5,7 @@
 //  Created by 홍성준 on 12/21/23.
 //
 
+import Foundation
 import RIBs
 import RxSwift
 import FarmingInterface
@@ -16,6 +17,14 @@ protocol FarmingHomePresentable: Presentable {
 }
 
 final class FarmingHomeInteractor: PresentableInteractor<FarmingHomePresentable>, FarmingHomeInteractable, FarmingHomePresentableListener {
+    func didTapClose() {
+        
+    }
+    
+    func didTap(at indexPath: IndexPath) {
+        
+    }
+    
     
     weak var router: FarmingHomeRouting?
     weak var listener: FarmingHomeListener?

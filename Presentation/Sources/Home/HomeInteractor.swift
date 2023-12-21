@@ -18,6 +18,9 @@ protocol HomeRouting: ViewableRouting {
     
     func attachHomeFarming()
     func attachHomeRecent()
+    
+    func attachFarmingHome()
+    func detachFarmingHome()
 }
 
 protocol HomePresentable: Presentable {
@@ -62,6 +65,10 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     
     func markdownContentDidTapClose() {
         router?.detachMarkdownContent()
+    }
+    
+    func homeFarmingDidTapChart() {
+        router?.attachFarmingHome()
     }
     
 }

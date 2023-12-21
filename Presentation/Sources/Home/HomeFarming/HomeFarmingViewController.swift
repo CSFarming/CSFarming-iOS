@@ -12,6 +12,7 @@ import DesignKit
 import BasePresentation
 
 protocol HomeFarmingPresentableListener: AnyObject {
+    func didTapChart()
     func viewWillAppear()
 }
 
@@ -53,6 +54,18 @@ final class HomeFarmingViewController: BaseViewController, HomeFarmingPresentabl
         titleLabel.text = "나의 파밍"
         titleLabel.font = .headerSB
         titleLabel.textColor = .csBlack
+    }
+    
+    override func bind() {
+        chartView.rx.tapGesture
+            .bind(to: chartViewBinder)
+            .disposed(by: disposeBag)
+    }
+    
+    private var chartViewBinder: Binder<UITapGestureRecognizer> {
+        return Binder(self) { this, _ in
+            this.listener?.didTapChart()
+        }
     }
     
 }
