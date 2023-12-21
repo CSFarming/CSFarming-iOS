@@ -7,10 +7,15 @@
 
 import RIBs
 import FarmingInterface
+import FarmingService
 
-public protocol FarmingHomeDependency: Dependency {}
+public protocol FarmingHomeDependency: Dependency {
+    var farmingService: FarmingServiceInterface { get }
+}
 
-final class FarmingHomeComponent: Component<FarmingHomeDependency> {}
+final class FarmingHomeComponent: Component<FarmingHomeDependency>, FarmingHomeInteractorDependency {
+    var farmingService: FarmingServiceInterface { dependency.farmingService }
+}
 
 public final class FarmingHomeBuilder: Builder<FarmingHomeDependency>, FarmingHomeBuildable {
     
@@ -21,7 +26,7 @@ public final class FarmingHomeBuilder: Builder<FarmingHomeDependency>, FarmingHo
     public func build(withListener listener: FarmingHomeListener) -> ViewableRouting {
         let component = FarmingHomeComponent(dependency: dependency)
         let viewController = FarmingHomeViewController()
-        let interactor = FarmingHomeInteractor(presenter: viewController)
+        let interactor = FarmingHomeInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
         return FarmingHomeRouter(interactor: interactor, viewController: viewController)
     }

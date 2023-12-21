@@ -75,7 +75,7 @@ extension ArchiveViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label: UILabel = {
             let label = UILabel()
-            label.font = .headerSB
+            label.font = .largeB
             label.textColor = .csBlack
             label.text = "디렉토리"
             return label

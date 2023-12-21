@@ -16,8 +16,13 @@ public final class FarmingElementModel {
     @Attribute(.unique)
     public let date: Date
     
-    @Relationship(deleteRule: .noAction, inverse: \FarmingProblemModel.element)
+    @Relationship(deleteRule: .cascade, inverse: \FarmingProblemModel.element)
     public var problems: [FarmingProblemModel] = []
+    
+    @Transient
+    public var totalScore: Int {
+        return activityScore + problems.map(\.score).reduce(0, +)
+    }
     
     public init(activityScore: Int, date: Date) {
         self.activityScore = activityScore

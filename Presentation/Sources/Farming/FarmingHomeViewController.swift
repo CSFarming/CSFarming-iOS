@@ -20,12 +20,17 @@ protocol FarmingHomePresentableListener: AnyObject {
 final class FarmingHomeViewController: BaseViewController, FarmingHomePresentable, FarmingHomeViewControllable {
     
     weak var listener: FarmingHomePresentableListener?
-    private var models: [FarmingHomeSelectableCellModel] = []
+    private var models: [FarmingHomeItem] = []
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeCollectionViewLayout())
     
     func updateTitle(_ title: String) {
         navigationView.updateTitle(title)
+    }
+    
+    func updateModels(_ models: [FarmingHomeItem]) {
+        self.models = models
+        collectionView.reloadData()
     }
     
     override func setupLayout() {
@@ -51,7 +56,9 @@ final class FarmingHomeViewController: BaseViewController, FarmingHomePresentabl
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.register(FarmingHomeCell.self)
         collectionView.register(FarmingHomeSelectableCell.self)
+        collectionView.registerHeader(TextOnlyCollectionHeaderView.self)
     }
     
     override func bind() {
@@ -100,12 +107,32 @@ extension FarmingHomeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let model = models[safe: indexPath.row] else {
+        guard let item = models[safe: indexPath.row] else {
             return UICollectionViewCell()
         }
-        let cell = collectionView.dequeue(FarmingHomeSelectableCell.self, for: indexPath)
-        cell.setup(model: model)
-        return cell
+        switch item {
+        case .study(let model):
+            let cell = collectionView.dequeue(FarmingHomeCell.self, for: indexPath)
+            cell.setup(model: model)
+            return cell
+            
+        case .problem(let model):
+            let cell = collectionView.dequeue(FarmingHomeSelectableCell.self, for: indexPath)
+            cell.setup(model: model)
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            let header = collectionView.dequeueHeader(TextOnlyCollectionHeaderView.self, for: indexPath)
+            header.updateTitle("오늘의 파밍")
+            return header
+            
+        default:
+            return UICollectionReusableView()
+        }
     }
     
 }

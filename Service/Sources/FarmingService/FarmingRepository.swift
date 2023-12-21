@@ -98,7 +98,8 @@ public final class FarmingRepository: FarmingRepositoryInterface {
             title: element.title,
             contents: contents,
             createdAt: element.createdAt,
-            element: farmingElement
+            element: farmingElement,
+            score: element.score
         )
         try await storage.insert(model: model).value
     }

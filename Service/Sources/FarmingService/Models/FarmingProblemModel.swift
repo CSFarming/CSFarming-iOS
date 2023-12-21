@@ -15,12 +15,14 @@ public final class FarmingProblemModel {
     public let contents: [FarmingProblemContentItem]
     public let createdAt: Date
     public var element: FarmingElementModel?
+    public let score: Int = 10
     
-    public init(title: String, contents: [FarmingProblemContentItem], createdAt: Date, element: FarmingElementModel) {
+    public init(title: String, contents: [FarmingProblemContentItem], createdAt: Date, element: FarmingElementModel, score: Int) {
         self.title = title
         self.contents = contents
         self.createdAt = createdAt
         self.element = element
+        self.score = score
     }
     
 }
@@ -47,7 +49,8 @@ extension FarmingProblemModel {
             title: title,
             items: contents.map { $0.toElement() },
             createdAt: createdAt,
-            date: date
+            date: date,
+            score: score
         )
     }
     

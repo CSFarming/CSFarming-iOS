@@ -71,4 +71,8 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
         router?.attachFarmingHome()
     }
     
+    func farmingHomeDidTapClose() {
+        router?.detachFarmingHome()
+    }
+    
 }

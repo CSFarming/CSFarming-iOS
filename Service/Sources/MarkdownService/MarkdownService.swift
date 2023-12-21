@@ -13,7 +13,6 @@ import FarmingService
 
 public enum MarkdownServiceError: Error {
     case earlyExit
-    case invalidDate
 }
 
 public protocol MarkdownServiceInterface: AnyObject {
@@ -28,13 +27,13 @@ public final class MarkdownService: MarkdownServiceInterface {
     private let provider: MoyaProvider<MarkdownAPI>
     private let repository: MarkdownRepositoryInterface
     private let farmingRepository: FarmingRepositoryInterface
-    private let calendar: Calendar
+    private let calendar: CSCalendarInterface
     
     public init(
         provider: MoyaProvider<MarkdownAPI> = .init(),
         repository: MarkdownRepositoryInterface,
         farmingRepository: FarmingRepositoryInterface,
-        calendar: Calendar
+        calendar: CSCalendarInterface
     ) {
         self.provider = provider
         self.repository = repository
@@ -77,20 +76,17 @@ public final class MarkdownService: MarkdownServiceInterface {
     }
     
     private func readCurrentFarming() -> Single<FarmingElement> {
-        let year = calendar.component(.year, from: .now)
-        let month = calendar.component(.month, from: .now)
-        let day = calendar.component(.day, from: .now)
-        
-        guard let date = calendar.date(from: .init(year: year, month: month, day: day)) else {
-            return .error(MarkdownServiceError.invalidDate)
+        do {
+            let date = try calendar.currentDate()
+            return farmingRepository
+                .readOne(date: date)
+                .map { element -> FarmingElement in
+                    guard let element else { return FarmingElement(activityScore: 1, date: date, problems: []) }
+                    return FarmingElement(activityScore: element.activityScore + 1, date: date, problems: element.problems)
+                }
+        } catch {
+            return .error(error)
         }
-        
-        return farmingRepository
-            .readOne(date: date)
-            .map { element -> FarmingElement in
-                guard let element else { return FarmingElement(activityScore: 1, date: date, problems: []) }
-                return FarmingElement(activityScore: element.activityScore + 1, date: date, problems: element.problems)
-            }
     }
     
 }

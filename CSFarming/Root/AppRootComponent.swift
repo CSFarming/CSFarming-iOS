@@ -33,6 +33,7 @@ final class AppRootComponent: Component<AppRootDependency>, AppRootComponentDepe
     let homeService: HomeServiceInterface
     let markdownService: MarkdownServiceInterface
     let questionService: QuestionServiceInterface
+    let farmingService: FarmingServiceInterface
     
     let archiveService: ArchiveServiceInterface = ArchiveService(parser: GitHubRootParser())
     let problemService: ProblemServiceInterface = ProblemService()
@@ -53,7 +54,7 @@ final class AppRootComponent: Component<AppRootDependency>, AppRootComponentDepe
             calendar.locale = Locale(identifier: "ko_kr")
             return calendar
         }()
-        
+        let csCalendar = CSCalendar(calendar: calendar)
         let farmingRepository = FarmingRepository(storage: storage)
         
         self.homeService = HomeService(
@@ -63,12 +64,16 @@ final class AppRootComponent: Component<AppRootDependency>, AppRootComponentDepe
         self.markdownService = MarkdownService(
             repository: MarkdownRepository(storage: storage),
             farmingRepository: farmingRepository,
-            calendar: calendar
+            calendar: csCalendar
         )
         self.questionService = QuestionService(
             repository: QuestionRepository(storage: storage),
             farmingRepository: farmingRepository,
-            calendar: calendar
+            calendar: csCalendar
+        )
+        self.farmingService = FarmingService(
+            repository: farmingRepository, 
+            calendar: csCalendar
         )
         super.init(dependency: dependency)
     }

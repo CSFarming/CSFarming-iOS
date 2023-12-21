@@ -11,10 +11,6 @@ import Moya
 import BaseService
 import FarmingService
 
-public enum QuestionServiceError: Error {
-    case invalidDate
-}
-
 public protocol QuestionServiceInterface: AnyObject {
     func requestQuestions(directory: String) -> Single<QuestionList>
     func requestLocalQuestions() -> Single<[QuestionElement]>
@@ -27,13 +23,13 @@ public final class QuestionService: QuestionServiceInterface {
     private let provider: MoyaProvider<QuestionAPI>
     private let repository: QuestionRepositoryInterface
     private let farmingRepository: FarmingRepositoryInterface
-    private let calendar: Calendar
+    private let calendar: CSCalendarInterface
     
     public init(
         provider: MoyaProvider<QuestionAPI> = .init(),
         repository: QuestionRepositoryInterface,
         farmingRepository: FarmingRepositoryInterface,
-        calendar: Calendar
+        calendar: CSCalendarInterface
     ) {
         self.provider = provider
         self.repository = repository
@@ -56,28 +52,18 @@ public final class QuestionService: QuestionServiceInterface {
     
     public func insertQuestionResult(title: String, items: [FarmingProblemElementItem]) -> Single<Void> {
         do {
-            let date = try generateCurrentDate()
+            let date = try calendar.currentDate()
             let element = FarmingProblemElement(
                 title: title,
                 items: items,
                 createdAt: Date(),
-                date: date
+                date: date,
+                score: 10
             )
             return farmingRepository.insert(element: element)
         } catch {
             return .error(error)
         }
-    }
-    
-    private func generateCurrentDate() throws ->  Date {
-        let year = calendar.component(.year, from: .now)
-        let month = calendar.component(.month, from: .now)
-        let day = calendar.component(.day, from: .now)
-        
-        guard let date = calendar.date(from: .init(year: year, month: month, day: day)) else {
-            throw QuestionServiceError.invalidDate
-        }
-        return date
     }
     
 }

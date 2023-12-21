@@ -52,7 +52,7 @@ final class HomeFarmingViewController: BaseViewController, HomeFarmingPresentabl
         view.backgroundColor = .csBlue1
         
         titleLabel.text = "나의 파밍"
-        titleLabel.font = .headerSB
+        titleLabel.font = .largeB
         titleLabel.textColor = .csBlack
     }
     

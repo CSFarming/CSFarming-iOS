@@ -11,4 +11,6 @@ public protocol FarmingHomeBuildable: Buildable {
     func build(withListener listener: FarmingHomeListener) -> ViewableRouting
 }
 
-public protocol FarmingHomeListener: AnyObject {}
+public protocol FarmingHomeListener: AnyObject {
+    func farmingHomeDidTapClose()
+}
