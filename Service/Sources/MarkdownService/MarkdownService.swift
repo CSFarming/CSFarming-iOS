@@ -77,9 +77,9 @@ public final class MarkdownService: MarkdownServiceInterface {
     }
     
     private func readCurrentFarming() -> Single<FarmingElement> {
-        let year = calendar.component(.year, from: Date.now)
-        let month = calendar.component(.month, from: Date.now)
-        let day = calendar.component(.day, from: Date.now)
+        let year = calendar.component(.year, from: .now)
+        let month = calendar.component(.month, from: .now)
+        let day = calendar.component(.day, from: .now)
         
         guard let date = calendar.date(from: .init(year: year, month: month, day: day)) else {
             return .error(MarkdownServiceError.invalidDate)
@@ -88,8 +88,8 @@ public final class MarkdownService: MarkdownServiceInterface {
         return farmingRepository
             .readOne(date: date)
             .map { element -> FarmingElement in
-                guard let element else { return FarmingElement(activityScore: 1, date: date) }
-                return FarmingElement(activityScore: element.activityScore + 1, date: date)
+                guard let element else { return FarmingElement(activityScore: 1, date: date, problems: []) }
+                return FarmingElement(activityScore: element.activityScore + 1, date: date, problems: element.problems)
             }
     }
     
