@@ -51,6 +51,14 @@ let package = Package(
             name: "QuestionInterface",
             targets: ["QuestionInterface"]
         ),
+        .library(
+            name: "Farming",
+            targets: ["Farming"]
+        ),
+        .library(
+            name: "FarmingInterface",
+            targets: ["FarmingInterface"]
+        ),
     ],
     dependencies: [
         .package(path: "../Core"),
@@ -186,6 +194,28 @@ let package = Package(
         ),
         .target(
             name: "QuestionInterface",
+            dependencies: [
+                "RIBs"
+            ]
+        ),
+        .target(
+            name: "Farming",
+            dependencies: [
+                "BasePresentation",
+                "FarmingInterface",
+                .product(name: "CoreUtil", package: "Core"),
+                .product(name: "RIBsUtil", package: "Core"),
+                .product(name: "RxUtil", package: "Core"),
+                .product(name: "FarmingService", package: "Service"),
+                "DesignKit",
+                "RIBs",
+                "RxSwift",
+                .product(name: "RxCocoa", package: "RxSwift"),
+                "SnapKit",
+            ]
+        ),
+        .target(
+            name: "FarmingInterface",
             dependencies: [
                 "RIBs"
             ]
