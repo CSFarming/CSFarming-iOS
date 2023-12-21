@@ -12,10 +12,12 @@ public struct FarmingElement {
     
     public let activityScore: Int
     public let date: Date
+    public let problems: [FarmingProblemElement]
     
-    public init(activityScore: Int, date: Date) {
+    public init(activityScore: Int, date: Date, problems: [FarmingProblemElement]) {
         self.activityScore = activityScore
         self.date = date
+        self.problems = problems
     }
     
 }
@@ -23,7 +25,7 @@ public struct FarmingElement {
 extension FarmingElement: Equatable {
     
     public static func == (lhs: FarmingElement, rhs: FarmingElement) -> Bool {
-        return lhs.activityScore == rhs.activityScore && lhs.date == rhs.date
+        return lhs.activityScore == rhs.activityScore && lhs.date == rhs.date && lhs.problems.count == rhs.problems.count
     }
     
 }

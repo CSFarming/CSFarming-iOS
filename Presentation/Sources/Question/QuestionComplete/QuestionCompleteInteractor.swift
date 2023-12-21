@@ -10,6 +10,7 @@ import RIBs
 import RxSwift
 import CoreUtil
 import QuestionService
+import FarmingService
 
 protocol QuestionCompleteRouting: ViewableRouting {}
 
@@ -27,6 +28,7 @@ protocol QuestionCompleteListener: AnyObject {
 protocol QuestionCompleteInteractorDependency: AnyObject {
     var questions: [Question] { get }
     var answers: [QuestionAnswerType] { get }
+    var questionService: QuestionServiceInterface { get }
 }
 
 final class QuestionCompleteInteractor: PresentableInteractor<QuestionCompletePresentable>, QuestionCompleteInteractable, QuestionCompletePresentableListener {
@@ -36,6 +38,7 @@ final class QuestionCompleteInteractor: PresentableInteractor<QuestionCompletePr
     
     private let dependency: QuestionCompleteInteractorDependency
     private var sections: [QuestionCompleteSection] = []
+    private let disposeBag = DisposeBag()
     
     init(
         presenter: QuestionCompletePresentable,
@@ -49,6 +52,7 @@ final class QuestionCompleteInteractor: PresentableInteractor<QuestionCompletePr
     override func didBecomeActive() {
         super.didBecomeActive()
         updatePresentable()
+        requestVisited()
     }
     
     override func willResignActive() {
@@ -95,6 +99,27 @@ final class QuestionCompleteInteractor: PresentableInteractor<QuestionCompletePr
         
         self.sections = newSections
         presenter.updateSections(newSections)
+    }
+    
+    private func requestVisited() {
+        dependency.questionService.insertQuestionResult(items: generateFarmingItems())
+            .subscribe(
+                onSuccess: { _ in
+                    print("# Question Farming 성공적으로 저장")
+                },
+                onFailure: { error in
+                    print("# Question Farming 저장 실패: \(error.localizedDescription)")
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    private func generateFarmingItems() -> [FarmingProblemElementItem] {
+        return zip(dependency.questions, dependency.answers)
+            .map { question, answer in
+                let isCorrect = answer == .ok
+                return .init(question: question.question, answer: question.answer, isCorrect: isCorrect)
+            }
     }
     
 }

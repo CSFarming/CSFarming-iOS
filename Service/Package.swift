@@ -136,6 +136,7 @@ let package = Package(
             name: "QuestionService",
             dependencies: [
                 "BaseService",
+                "FarmingService",
                 "Moya"
             ]
         ),

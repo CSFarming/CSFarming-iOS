@@ -42,7 +42,7 @@ final class AppRootComponent: Component<AppRootDependency>, AppRootComponentDepe
     let calendar: Calendar
     
     override init(dependency: AppRootDependency) {
-        let schema = Schema([ContentElementModel.self, QuestionListModel.self, FarmingElementModel.self])
+        let schema = Schema([ContentElementModel.self, QuestionListModel.self, FarmingElementModel.self, FarmingProblemModel.self])
         let storage = SwiftDataStorage(schema: schema)
         
         self.calendar = {
@@ -62,7 +62,11 @@ final class AppRootComponent: Component<AppRootDependency>, AppRootComponentDepe
             farmingRepository: farmingRepository,
             calendar: calendar
         )
-        self.questionService = QuestionService(repository: QuestionRepository(storage: storage))
+        self.questionService = QuestionService(
+            repository: QuestionRepository(storage: storage),
+            farmingRepository: farmingRepository,
+            calendar: calendar
+        )
         super.init(dependency: dependency)
     }
     
