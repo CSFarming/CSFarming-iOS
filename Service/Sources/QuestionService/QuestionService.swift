@@ -19,7 +19,7 @@ public protocol QuestionServiceInterface: AnyObject {
     func requestQuestions(directory: String) -> Single<QuestionList>
     func requestLocalQuestions() -> Single<[QuestionElement]>
     func insertQuestion(element: QuestionElement) -> Single<Void>
-    func insertQuestionResult(items: [FarmingProblemElementItem]) -> Single<Void>
+    func insertQuestionResult(title: String, items: [FarmingProblemElementItem]) -> Single<Void>
 }
 
 public final class QuestionService: QuestionServiceInterface {
@@ -54,10 +54,15 @@ public final class QuestionService: QuestionServiceInterface {
         return repository.insert(element: element)
     }
     
-    public func insertQuestionResult(items: [FarmingProblemElementItem]) -> Single<Void> {
+    public func insertQuestionResult(title: String, items: [FarmingProblemElementItem]) -> Single<Void> {
         do {
             let date = try generateCurrentDate()
-            let element = FarmingProblemElement(items: items, date: date)
+            let element = FarmingProblemElement(
+                title: title,
+                items: items,
+                createdAt: Date(),
+                date: date
+            )
             return farmingRepository.insert(element: element)
         } catch {
             return .error(error)

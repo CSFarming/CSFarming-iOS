@@ -12,7 +12,7 @@ import QuestionService
 import CoreUtil
 
 protocol QuestionRouting: ViewableRouting {
-    func attachQuestionComplete(questions: [Question], answers: [QuestionAnswerType])
+    func attachQuestionComplete(title: String, questions: [Question], answers: [QuestionAnswerType])
 }
 
 protocol QuestionPresentable: Presentable {
@@ -80,7 +80,7 @@ final class QuestionInteractor: PresentableInteractor<QuestionPresentable>, Ques
     
     private func updateNextStep() {
         guard let question = questions[safe: questionIndex] else {
-            router?.attachQuestionComplete(questions: questions, answers: answers)
+            router?.attachQuestionComplete(title: dependency.title, questions: questions, answers: answers)
             return
         }
         

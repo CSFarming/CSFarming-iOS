@@ -26,6 +26,7 @@ protocol QuestionCompleteListener: AnyObject {
 }
 
 protocol QuestionCompleteInteractorDependency: AnyObject {
+    var title: String { get }
     var questions: [Question] { get }
     var answers: [QuestionAnswerType] { get }
     var questionService: QuestionServiceInterface { get }
@@ -102,16 +103,19 @@ final class QuestionCompleteInteractor: PresentableInteractor<QuestionCompletePr
     }
     
     private func requestVisited() {
-        dependency.questionService.insertQuestionResult(items: generateFarmingItems())
-            .subscribe(
-                onSuccess: { _ in
-                    print("# Question Farming 성공적으로 저장")
-                },
-                onFailure: { error in
-                    print("# Question Farming 저장 실패: \(error.localizedDescription)")
-                }
-            )
-            .disposed(by: disposeBag)
+        dependency.questionService.insertQuestionResult(
+            title: dependency.title,
+            items: generateFarmingItems()
+        )
+        .subscribe(
+            onSuccess: { _ in
+                print("# Question Farming 성공적으로 저장")
+            },
+            onFailure: { error in
+                print("# Question Farming 저장 실패: \(error.localizedDescription)")
+            }
+        )
+        .disposed(by: disposeBag)
     }
     
     private func generateFarmingItems() -> [FarmingProblemElementItem] {
