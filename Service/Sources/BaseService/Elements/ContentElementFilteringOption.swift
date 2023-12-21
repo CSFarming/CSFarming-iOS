@@ -19,10 +19,10 @@ extension ContentElementFilteringOption {
     var exceptFiles: [String] {
         switch self {
         case .default:
-            return ["README.md", "readme.md", "dummy.md"]
+            return ["README.md", "readme.md", "dummy.md", ".gitignore", "Asset"]
             
         case .directoryOnly:
-            return []
+            return ContentElementFilteringOption.default.exceptFiles + []
         }
     }
     
