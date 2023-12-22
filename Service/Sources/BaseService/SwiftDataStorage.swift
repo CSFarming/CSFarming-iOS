@@ -64,27 +64,32 @@ open class SwiftDataStorage: SwiftDataStorageInterface {
     @MainActor
     open func removeAll<T: PersistentModel>(model: T.Type) async throws {
         try context.delete(model: model)
+        try? context.save()
     }
     
     @MainActor
     open func insert<T: PersistentModel>(model: T) async {
         context.insert(model)
+        try? context.save()
     }
     
     @MainActor
     open func remove<T: PersistentModel>(model: T) async {
         context.delete(model)
+        try? context.save()
     }
     
     @MainActor
     open func remove<T: PersistentModel>(model: T.Type, where predicate: Predicate<T>) async throws {
         try context.delete(model: model, where: predicate)
+        try context.save()
     }
     
     @MainActor
     open func upsert<T: PersistentModel>(model: T, where predicate: Predicate<T>) async throws {
         try await remove(model: T.self, where: predicate)
         context.insert(model)
+        try context.save()
     }
     
     open func read<T: PersistentModel>(sortBy: [SortDescriptor<T>]) -> Single<[T]> {
