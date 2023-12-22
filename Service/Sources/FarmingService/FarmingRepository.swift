@@ -85,9 +85,16 @@ public final class FarmingRepository: FarmingRepositoryInterface {
         let predicate = #Predicate<FarmingElementModel> {
             $0.date == date
         }
-        guard let farmingElement = try await storage.readOne(predicate: predicate).value else {
-            throw FarmingRepositoryError.emptyRelatedModel
-        }
+        let farmingElement: FarmingElementModel = try await {
+            if let farmingElement = try? await storage.readOne(predicate: predicate).value {
+                return farmingElement
+            }
+            try await insert(element: .init(activityScore: 0, date: date, problems: [])).value
+            guard let farmingElement = try await storage.readOne(predicate: predicate).value else {
+                throw FarmingRepositoryError.emptyRelatedModel
+            }
+            return farmingElement
+        }()
         
         let contents: [FarmingProblemContentItem] = element.items.map { .init(
             question: $0.question,
