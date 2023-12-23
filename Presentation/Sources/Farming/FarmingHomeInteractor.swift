@@ -8,10 +8,13 @@
 import Foundation
 import RIBs
 import RxSwift
+import CoreUtil
 import FarmingInterface
 import FarmingService
 
-protocol FarmingHomeRouting: ViewableRouting {}
+protocol FarmingHomeRouting: ViewableRouting {
+    func attachQuestion(element: FarmingProblemElement)
+}
 
 protocol FarmingHomePresentable: Presentable {
     var listener: FarmingHomePresentableListener? { get set }
@@ -27,6 +30,8 @@ final class FarmingHomeInteractor: PresentableInteractor<FarmingHomePresentable>
     
     weak var router: FarmingHomeRouting?
     weak var listener: FarmingHomeListener?
+    
+    private var element: FarmingElement?
     
     private let dependency: FarmingHomeInteractorDependency
     private let disposeBag = DisposeBag()
@@ -62,7 +67,9 @@ final class FarmingHomeInteractor: PresentableInteractor<FarmingHomePresentable>
     }
     
     func didTap(at indexPath: IndexPath) {
-        
+        guard indexPath.row != 0 else { return }
+        guard let problemElement = element?.problems[safe: indexPath.row - 1] else { return }
+        router?.attachQuestion(element: problemElement)
     }
     
     private func requestFarmingElement() {
@@ -82,6 +89,7 @@ final class FarmingHomeInteractor: PresentableInteractor<FarmingHomePresentable>
     }
     
     private func performAfterFecthingFarmingElement(_ element: FarmingElement) {
+        self.element = element
         let studyItem: FarmingHomeItem = .study(.init(score: element.activityScore, title: "학습"))
         let problemItems: [FarmingHomeItem] = element.problems.map { .problem(.init(
             score: $0.score,
