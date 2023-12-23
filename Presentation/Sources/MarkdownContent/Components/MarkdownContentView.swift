@@ -19,9 +19,10 @@ struct MarkdownContentView: View {
             .background(Color(UIColor.csBlue1))
         ScrollView(showsIndicators: false) {
             Markdown(content.source)
-                .markdownTheme(.gitHub)
+                .markdownTheme(.csFarming)
         }
         .padding([.leading, .trailing], 20)
+        .background(Color(UIColor.csWhite))
     }
     
     func updateSource(_ source: String) {

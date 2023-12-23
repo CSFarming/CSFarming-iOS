@@ -21,6 +21,7 @@ final class MarkdownContentViewController: UIHostingController<MarkdownContentVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .csWhite
         rootView.updateCloseAction { [weak self] in
             self?.didTapClose()
         }
