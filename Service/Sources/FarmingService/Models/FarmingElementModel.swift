@@ -37,7 +37,9 @@ public extension FarmingElementModel {
         return FarmingElement(
             activityScore: activityScore, 
             date: date,
-            problems: problems.map { $0.toElement(date: date) }
+            problems: problems
+                .sorted(by: { $0.createdAt > $1.createdAt })
+                .map { $0.toElement(date: date) }
         )
     }
     
