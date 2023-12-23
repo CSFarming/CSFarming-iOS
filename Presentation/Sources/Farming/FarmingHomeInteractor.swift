@@ -14,6 +14,7 @@ import FarmingService
 
 protocol FarmingHomeRouting: ViewableRouting {
     func attachQuestion(element: FarmingProblemElement)
+    func detachQuestion()
 }
 
 protocol FarmingHomePresentable: Presentable {
@@ -70,6 +71,10 @@ final class FarmingHomeInteractor: PresentableInteractor<FarmingHomePresentable>
         guard indexPath.row != 0 else { return }
         guard let problemElement = element?.problems[safe: indexPath.row - 1] else { return }
         router?.attachQuestion(element: problemElement)
+    }
+    
+    func farmingQuestionDidTapClose() {
+        router?.detachQuestion()
     }
     
     private func requestFarmingElement() {

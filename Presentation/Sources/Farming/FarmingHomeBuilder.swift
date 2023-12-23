@@ -13,7 +13,7 @@ public protocol FarmingHomeDependency: Dependency {
     var farmingService: FarmingServiceInterface { get }
 }
 
-final class FarmingHomeComponent: Component<FarmingHomeDependency>, FarmingHomeInteractorDependency {
+final class FarmingHomeComponent: Component<FarmingHomeDependency>, FarmingHomeInteractorDependency, FarmingQuestionDependency {
     var farmingService: FarmingServiceInterface { dependency.farmingService }
 }
 
@@ -28,7 +28,11 @@ public final class FarmingHomeBuilder: Builder<FarmingHomeDependency>, FarmingHo
         let viewController = FarmingHomeViewController()
         let interactor = FarmingHomeInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
-        return FarmingHomeRouter(interactor: interactor, viewController: viewController)
+        return FarmingHomeRouter(
+            interactor: interactor,
+            viewController: viewController,
+            farmingQuestionBuiler: FarmingQuestionBuilder(dependency: component)
+        )
     }
     
 }

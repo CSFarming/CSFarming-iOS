@@ -36,6 +36,13 @@ final class FarmingHomeRouter: ViewableRouter<FarmingHomeInteractable, FarmingHo
         guard farmingQuestionRouting == nil else { return }
         let router = farmingQuestionBuiler.build(withListener: interactor, element: element)
         pushRouter(router, animated: true)
+        farmingQuestionRouting = router
+    }
+    
+    func detachQuestion() {
+        guard let router = farmingQuestionRouting else { return }
+        popRouter(router, animated: true)
+        farmingQuestionRouting = nil
     }
     
 }

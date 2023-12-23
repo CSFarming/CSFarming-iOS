@@ -13,9 +13,12 @@ protocol FarmingQuestionRouting: ViewableRouting {}
 
 protocol FarmingQuestionPresentable: Presentable {
     var listener: FarmingQuestionPresentableListener? { get set }
+    func updateTitle(_ title: String)
 }
 
-protocol FarmingQuestionListener: AnyObject {}
+protocol FarmingQuestionListener: AnyObject {
+    func farmingQuestionDidTapClose()
+}
 
 protocol FarmingQuestionInteractorDependency: AnyObject {
     var element: FarmingProblemElement { get }
@@ -39,10 +42,15 @@ final class FarmingQuestionInteractor: PresentableInteractor<FarmingQuestionPres
     
     override func didBecomeActive() {
         super.didBecomeActive()
+        presenter.updateTitle(depenedency.element.title)
     }
 
     override func willResignActive() {
         super.willResignActive()
+    }
+    
+    func didTapClose() {
+        listener?.farmingQuestionDidTapClose()
     }
     
 }
