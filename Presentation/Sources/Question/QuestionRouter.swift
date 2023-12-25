@@ -32,9 +32,9 @@ final class QuestionRouter: ViewableRouter<QuestionInteractable, QuestionViewCon
         interactor.router = self
     }
     
-    func attachQuestionComplete(title: String, questions: [Question], answers: [QuestionAnswerType]) {
+    func attachQuestionComplete(title: String, category: String, questions: [Question], answers: [QuestionAnswerType]) {
         guard questionCompleteRouting == nil else { return }
-        let router = questionCompleteBuilder.build(withListener: interactor, title: title, questions: questions, answers: answers)
+        let router = questionCompleteBuilder.build(withListener: interactor, title: title, category: category, questions: questions, answers: answers)
         pushRouter(router, animated: true)
         questionCompleteRouting = router
     }

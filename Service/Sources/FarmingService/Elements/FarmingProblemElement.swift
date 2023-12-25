@@ -11,13 +11,15 @@ import BaseService
 public struct FarmingProblemElement {
     
     public let title: String
+    public let category: String
     public let items: [FarmingProblemElementItem]
     public let createdAt: Date
     public let date: Date
     public let score: Int
     
-    public init(title: String, items: [FarmingProblemElementItem], createdAt: Date, date: Date, score: Int) {
+    public init(title: String, category: String, items: [FarmingProblemElementItem], createdAt: Date, date: Date, score: Int) {
         self.title = title
+        self.category = category
         self.items = items
         self.createdAt = createdAt
         self.date = date

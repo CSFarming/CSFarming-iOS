@@ -27,6 +27,7 @@ protocol QuestionCompleteListener: AnyObject {
 
 protocol QuestionCompleteInteractorDependency: AnyObject {
     var title: String { get }
+    var category: String { get }
     var questions: [Question] { get }
     var answers: [QuestionAnswerType] { get }
     var questionService: QuestionServiceInterface { get }
@@ -105,6 +106,7 @@ final class QuestionCompleteInteractor: PresentableInteractor<QuestionCompletePr
     private func requestVisited() {
         dependency.questionService.insertQuestionResult(
             title: dependency.title,
+            category: dependency.category,
             items: generateFarmingItems()
         )
         .subscribe(
