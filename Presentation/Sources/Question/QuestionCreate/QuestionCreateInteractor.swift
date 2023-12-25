@@ -27,11 +27,12 @@ final class QuestionCreateInteractor: PresentableInteractor<QuestionCreatePresen
     weak var listener: QuestionCreateListener?
     
     private var isCreateEnabled: Bool {
-        return !title.isEmpty && !subtitle.isEmpty && questions.allSatisfy { $0.isEmpty == false } && answers.allSatisfy { $0.isEmpty == false }
+        return !title.isEmpty && !subtitle.isEmpty && !category.isEmpty && questions.allSatisfy { $0.isEmpty == false } && answers.allSatisfy { $0.isEmpty == false }
     }
     
     private var title = ""
     private var subtitle = ""
+    private var category = ""
     private var questions: [String] = []
     private var answers: [String] = []
     
@@ -58,7 +59,12 @@ final class QuestionCreateInteractor: PresentableInteractor<QuestionCreatePresen
             .map { question, answer in
                 return Question(question: question, answer: answer)
             }
-        router?.attachComplete(title: title, subtitle: subtitle, category: "", questions: questions)
+        router?.attachComplete(
+            title: title, 
+            subtitle: subtitle, 
+            category: category,
+            questions: questions
+        )
     }
     
     func didTapAddQuestion() {
@@ -72,6 +78,11 @@ final class QuestionCreateInteractor: PresentableInteractor<QuestionCreatePresen
     
     func subtitleUpdate(subtitle: String) {
         self.subtitle = subtitle
+        presenter.updateEnabled(isEnabled: isCreateEnabled)
+    }
+    
+    func categoryUpdate(category: String) {
+        self.category = category
         presenter.updateEnabled(isEnabled: isCreateEnabled)
     }
     

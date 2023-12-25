@@ -17,6 +17,7 @@ protocol QuestionCreatePresentableListener: AnyObject {
     func didTapAddQuestion()
     func titleUpdated(title: String)
     func subtitleUpdate(subtitle: String)
+    func categoryUpdate(category: String)
     func questionUpdated(at index: Int, question: String)
     func answerUpdated(at index: Int, answer: String)
     func viewDidLoad()
@@ -32,6 +33,7 @@ final class QuestionCreateViewController: BaseViewController, QuestionCreatePres
     
     private let titleContentView = QuestionCreateContentView()
     private let subtitleContentView = QuestionCreateContentView()
+    private let categoryContentView = QuestionCreateContentView()
     private let separator = UIView()
     private let questionAddButton = ActionButton()
     
@@ -87,6 +89,7 @@ final class QuestionCreateViewController: BaseViewController, QuestionCreatePres
         
         stackView.addArrangedSubview(titleContentView)
         stackView.addArrangedSubview(subtitleContentView)
+        stackView.addArrangedSubview(categoryContentView)
         
         stackView.addArrangedSubview(separator)
         separator.snp.makeConstraints { make in
@@ -119,6 +122,7 @@ final class QuestionCreateViewController: BaseViewController, QuestionCreatePres
         
         titleContentView.setup(model: .init(title: "제목", placeholder: "제목을 입력하세요"))
         subtitleContentView.setup(model: .init(title: "부제목", placeholder: "부제목을 입력하세요"))
+        categoryContentView.setup(model: .init(title: "카테고리", placeholder: "카테고리를 입력하세요"))
         
         separator.backgroundColor = .csGray2
         
@@ -152,6 +156,16 @@ final class QuestionCreateViewController: BaseViewController, QuestionCreatePres
             .disposed(by: disposeBag)
         
         subtitleContentView.rx.returnKeyDidTap
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe(with: self, onNext: { this, _ in this.categoryContentView.becomeFirstResponder() })
+            .disposed(by: disposeBag)
+        
+        categoryContentView.rx.text
+            .compactMap { $0 }
+            .bind(to: categoryBinder)
+            .disposed(by: disposeBag)
+        
+        categoryContentView.rx.returnKeyDidTap
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(
                 with: self,
@@ -219,6 +233,12 @@ final class QuestionCreateViewController: BaseViewController, QuestionCreatePres
     private var subtitleBinder: Binder<String> {
         return Binder(self) { this, subtitle in
             this.listener?.subtitleUpdate(subtitle: subtitle)
+        }
+    }
+    
+    private var categoryBinder: Binder<String> {
+        return Binder(self) { this, category in
+            this.listener?.categoryUpdate(category: category)
         }
     }
     
