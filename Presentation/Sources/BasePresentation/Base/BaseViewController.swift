@@ -13,6 +13,7 @@ import DesignKit
 open class BaseViewController: UIViewController {
     
     public let navigationView = NavigationView()
+    public let hapticGenerator: HapticGeneartorInterface = HapticGeneartor.shared
     public var disposeBag = DisposeBag()
     public var isSwipeBackEnabled = true {
         didSet { updateSwipeBack() }
