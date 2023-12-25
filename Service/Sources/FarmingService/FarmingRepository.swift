@@ -103,6 +103,7 @@ public final class FarmingRepository: FarmingRepositoryInterface {
         )}
         let model = FarmingProblemModel(
             title: element.title,
+            category: element.category,
             contents: contents,
             createdAt: element.createdAt,
             element: farmingElement,

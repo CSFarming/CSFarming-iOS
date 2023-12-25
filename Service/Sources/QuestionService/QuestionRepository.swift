@@ -35,6 +35,7 @@ public final class QuestionRepository: QuestionRepositoryInterface {
         let model = QuestionListModel(
             title: element.title,
             subtitle: element.subtitle,
+            category: element.category,
             questions: element.questions.map { .init(question: $0.question, answer: $0.answer) },
             createdAt: Date()
         )

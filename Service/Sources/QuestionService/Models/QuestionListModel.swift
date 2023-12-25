@@ -13,12 +13,14 @@ public final class QuestionListModel {
     
     public var title: String
     public var subtitle: String
+    public var category: String
     public var questions: [QuestionModel]
     public var createdAt: Date
     
-    public init(title: String, subtitle: String, questions: [QuestionModel], createdAt: Date) {
+    public init(title: String, subtitle: String, category: String, questions: [QuestionModel], createdAt: Date) {
         self.title = title
         self.subtitle = subtitle
+        self.category = category
         self.questions = questions
         self.createdAt = createdAt
     }
@@ -30,7 +32,8 @@ public extension QuestionListModel {
     func toElement() -> QuestionElement {
         return QuestionElement(
             title: title, 
-            subtitle: subtitle, 
+            subtitle: subtitle,
+            category: category,
             questions: questions.map { .init(question: $0.question, answer: $0.answer) }
         )
     }

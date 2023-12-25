@@ -24,6 +24,7 @@ protocol QuestionCreateCompleteListener: AnyObject {
 protocol QuestionCreateCompleteInteractorDependency: AnyObject {
     var title: String { get }
     var subtitle: String { get }
+    var category: String { get }
     var questions: [Question] { get }
     var questionService: QuestionServiceInterface { get }
 }
@@ -63,6 +64,7 @@ final class QuestionCreateCompleteInteractor: PresentableInteractor<QuestionCrea
             .insertQuestion(element: .init(
                 title: dependency.title,
                 subtitle: dependency.subtitle,
+                category: dependency.category,
                 questions: dependency.questions
             ))
             .observe(on: MainScheduler.asyncInstance)

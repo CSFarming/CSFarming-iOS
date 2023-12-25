@@ -12,13 +12,15 @@ import SwiftData
 public final class FarmingProblemModel {
     
     public let title: String
+    public let category: String
     public let contents: [FarmingProblemContentItem]
     public let createdAt: Date
     public var element: FarmingElementModel?
     public let score: Int = 10
     
-    public init(title: String, contents: [FarmingProblemContentItem], createdAt: Date, element: FarmingElementModel, score: Int) {
+    public init(title: String, category: String, contents: [FarmingProblemContentItem], createdAt: Date, element: FarmingElementModel, score: Int) {
         self.title = title
+        self.category = category
         self.contents = contents
         self.createdAt = createdAt
         self.element = element
@@ -47,6 +49,7 @@ extension FarmingProblemModel {
     public func toElement(date: Date) -> FarmingProblemElement {
         return .init(
             title: title,
+            category: category,
             items: contents.map { $0.toElement() },
             createdAt: createdAt,
             date: date,

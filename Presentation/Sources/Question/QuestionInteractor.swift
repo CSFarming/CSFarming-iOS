@@ -12,7 +12,7 @@ import QuestionService
 import CoreUtil
 
 protocol QuestionRouting: ViewableRouting {
-    func attachQuestionComplete(title: String, questions: [Question], answers: [QuestionAnswerType])
+    func attachQuestionComplete(title: String, category: String, questions: [Question], answers: [QuestionAnswerType])
 }
 
 protocol QuestionPresentable: Presentable {
@@ -35,7 +35,7 @@ final class QuestionInteractor: PresentableInteractor<QuestionPresentable>, Ques
     private let dependency: QuestionInteractorDependency
     private let disposeBag = DisposeBag()
     
-    private var questions: [Question] = []
+    private var questionList: QuestionList?
     private var questionIndex = 0
     private var answers: [QuestionAnswerType] = []
     
@@ -79,15 +79,21 @@ final class QuestionInteractor: PresentableInteractor<QuestionPresentable>, Ques
     }
     
     private func updateNextStep() {
-        guard let question = questions[safe: questionIndex] else {
-            router?.attachQuestionComplete(title: dependency.title, questions: questions, answers: answers)
+        guard let questionList else { return }
+        guard let question = questionList.questions[safe: questionIndex] else {
+            router?.attachQuestionComplete(
+                title: dependency.title, 
+                category: questionList.category,
+                questions: questionList.questions,
+                answers: answers
+            )
             return
         }
         
         presenter.setup(model: .init(
             title: "질문 \(questionIndex + 1)", 
             question: question.question,
-            progress: Float(answers.count) / Float(questions.count)
+            progress: Float(answers.count) / Float(questionList.questions.count)
         ))
     }
     
@@ -108,7 +114,7 @@ final class QuestionInteractor: PresentableInteractor<QuestionPresentable>, Ques
     }
     
     private func performAfterFecthingQuestionList(_ list: QuestionList) {
-        questions = list.questions
+        questionList = list
         updateNextStep()
     }
     

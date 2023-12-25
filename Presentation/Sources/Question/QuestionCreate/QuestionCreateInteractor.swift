@@ -11,7 +11,7 @@ import QuestionInterface
 import QuestionService
 
 protocol QuestionCreateRouting: ViewableRouting {
-    func attachComplete(title: String, subtitle: String, questions: [Question])
+    func attachComplete(title: String, subtitle: String, category: String, questions: [Question])
     func detachComplete()
 }
 
@@ -58,7 +58,7 @@ final class QuestionCreateInteractor: PresentableInteractor<QuestionCreatePresen
             .map { question, answer in
                 return Question(question: question, answer: answer)
             }
-        router?.attachComplete(title: title, subtitle: subtitle, questions: questions)
+        router?.attachComplete(title: title, subtitle: subtitle, category: "", questions: questions)
     }
     
     func didTapAddQuestion() {

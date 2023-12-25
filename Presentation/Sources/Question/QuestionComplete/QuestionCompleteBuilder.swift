@@ -15,12 +15,14 @@ protocol QuestionCompleteDependency: Dependency {
 final class QuestionCompleteComponent: Component<QuestionCompleteDependency>, QuestionCompleteInteractorDependency {
     
     let title: String
+    let category: String
     let questions: [Question]
     let answers: [QuestionAnswerType]
     var questionService: QuestionServiceInterface { dependency.questionService }
     
-    init(dependency: QuestionCompleteDependency, title: String, questions: [Question], answers: [QuestionAnswerType]) {
+    init(dependency: QuestionCompleteDependency, title: String, category: String, questions: [Question], answers: [QuestionAnswerType]) {
         self.title = title
+        self.category = category
         self.questions = questions
         self.answers = answers
         super.init(dependency: dependency)
@@ -29,7 +31,7 @@ final class QuestionCompleteComponent: Component<QuestionCompleteDependency>, Qu
 }
 
 protocol QuestionCompleteBuildable: Buildable {
-    func build(withListener listener: QuestionCompleteListener, title: String, questions: [Question], answers: [QuestionAnswerType]) -> ViewableRouting
+    func build(withListener listener: QuestionCompleteListener, title: String, category: String, questions: [Question], answers: [QuestionAnswerType]) -> ViewableRouting
 }
 
 final class QuestionCompleteBuilder: Builder<QuestionCompleteDependency>, QuestionCompleteBuildable {
@@ -38,8 +40,8 @@ final class QuestionCompleteBuilder: Builder<QuestionCompleteDependency>, Questi
         super.init(dependency: dependency)
     }
     
-    func build(withListener listener: QuestionCompleteListener, title: String, questions: [Question], answers: [QuestionAnswerType]) -> ViewableRouting {
-        let component = QuestionCompleteComponent(dependency: dependency, title: title, questions: questions, answers: answers)
+    func build(withListener listener: QuestionCompleteListener, title: String, category: String, questions: [Question], answers: [QuestionAnswerType]) -> ViewableRouting {
+        let component = QuestionCompleteComponent(dependency: dependency, title: title, category: category, questions: questions, answers: answers)
         let viewController = QuestionCompleteViewController()
         let interactor = QuestionCompleteInteractor(presenter: viewController, dependency: component)
         interactor.listener = listener
