@@ -127,12 +127,14 @@ final class QuestionViewController: BaseViewController, QuestionPresentable, Que
     
     private var okBinder: Binder<Void> {
         return Binder(self) { this, _ in
+            this.hapticGenerator.impact(style: .medium)
             this.listener?.didTapOK()
         }
     }
     
     private var passBinder: Binder<Void> {
         return Binder(self) { this, _ in
+            this.hapticGenerator.impact(style: .medium)
             this.listener?.didTapPass()
         }
     }
