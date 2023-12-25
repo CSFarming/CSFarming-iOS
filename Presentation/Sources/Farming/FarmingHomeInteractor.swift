@@ -80,14 +80,18 @@ final class FarmingHomeInteractor: PresentableInteractor<FarmingHomePresentable>
     private func requestFarmingElement() {
         dependency.farmingService
             .read()
-            .compactMap { $0 }
             .observe(on: MainScheduler.asyncInstance)
             .subscribe(
                 with: self,
                 onSuccess: { this, element in
+                    guard let element else {
+                        this.presenter.updateModels([.empty])
+                        return
+                    }
                     this.performAfterFecthingFarmingElement(element)
                 },
-                onError: { this, error in
+                onFailure: { this, error in
+                    this.presenter.updateModels([.empty])
                 }
             )
             .disposed(by: disposeBag)
