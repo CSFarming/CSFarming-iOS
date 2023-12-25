@@ -10,4 +10,5 @@ import Foundation
 enum FarmingHomeItem {
     case study(FarmingHomeCellModel)
     case problem(FarmingHomeSelectableCellModel)
+    case empty
 }

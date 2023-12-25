@@ -58,6 +58,7 @@ final class FarmingHomeViewController: BaseViewController, FarmingHomePresentabl
         collectionView.dataSource = self
         collectionView.register(FarmingHomeCell.self)
         collectionView.register(FarmingHomeSelectableCell.self)
+        collectionView.register(FarmingHomeEmptyCell.self)
         collectionView.registerHeader(TextOnlyCollectionHeaderView.self)
     }
     
@@ -119,6 +120,10 @@ extension FarmingHomeViewController: UICollectionViewDataSource {
         case .problem(let model):
             let cell = collectionView.dequeue(FarmingHomeSelectableCell.self, for: indexPath)
             cell.setup(model: model)
+            return cell
+            
+        case .empty:
+            let cell = collectionView.dequeue(FarmingHomeEmptyCell.self, for: indexPath)
             return cell
         }
     }
