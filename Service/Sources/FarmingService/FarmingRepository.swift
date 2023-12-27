@@ -17,6 +17,7 @@ public enum FarmingRepositoryError: Error {
 public protocol FarmingRepositoryInterface: AnyObject {
     func read(limit: Int) -> Single<[FarmingElement]>
     func readOne(date: Date) -> Single<FarmingElement?>
+    func read(minimumDate: Date) -> Single<[FarmingElement]>
     func insert(element: FarmingElement) -> Single<Void>
     func insert(element: FarmingProblemElement) -> Single<Void>
     func removeAll() -> Single<Void>
@@ -33,6 +34,16 @@ public final class FarmingRepository: FarmingRepositoryInterface {
     public func read(limit: Int) -> Single<[FarmingElement]> {
         let sortBy = SortDescriptor<FarmingElementModel>(\.date, order: .reverse)
         return storage.read(sortBy: [sortBy], limit: limit)
+            .map { models in
+                return models.map { $0.toElement() }
+            }
+    }
+    
+    public func read(minimumDate: Date) -> Single<[FarmingElement]> {
+        let predicate = #Predicate<FarmingElementModel> {
+            $0.date > minimumDate
+        }
+        return storage.read(predicate: predicate)
             .map { models in
                 return models.map { $0.toElement() }
             }

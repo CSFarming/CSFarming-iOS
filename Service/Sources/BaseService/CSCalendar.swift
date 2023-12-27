@@ -13,6 +13,7 @@ public enum CSCalendarError: Error {
 
 public protocol CSCalendarInterface: AnyObject {
     func currentDate() throws ->  Date
+    func daysAgo(value: Int) throws -> Date
 }
 
 public final class CSCalendar: CSCalendarInterface {
@@ -32,6 +33,19 @@ public final class CSCalendar: CSCalendarInterface {
             throw CSCalendarError.invalidDate
         }
         return date
+    }
+    
+    public func daysAgo(value: Int) throws -> Date {
+        do {
+            let current = try currentDate()
+            if let date = calendar.date(byAdding: .day, value: -value, to: current) {
+                return date
+            } else {
+                throw CSCalendarError.invalidDate
+            }
+        } catch {
+            throw error
+        }
     }
     
 }
