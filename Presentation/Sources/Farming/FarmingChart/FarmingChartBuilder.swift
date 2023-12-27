@@ -28,7 +28,7 @@ final class FarmingChartBuilder: Builder<FarmingChartDependency>, FarmingChartBu
     
     func build(withListener listener: FarmingChartListener) -> FarmingChartRouting {
         let component = FarmingChartComponent(dependency: dependency)
-        let viewController = FarmingChartViewController()
+        let viewController = FarmingChartViewController(rootView: FarmingChartView())
         let interactor = FarmingChartInteractor(
             presenter: viewController,
             dependency: component
