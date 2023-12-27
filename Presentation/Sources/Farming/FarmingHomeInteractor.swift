@@ -15,12 +15,14 @@ import FarmingService
 protocol FarmingHomeRouting: ViewableRouting {
     func attachQuestion(element: FarmingProblemElement)
     func detachQuestion()
+    func attachChart()
+    func detachChart()
 }
 
 protocol FarmingHomePresentable: Presentable {
     var listener: FarmingHomePresentableListener? { get set }
     func updateTitle(_ title: String)
-    func updateModels(_ models: [FarmingHomeItem])
+    func updateSections(_ sections: [FarmingHomeSection])
 }
 
 protocol FarmingHomeInteractorDependency: AnyObject {
@@ -33,6 +35,7 @@ final class FarmingHomeInteractor: PresentableInteractor<FarmingHomePresentable>
     weak var listener: FarmingHomeListener?
     
     private var element: FarmingElement?
+    private var sections: [FarmingHomeSection] = []
     
     private let dependency: FarmingHomeInteractorDependency
     private let disposeBag = DisposeBag()
@@ -68,13 +71,24 @@ final class FarmingHomeInteractor: PresentableInteractor<FarmingHomePresentable>
     }
     
     func didTap(at indexPath: IndexPath) {
-        guard indexPath.row != 0 else { return }
-        guard let problemElement = element?.problems[safe: indexPath.row - 1] else { return }
-        router?.attachQuestion(element: problemElement)
+        guard let section = sections[safe: indexPath.section] else { return }
+        
+        switch section {
+        case .statistics:
+            router?.attachChart()
+            
+        case .farming:
+            guard let problemElement = element?.problems[safe: indexPath.row - 1] else { return }
+            router?.attachQuestion(element: problemElement)
+        }
     }
     
     func farmingQuestionDidTapClose() {
         router?.detachQuestion()
+    }
+    
+    func farmingChartDidTapClose() {
+        router?.detachChart()
     }
     
     private func requestFarmingElement() {
@@ -85,13 +99,13 @@ final class FarmingHomeInteractor: PresentableInteractor<FarmingHomePresentable>
                 with: self,
                 onSuccess: { this, element in
                     guard let element else {
-                        this.presenter.updateModels([.empty])
+                        this.presenter.updateSections([.farming([.empty])])
                         return
                     }
                     this.performAfterFecthingFarmingElement(element)
                 },
                 onFailure: { this, error in
-                    this.presenter.updateModels([.empty])
+                    this.presenter.updateSections([.farming([.empty])])
                 }
             )
             .disposed(by: disposeBag)
@@ -105,7 +119,13 @@ final class FarmingHomeInteractor: PresentableInteractor<FarmingHomePresentable>
             title: $0.title,
             date: timeFormatter.localizedString(for: $0.createdAt, relativeTo: .now)
         ))}
-        presenter.updateModels([studyItem] + problemItems)
+        
+        let newSections: [FarmingHomeSection] = [
+            .statistics([.chart(.init(title: "파밍 통계", description: "7일 동안의 차트를 볼 수 있어요"))]),
+            .farming([studyItem] + problemItems)
+        ]
+        sections = newSections
+        presenter.updateSections(newSections)
     }
     
 }
