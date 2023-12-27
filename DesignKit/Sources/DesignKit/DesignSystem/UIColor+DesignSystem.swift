@@ -14,7 +14,7 @@ public extension UIColor {
     
     // MARK: - Blue
     
-    static let csBlue1 = UIColor.init(hex: "F3F5F8")!
+    static let csBlue1 = UIColor.init(hex: "F8FAFC")!
     static let csBlue2 = UIColor.init(hex: "E1EAF6")!
     static let csBlue3 = UIColor.init(hex: "BDD7FB")!
     static let csBlue4 = UIColor.init(hex: "97C2FE")!

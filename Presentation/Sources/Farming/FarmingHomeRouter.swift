@@ -10,7 +10,7 @@ import RIBsUtil
 import FarmingInterface
 import FarmingService
 
-protocol FarmingHomeInteractable: Interactable, FarmingQuestionListener {
+protocol FarmingHomeInteractable: Interactable, FarmingQuestionListener, FarmingChartListener {
     var router: FarmingHomeRouting? { get set }
     var listener: FarmingHomeListener? { get set }
 }
@@ -22,12 +22,17 @@ final class FarmingHomeRouter: ViewableRouter<FarmingHomeInteractable, FarmingHo
     private let farmingQuestionBuiler: FarmingQuestionBuildable
     private var farmingQuestionRouting: ViewableRouting?
     
+    private let farmingChartBuilder: FarmingChartBuildable
+    private var farmingChartRouting: ViewableRouting?
+    
     init(
         interactor: FarmingHomeInteractable,
         viewController: FarmingHomeViewControllable,
-        farmingQuestionBuiler: FarmingQuestionBuildable
+        farmingQuestionBuiler: FarmingQuestionBuildable,
+        farmingChartBuilder: FarmingChartBuildable
     ) {
         self.farmingQuestionBuiler = farmingQuestionBuiler
+        self.farmingChartBuilder = farmingChartBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -43,6 +48,19 @@ final class FarmingHomeRouter: ViewableRouter<FarmingHomeInteractable, FarmingHo
         guard let router = farmingQuestionRouting else { return }
         popRouter(router, animated: true)
         farmingQuestionRouting = nil
+    }
+    
+    func attachChart() {
+        guard farmingChartRouting == nil else { return }
+        let router = farmingChartBuilder.build(withListener: interactor)
+        pushRouter(router, animated: true)
+        farmingChartRouting = router
+    }
+    
+    func detachChart() {
+        guard let router = farmingChartRouting else { return }
+        popRouter(router, animated: true)
+        farmingChartRouting = nil
     }
     
 }

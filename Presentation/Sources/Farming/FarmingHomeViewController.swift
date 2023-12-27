@@ -20,7 +20,8 @@ protocol FarmingHomePresentableListener: AnyObject {
 final class FarmingHomeViewController: BaseViewController, FarmingHomePresentable, FarmingHomeViewControllable {
     
     weak var listener: FarmingHomePresentableListener?
-    private var models: [FarmingHomeItem] = []
+    
+    private var sections: [FarmingHomeSection] = []
     
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeCollectionViewLayout())
     
@@ -28,8 +29,8 @@ final class FarmingHomeViewController: BaseViewController, FarmingHomePresentabl
         navigationView.updateTitle(title)
     }
     
-    func updateModels(_ models: [FarmingHomeItem]) {
-        self.models = models
+    func updateSections(_ sections: [FarmingHomeSection]) {
+        self.sections = sections
         collectionView.reloadData()
     }
     
@@ -58,6 +59,7 @@ final class FarmingHomeViewController: BaseViewController, FarmingHomePresentabl
         collectionView.dataSource = self
         collectionView.register(FarmingHomeCell.self)
         collectionView.register(FarmingHomeSelectableCell.self)
+        collectionView.register(FarmingHomeChartCell.self)
         collectionView.register(FarmingHomeEmptyCell.self)
         collectionView.registerHeader(TextOnlyCollectionHeaderView.self)
     }
@@ -103,12 +105,16 @@ extension FarmingHomeViewController: UICollectionViewDelegate {
 
 extension FarmingHomeViewController: UICollectionViewDataSource {
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return sections.count
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return models.count
+        return sections[safe: section]?.items.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let item = models[safe: indexPath.row] else {
+        guard let item = sections[safe: indexPath.section]?.items[safe: indexPath.row] else {
             return UICollectionViewCell()
         }
         switch item {
@@ -122,6 +128,11 @@ extension FarmingHomeViewController: UICollectionViewDataSource {
             cell.setup(model: model)
             return cell
             
+        case .chart(let model):
+            let cell = collectionView.dequeue(FarmingHomeChartCell.self, for: indexPath)
+            cell.setup(model: model)
+            return cell
+            
         case .empty:
             let cell = collectionView.dequeue(FarmingHomeEmptyCell.self, for: indexPath)
             return cell
@@ -129,10 +140,14 @@ extension FarmingHomeViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let title = sections[safe: indexPath.section]?.header else {
+            return UICollectionReusableView()
+        }
+        
         switch kind {
         case UICollectionView.elementKindSectionHeader:
             let header = collectionView.dequeueHeader(TextOnlyCollectionHeaderView.self, for: indexPath)
-            header.updateTitle("오늘의 파밍")
+            header.updateTitle(title)
             return header
             
         default:

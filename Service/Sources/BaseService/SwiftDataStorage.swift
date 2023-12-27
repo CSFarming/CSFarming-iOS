@@ -17,6 +17,7 @@ public protocol SwiftDataStorageInterface: AnyObject {
     
     func read<T: PersistentModel>(sortBy: [SortDescriptor<T>]) -> Single<[T]>
     func read<T: PersistentModel>(sortBy: [SortDescriptor<T>], limit: Int) -> Single<[T]>
+    func read<T: PersistentModel>(predicate: Predicate<T>) -> Single<[T]>
     func readOne<T: PersistentModel>(predicate: Predicate<T>) -> Single<T?>
     func removeAll<T: PersistentModel>(model: T.Type) -> Single<Void>
     func insert<T: PersistentModel>(model: T) -> Single<Void>
@@ -41,10 +42,8 @@ open class SwiftDataStorage: SwiftDataStorageInterface {
     
     @MainActor
     open func read<T: PersistentModel>(sortBy: [SortDescriptor<T>]) async throws -> [T] {
-        try await MainActor.run {
-            let descriptor = FetchDescriptor(sortBy: sortBy)
-            return try context.fetch(descriptor)
-        }
+        let descriptor = FetchDescriptor(sortBy: sortBy)
+        return try context.fetch(descriptor)
     }
     
     @MainActor
@@ -55,12 +54,18 @@ open class SwiftDataStorage: SwiftDataStorageInterface {
     }
     
     @MainActor
+    open func read<T: PersistentModel>(predicate: Predicate<T>) async throws -> [T] {
+        let descriptor = FetchDescriptor(predicate: predicate)
+        return try context.fetch(descriptor)
+    }
+    
+    @MainActor
     open func readOne<T: PersistentModel>(predicate: Predicate<T>) async throws -> T? {
         var descriptor = FetchDescriptor(predicate: predicate)
         descriptor.fetchLimit = 1
         return try context.fetch(descriptor).first
     }
-
+    
     @MainActor
     open func removeAll<T: PersistentModel>(model: T.Type) async throws {
         try context.delete(model: model)
@@ -123,6 +128,27 @@ open class SwiftDataStorage: SwiftDataStorageInterface {
                 do {
                     let models = try await read(sortBy: sortBy, limit: limit)
                     single(.success(models))
+                } catch {
+                    single(.failure(error))
+                }
+            }
+            
+            return Disposables.create {
+                request.cancel()
+            }
+        }
+    }
+    
+    open func read<T: PersistentModel>(predicate: Predicate<T>) -> Single<[T]> {
+        return Single<[T]>.create { single -> Disposable in
+            let request = Task { [weak self] in
+                guard let self else {
+                    single(.failure(SwiftDataStorageError.canceled))
+                    return
+                }
+                do {
+                    let model = try await read(predicate: predicate)
+                    single(.success(model))
                 } catch {
                     single(.failure(error))
                 }
