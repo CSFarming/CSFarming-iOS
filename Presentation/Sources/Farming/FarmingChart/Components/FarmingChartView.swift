@@ -9,44 +9,66 @@ import SwiftUI
 import Charts
 import DesignKit
 
+protocol FarmingChartViewListener: AnyObject {
+    func didChangeSelectedDate(_ date: Date?)
+}
+
 struct FarmingChartView: View {
     
-    @ObservedObject private var content = FarmingChartContent()
+    weak var listener: FarmingChartViewListener?
     
-    func updateTitle(_ title: String) {
-        content.title = title
+    @ObservedObject var viewModel: FarmingChartViewModel = FarmingChartViewModel()
+    @State private var rawSelectedDate: Date? = nil
+    
+    func updateContent(_ content: FarmingChartContent) {
+        viewModel.updateContent(content)
     }
     
-    func updateDescription(_ description: String) {
-        content.description = description
+    func updateNavigationContent(_ content: FarmingChartNavigationContent) {
+        viewModel.updateNavigationContent(content)
     }
     
-    func updateGroups(_ groups: [FarmingChartGroup]) {
-        content.groups = groups
+    func updateChartDescription(_ description: FarmingChartDescription?) {
+        viewModel.updateChartDescription(description)
     }
     
-    func updateCloseAction(_ action: (() -> Void)?) {
-        content.closeAction = action
+    var title: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text("문제 파밍 통계")
+                .font(Font(UIFont.bodySB))
+                .foregroundStyle(Color(UIColor.csBlack))
+            Text("최근 7일 동안 풀었던 문제 통계에요")
+                .font(Font(UIFont.captionR))
+                .foregroundStyle(Color(UIColor.csGray5))
+        }
     }
     
     var body: some View {
         FarmingChartNavigationView(
-            title: content.title,
-            action: content.closeAction
+            title: viewModel.navigationContnet.title,
+            action: viewModel.navigationContnet.closeAction
         )
         .frame(height: 50)
         .background(Color(UIColor.csBlue1))
         
         List {
-            FarmingChartContentView()
-                .environmentObject(content)
+            title
+                .opacity(viewModel.chartDescription == nil ? 1.0 : 0.0)
+                .listRowBackground(Color(UIColor.csBlue1))
+            
+            FarmingChartContentView(rawSelectedDate: $rawSelectedDate)
+                .environmentObject(viewModel)
                 .frame(height: 300)
-                .padding([.top, .leading, .trailing], 20)
+                .padding(.top, 10)
+                .padding(.horizontal, 20)
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color(UIColor.csBlue1))
+                .onChange(of: rawSelectedDate, { _, date in
+                    listener?.didChangeSelectedDate(date)
+                })
             
-            FarmingChartDescriptionView(description: content.description)
+            FarmingChartDescriptionView(description: viewModel.content.description)
                 .listRowInsets(EdgeInsets())
                 .padding([.top, .leading, .trailing], 20)
                 .listRowSeparator(.hidden)

@@ -24,7 +24,6 @@ protocol HomeFarmingListener: AnyObject {
 
 protocol HomeFarmingInteractorDependency: AnyObject {
     var homeService: HomeServiceInterface { get }
-    var calendar: Calendar { get }
 }
 
 final class HomeFarmingInteractor: PresentableInteractor<HomeFarmingPresentable>, HomeFarmingInteractable, HomeFarmingPresentableListener {
@@ -99,7 +98,7 @@ final class HomeFarmingInteractor: PresentableInteractor<HomeFarmingPresentable>
         let maxScore = elements.map(\.totalScore).max() ?? 1
         let barModels: [HomeFarmingChartBarViewModel] = generateDefaultDayModel()
             .map { model in
-                let score = elements.first(where: { dependency.calendar.component(.day, from: $0.date) == model.day } )?.totalScore ?? 0
+                let score = elements.first(where: { Calendar.current.component(.day, from: $0.date) == model.day } )?.totalScore ?? 0
                 return .init(score: score, maxScore: maxScore, dayModel: model)
             }
         
@@ -109,20 +108,20 @@ final class HomeFarmingInteractor: PresentableInteractor<HomeFarmingPresentable>
     private func generateDefaultDayModel() -> [HomeFarmingChartBarDayViewModel] {
         return (-6...0)
             .compactMap { offset in
-                dependency.calendar.date(byAdding: .day, value: offset, to: .now)
+                Calendar.current.date(byAdding: .day, value: offset, to: .now)
             }
             .map { date in
                 return .init(
-                    day: dependency.calendar.component(.day, from: date),
+                    day: Calendar.current.component(.day, from: date),
                     type: generateBarType(date: date)
                 )
             }
     }
     
     private func generateBarType(date: Date) -> HomeFarmingChartBarDayType {
-        let weekday = dependency.calendar.component(.weekday, from: date)
-        let today = dependency.calendar.component(.day, from: .now)
-        let day = dependency.calendar.component(.day, from: date)
+        let weekday = Calendar.current.component(.weekday, from: date)
+        let today = Calendar.current.component(.day, from: .now)
+        let day = Calendar.current.component(.day, from: date)
         
         if today == day { return .today }
         

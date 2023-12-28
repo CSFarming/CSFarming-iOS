@@ -98,10 +98,6 @@ final class FarmingHomeInteractor: PresentableInteractor<FarmingHomePresentable>
             .subscribe(
                 with: self,
                 onSuccess: { this, element in
-                    guard let element else {
-                        this.presenter.updateSections([.farming([.empty])])
-                        return
-                    }
                     this.performAfterFecthingFarmingElement(element)
                 },
                 onFailure: { this, error in
@@ -111,8 +107,24 @@ final class FarmingHomeInteractor: PresentableInteractor<FarmingHomePresentable>
             .disposed(by: disposeBag)
     }
     
-    private func performAfterFecthingFarmingElement(_ element: FarmingElement) {
+    private func performAfterFecthingFarmingElement(_ element: FarmingElement?) {
         self.element = element
+        let sections = makeSections(element)
+        self.sections = sections
+        presenter.updateSections(sections)
+    }
+    
+    private func makeSections(_ element: FarmingElement?) -> [FarmingHomeSection] {
+        let statisticsSection = FarmingHomeSection.statistics([
+            .chart(.init(title: "파밍 통계", description: "7일 동안의 차트를 볼 수 있어요"))
+        ])
+        guard let element else {
+            return [
+                statisticsSection,
+                .farming([.empty]),
+            ]
+        }
+        
         let studyItem: FarmingHomeItem = .study(.init(score: element.activityScore, title: "학습"))
         let problemItems: [FarmingHomeItem] = element.problems.map { .problem(.init(
             score: $0.score,
@@ -120,12 +132,10 @@ final class FarmingHomeInteractor: PresentableInteractor<FarmingHomePresentable>
             date: timeFormatter.localizedString(for: $0.createdAt, relativeTo: .now)
         ))}
         
-        let newSections: [FarmingHomeSection] = [
-            .statistics([.chart(.init(title: "파밍 통계", description: "7일 동안의 차트를 볼 수 있어요"))]),
+        return [
+            statisticsSection,
             .farming([studyItem] + problemItems)
         ]
-        sections = newSections
-        presenter.updateSections(newSections)
     }
     
 }

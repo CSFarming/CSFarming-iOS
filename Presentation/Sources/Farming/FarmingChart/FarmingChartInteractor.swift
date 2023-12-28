@@ -15,9 +15,9 @@ protocol FarmingChartRouting: ViewableRouting {}
 
 protocol FarmingChartPresentable: Presentable {
     var listener: FarmingChartPresentableListener? { get set }
-    func updateChartGroups(_ groups: [FarmingChartGroup])
     func updateTitle(_ title: String)
-    func updateDescription(_ description: String)
+    func updateContent(_ content: FarmingChartContent)
+    func updateChartDescription(_ description: FarmingChartDescription?)
 }
 
 protocol FarmingChartListener: AnyObject {
@@ -36,6 +36,7 @@ final class FarmingChartInteractor: PresentableInteractor<FarmingChartPresentabl
     private let dependency: FarmingChartInteractorDependency
     private let daysAgoValue = 7
     private let disposeBag = DisposeBag()
+    private var chartGroups: [FarmingChartGroup] = []
     
     init(presenter: FarmingChartPresentable, dependency: FarmingChartInteractorDependency) {
         self.dependency = dependency
@@ -57,6 +58,33 @@ final class FarmingChartInteractor: PresentableInteractor<FarmingChartPresentabl
         listener?.farmingChartDidTapClose()
     }
     
+    func didChangeSelectedDate(_ date: Date?) {
+        guard let date else {
+            presenter.updateChartDescription(nil)
+            return
+        }
+        
+        let okCount = chartGroups
+            .filter({ $0.type == .ok })
+            .flatMap(\.elements)
+            .filter { $0.date.isSameDay(date: date) }
+            .map(\.value)
+            .reduce(0, +)
+        
+        let passCount = chartGroups
+            .filter({ $0.type == .pass })
+            .flatMap(\.elements)
+            .filter { $0.date.isSameDay(date: date) }
+            .map(\.value)
+            .reduce(0, +)
+        
+        presenter.updateChartDescription(.init(
+            title: "\(date.year)년 \(date.month)월 \(date.day)일",
+            okCount: okCount,
+            passCount: passCount
+        ))
+    }
+    
     private func requestElements() {
         dependency.farmingService.read(daysAgo: daysAgoValue)
             .observe(on: MainScheduler.asyncInstance)
@@ -74,10 +102,9 @@ final class FarmingChartInteractor: PresentableInteractor<FarmingChartPresentabl
     
     private func performAfterFetchingElements(_ elements: [FarmingElement]) {
         let groups = makeChartGroups(elements)
-        presenter.updateChartGroups(groups)
-        
         let description = makeChartDescription(elements)
-        presenter.updateDescription(description)
+        chartGroups = groups
+        presenter.updateContent(.init(description: description, groups: groups))
     }
     
     private func makeChartGroups(_ elements: [FarmingElement]) -> [FarmingChartGroup] {

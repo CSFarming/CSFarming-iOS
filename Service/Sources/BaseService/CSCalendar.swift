@@ -20,7 +20,7 @@ public final class CSCalendar: CSCalendarInterface {
     
     private let calendar: Calendar
     
-    public init(calendar: Calendar) {
+    public init(calendar: Calendar = .current) {
         self.calendar = calendar
     }
     

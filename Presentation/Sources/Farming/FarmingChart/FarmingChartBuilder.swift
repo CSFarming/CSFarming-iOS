@@ -5,6 +5,7 @@
 //  Created by 홍성준 on 12/26/23.
 //
 
+import Foundation
 import RIBs
 import FarmingService
 
