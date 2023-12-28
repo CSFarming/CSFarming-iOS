@@ -14,6 +14,7 @@ import BasePresentation
 
 protocol FarmingChartPresentableListener: AnyObject {
     func didTapClose()
+    func didChangeSelectedDate(_ date: Date?)
 }
 
 final class FarmingChartViewController: UIHostingController<FarmingChartView>, FarmingChartPresentable, FarmingChartViewControllable {
@@ -23,9 +24,7 @@ final class FarmingChartViewController: UIHostingController<FarmingChartView>, F
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .csBlue1
-        rootView.updateCloseAction { [weak self] in
-            self?.didTapClose()
-        }
+        rootView.listener = self
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -35,20 +34,33 @@ final class FarmingChartViewController: UIHostingController<FarmingChartView>, F
         }
     }
     
-    func updateChartGroups(_ groups: [FarmingChartGroup]) {
-        rootView.updateGroups(groups)
-    }
-    
-    func updateDescription(_ description: String) {
-        rootView.updateDescription(description)
-    }
-    
     func updateTitle(_ title: String) {
-        rootView.updateTitle(title)
+        rootView.updateNavigationContent(.init(
+            title: title, 
+            closeAction: { [weak self] in
+                self?.didTapClose()
+            }
+        ))
+    }
+    
+    func updateContent(_ content: FarmingChartContent) {
+        rootView.updateContent(content)
+    }
+    
+    func updateChartDescription(_ description: FarmingChartDescription?) {
+        rootView.updateChartDescription(description)
     }
     
     func didTapClose() {
         listener?.didTapClose()
+    }
+    
+}
+
+extension FarmingChartViewController: FarmingChartViewListener {
+    
+    func didChangeSelectedDate(_ date: Date?) {
+        listener?.didChangeSelectedDate(date)
     }
     
 }
